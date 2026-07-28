@@ -12,6 +12,7 @@ import { Route as rootRouteImport } from './routes/__root'
 import { Route as AuthRouteImport } from './routes/auth'
 import { Route as AuthenticatedRouteRouteImport } from './routes/_authenticated/route'
 import { Route as IndexRouteImport } from './routes/index'
+import { Route as AuthenticatedRevisarRouteImport } from './routes/_authenticated/revisar'
 import { Route as AuthenticatedHomeRouteImport } from './routes/_authenticated/home'
 import { Route as AuthenticatedEstudarRouteImport } from './routes/_authenticated/estudar'
 import { Route as AuthenticatedEscritaRouteImport } from './routes/_authenticated/escrita'
@@ -37,6 +38,11 @@ const IndexRoute = IndexRouteImport.update({
   id: '/',
   path: '/',
   getParentRoute: () => rootRouteImport,
+} as any)
+const AuthenticatedRevisarRoute = AuthenticatedRevisarRouteImport.update({
+  id: '/revisar',
+  path: '/revisar',
+  getParentRoute: () => AuthenticatedRouteRoute,
 } as any)
 const AuthenticatedHomeRoute = AuthenticatedHomeRouteImport.update({
   id: '/home',
@@ -107,6 +113,7 @@ export interface FileRoutesByFullPath {
   '/escrita': typeof AuthenticatedEscritaRoute
   '/estudar': typeof AuthenticatedEstudarRoute
   '/home': typeof AuthenticatedHomeRoute
+  '/revisar': typeof AuthenticatedRevisarRoute
   '/material/$id': typeof AuthenticatedMaterialIdRoute
 }
 export interface FileRoutesByTo {
@@ -122,6 +129,7 @@ export interface FileRoutesByTo {
   '/escrita': typeof AuthenticatedEscritaRoute
   '/estudar': typeof AuthenticatedEstudarRoute
   '/home': typeof AuthenticatedHomeRoute
+  '/revisar': typeof AuthenticatedRevisarRoute
   '/material/$id': typeof AuthenticatedMaterialIdRoute
 }
 export interface FileRoutesById {
@@ -139,6 +147,7 @@ export interface FileRoutesById {
   '/_authenticated/escrita': typeof AuthenticatedEscritaRoute
   '/_authenticated/estudar': typeof AuthenticatedEstudarRoute
   '/_authenticated/home': typeof AuthenticatedHomeRoute
+  '/_authenticated/revisar': typeof AuthenticatedRevisarRoute
   '/_authenticated/material/$id': typeof AuthenticatedMaterialIdRoute
 }
 export interface FileRouteTypes {
@@ -156,6 +165,7 @@ export interface FileRouteTypes {
     | '/escrita'
     | '/estudar'
     | '/home'
+    | '/revisar'
     | '/material/$id'
   fileRoutesByTo: FileRoutesByTo
   to:
@@ -171,6 +181,7 @@ export interface FileRouteTypes {
     | '/escrita'
     | '/estudar'
     | '/home'
+    | '/revisar'
     | '/material/$id'
   id:
     | '__root__'
@@ -187,6 +198,7 @@ export interface FileRouteTypes {
     | '/_authenticated/escrita'
     | '/_authenticated/estudar'
     | '/_authenticated/home'
+    | '/_authenticated/revisar'
     | '/_authenticated/material/$id'
   fileRoutesById: FileRoutesById
 }
@@ -218,6 +230,13 @@ declare module '@tanstack/react-router' {
       fullPath: '/'
       preLoaderRoute: typeof IndexRouteImport
       parentRoute: typeof rootRouteImport
+    }
+    '/_authenticated/revisar': {
+      id: '/_authenticated/revisar'
+      path: '/revisar'
+      fullPath: '/revisar'
+      preLoaderRoute: typeof AuthenticatedRevisarRouteImport
+      parentRoute: typeof AuthenticatedRouteRoute
     }
     '/_authenticated/home': {
       id: '/_authenticated/home'
@@ -310,6 +329,7 @@ interface AuthenticatedRouteRouteChildren {
   AuthenticatedEscritaRoute: typeof AuthenticatedEscritaRoute
   AuthenticatedEstudarRoute: typeof AuthenticatedEstudarRoute
   AuthenticatedHomeRoute: typeof AuthenticatedHomeRoute
+  AuthenticatedRevisarRoute: typeof AuthenticatedRevisarRoute
   AuthenticatedMaterialIdRoute: typeof AuthenticatedMaterialIdRoute
 }
 
@@ -324,6 +344,7 @@ const AuthenticatedRouteRouteChildren: AuthenticatedRouteRouteChildren = {
   AuthenticatedEscritaRoute: AuthenticatedEscritaRoute,
   AuthenticatedEstudarRoute: AuthenticatedEstudarRoute,
   AuthenticatedHomeRoute: AuthenticatedHomeRoute,
+  AuthenticatedRevisarRoute: AuthenticatedRevisarRoute,
   AuthenticatedMaterialIdRoute: AuthenticatedMaterialIdRoute,
 }
 
@@ -338,3 +359,13 @@ const rootRouteChildren: RootRouteChildren = {
 export const routeTree = rootRouteImport
   ._addFileChildren(rootRouteChildren)
   ._addFileTypes<FileRouteTypes>()
+
+import type { getRouter } from './router.tsx'
+import type { startInstance } from './start.ts'
+declare module '@tanstack/react-start' {
+  interface Register {
+    ssr: true
+    router: Awaited<ReturnType<typeof getRouter>>
+    config: Awaited<ReturnType<typeof startInstance.getOptions>>
+  }
+}
