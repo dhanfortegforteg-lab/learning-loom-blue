@@ -14,7 +14,266 @@ export type Database = {
   }
   public: {
     Tables: {
-      [_ in never]: never
+      answers: {
+        Row: {
+          correct_answer: string | null
+          created_at: string
+          explanation: string | null
+          id: string
+          is_correct: boolean
+          material_id: string | null
+          question: string
+          user_answer: string | null
+          user_id: string
+        }
+        Insert: {
+          correct_answer?: string | null
+          created_at?: string
+          explanation?: string | null
+          id?: string
+          is_correct: boolean
+          material_id?: string | null
+          question: string
+          user_answer?: string | null
+          user_id: string
+        }
+        Update: {
+          correct_answer?: string | null
+          created_at?: string
+          explanation?: string | null
+          id?: string
+          is_correct?: boolean
+          material_id?: string | null
+          question?: string
+          user_answer?: string | null
+          user_id?: string
+        }
+        Relationships: [
+          {
+            foreignKeyName: "answers_material_id_fkey"
+            columns: ["material_id"]
+            isOneToOne: false
+            referencedRelation: "materials"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
+      events: {
+        Row: {
+          created_at: string
+          description: string | null
+          event_date: string
+          id: string
+          title: string
+          user_id: string
+        }
+        Insert: {
+          created_at?: string
+          description?: string | null
+          event_date: string
+          id?: string
+          title: string
+          user_id: string
+        }
+        Update: {
+          created_at?: string
+          description?: string | null
+          event_date?: string
+          id?: string
+          title?: string
+          user_id?: string
+        }
+        Relationships: []
+      }
+      exam_scores: {
+        Row: {
+          created_at: string
+          id: string
+          kind: string
+          max_score: number
+          score: number
+          subject: string | null
+          user_id: string
+        }
+        Insert: {
+          created_at?: string
+          id?: string
+          kind: string
+          max_score: number
+          score: number
+          subject?: string | null
+          user_id: string
+        }
+        Update: {
+          created_at?: string
+          id?: string
+          kind?: string
+          max_score?: number
+          score?: number
+          subject?: string | null
+          user_id?: string
+        }
+        Relationships: []
+      }
+      materials: {
+        Row: {
+          content: Json
+          created_at: string
+          difficulty: string | null
+          discipline: string | null
+          id: string
+          kind: string
+          size: string | null
+          stage: string | null
+          subject: string
+          user_id: string
+        }
+        Insert: {
+          content: Json
+          created_at?: string
+          difficulty?: string | null
+          discipline?: string | null
+          id?: string
+          kind: string
+          size?: string | null
+          stage?: string | null
+          subject: string
+          user_id: string
+        }
+        Update: {
+          content?: Json
+          created_at?: string
+          difficulty?: string | null
+          discipline?: string | null
+          id?: string
+          kind?: string
+          size?: string | null
+          stage?: string | null
+          subject?: string
+          user_id?: string
+        }
+        Relationships: []
+      }
+      notes: {
+        Row: {
+          content: string | null
+          created_at: string
+          id: string
+          title: string
+          updated_at: string
+          user_id: string
+        }
+        Insert: {
+          content?: string | null
+          created_at?: string
+          id?: string
+          title: string
+          updated_at?: string
+          user_id: string
+        }
+        Update: {
+          content?: string | null
+          created_at?: string
+          id?: string
+          title?: string
+          updated_at?: string
+          user_id?: string
+        }
+        Relationships: []
+      }
+      profiles: {
+        Row: {
+          created_at: string
+          display_name: string
+          id: string
+          last_study_date: string | null
+          level: number
+          streak_days: number
+          theme: string
+          updated_at: string
+          xp: number
+        }
+        Insert: {
+          created_at?: string
+          display_name?: string
+          id: string
+          last_study_date?: string | null
+          level?: number
+          streak_days?: number
+          theme?: string
+          updated_at?: string
+          xp?: number
+        }
+        Update: {
+          created_at?: string
+          display_name?: string
+          id?: string
+          last_study_date?: string | null
+          level?: number
+          streak_days?: number
+          theme?: string
+          updated_at?: string
+          xp?: number
+        }
+        Relationships: []
+      }
+      study_sessions: {
+        Row: {
+          created_at: string
+          discipline: string | null
+          id: string
+          minutes: number
+          user_id: string
+        }
+        Insert: {
+          created_at?: string
+          discipline?: string | null
+          id?: string
+          minutes: number
+          user_id: string
+        }
+        Update: {
+          created_at?: string
+          discipline?: string | null
+          id?: string
+          minutes?: number
+          user_id?: string
+        }
+        Relationships: []
+      }
+      writings: {
+        Row: {
+          created_at: string
+          discipline: string | null
+          feedback: string | null
+          id: string
+          score: number
+          subject: string | null
+          text: string
+          user_id: string
+        }
+        Insert: {
+          created_at?: string
+          discipline?: string | null
+          feedback?: string | null
+          id?: string
+          score: number
+          subject?: string | null
+          text: string
+          user_id: string
+        }
+        Update: {
+          created_at?: string
+          discipline?: string | null
+          feedback?: string | null
+          id?: string
+          score?: number
+          subject?: string | null
+          text?: string
+          user_id?: string
+        }
+        Relationships: []
+      }
     }
     Views: {
       [_ in never]: never
