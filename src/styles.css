@@ -74,50 +74,58 @@
   --sidebar-border: oklch(0.9 0.02 250);
   --sidebar-ring: oklch(0.55 0.22 260);
 
-  --gradient-primary: linear-gradient(135deg, oklch(0.55 0.22 260), oklch(0.72 0.18 240));
-  --gradient-hero: radial-gradient(ellipse at top, oklch(0.65 0.22 250 / 0.35), transparent 60%);
-  --shadow-glow: 0 10px 40px -12px oklch(0.55 0.22 260 / 0.4);
-  --blob-color-1: oklch(0.55 0.22 260 / 0.35);
-  --blob-color-2: oklch(0.65 0.2 245 / 0.28);
-  --blob-color-3: oklch(0.45 0.25 265 / 0.3);
+  --gradient-primary: linear-gradient(135deg, oklch(0.62 0.24 260), oklch(0.78 0.2 230));
+  --gradient-hero: radial-gradient(ellipse at top, oklch(0.7 0.24 250 / 0.45), transparent 60%);
+  --gradient-app: radial-gradient(ellipse 80% 60% at 20% -10%, oklch(0.85 0.15 250 / 0.35), transparent 60%),
+                  radial-gradient(ellipse 70% 50% at 100% 10%, oklch(0.8 0.18 220 / 0.3), transparent 60%),
+                  radial-gradient(ellipse 60% 60% at 50% 110%, oklch(0.75 0.2 280 / 0.28), transparent 65%);
+  --shadow-glow: 0 12px 50px -10px oklch(0.6 0.24 260 / 0.55);
+  --shadow-soft: 0 8px 30px -8px oklch(0.55 0.22 260 / 0.25);
+  --blob-color-1: oklch(0.7 0.24 255 / 0.55);
+  --blob-color-2: oklch(0.75 0.22 235 / 0.5);
+  --blob-color-3: oklch(0.6 0.28 275 / 0.45);
 }
 
 .dark {
-  --background: oklch(0.13 0.04 265);
+  --background: oklch(0.16 0.05 265);
   --foreground: oklch(0.98 0.01 250);
-  --card: oklch(0.18 0.05 265);
+  --card: oklch(0.22 0.07 265);
   --card-foreground: oklch(0.98 0.01 250);
-  --popover: oklch(0.18 0.05 265);
+  --popover: oklch(0.22 0.07 265);
   --popover-foreground: oklch(0.98 0.01 250);
-  --primary: oklch(0.7 0.2 250);
+  --primary: oklch(0.78 0.2 245);
   --primary-foreground: oklch(0.12 0.05 265);
-  --primary-glow: oklch(0.78 0.16 240);
-  --secondary: oklch(0.24 0.06 265);
+  --primary-glow: oklch(0.85 0.18 225);
+  --secondary: oklch(0.28 0.08 265);
   --secondary-foreground: oklch(0.98 0.01 250);
-  --muted: oklch(0.22 0.05 265);
-  --muted-foreground: oklch(0.7 0.04 250);
-  --accent: oklch(0.28 0.09 260);
+  --muted: oklch(0.26 0.06 265);
+  --muted-foreground: oklch(0.78 0.04 250);
+  --accent: oklch(0.34 0.12 260);
   --accent-foreground: oklch(0.98 0.01 250);
-  --destructive: oklch(0.65 0.22 25);
+  --destructive: oklch(0.68 0.24 25);
   --destructive-foreground: oklch(0.99 0 0);
-  --border: oklch(0.28 0.06 265);
-  --input: oklch(0.28 0.06 265);
-  --ring: oklch(0.7 0.2 250);
-  --sidebar: oklch(0.15 0.05 265);
-  --sidebar-foreground: oklch(0.95 0.02 250);
-  --sidebar-primary: oklch(0.7 0.2 250);
+  --border: oklch(0.34 0.08 265);
+  --input: oklch(0.32 0.07 265);
+  --ring: oklch(0.78 0.2 245);
+  --sidebar: oklch(0.18 0.06 265);
+  --sidebar-foreground: oklch(0.96 0.02 250);
+  --sidebar-primary: oklch(0.78 0.2 245);
   --sidebar-primary-foreground: oklch(0.12 0.05 265);
-  --sidebar-accent: oklch(0.24 0.08 260);
+  --sidebar-accent: oklch(0.3 0.1 260);
   --sidebar-accent-foreground: oklch(0.98 0.01 250);
-  --sidebar-border: oklch(0.24 0.06 265);
-  --sidebar-ring: oklch(0.7 0.2 250);
+  --sidebar-border: oklch(0.3 0.08 265);
+  --sidebar-ring: oklch(0.78 0.2 245);
 
-  --gradient-primary: linear-gradient(135deg, oklch(0.55 0.24 260), oklch(0.72 0.2 240));
-  --gradient-hero: radial-gradient(ellipse at top, oklch(0.5 0.28 260 / 0.5), transparent 60%);
-  --shadow-glow: 0 10px 60px -12px oklch(0.6 0.25 260 / 0.55);
-  --blob-color-1: oklch(0.45 0.28 260 / 0.55);
-  --blob-color-2: oklch(0.55 0.24 245 / 0.45);
-  --blob-color-3: oklch(0.4 0.3 270 / 0.5);
+  --gradient-primary: linear-gradient(135deg, oklch(0.7 0.26 260), oklch(0.82 0.22 230));
+  --gradient-hero: radial-gradient(ellipse at top, oklch(0.6 0.3 260 / 0.55), transparent 60%);
+  --gradient-app: radial-gradient(ellipse 80% 60% at 15% -10%, oklch(0.55 0.3 260 / 0.45), transparent 60%),
+                  radial-gradient(ellipse 70% 50% at 100% 10%, oklch(0.5 0.28 225 / 0.4), transparent 60%),
+                  radial-gradient(ellipse 60% 60% at 50% 110%, oklch(0.5 0.32 285 / 0.4), transparent 65%);
+  --shadow-glow: 0 12px 70px -10px oklch(0.75 0.28 255 / 0.7);
+  --shadow-soft: 0 10px 40px -8px oklch(0.6 0.28 260 / 0.4);
+  --blob-color-1: oklch(0.65 0.3 260 / 0.7);
+  --blob-color-2: oklch(0.7 0.28 235 / 0.6);
+  --blob-color-3: oklch(0.55 0.32 280 / 0.6);
 }
 
 @layer base {
