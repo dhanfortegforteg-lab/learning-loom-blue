@@ -112,12 +112,18 @@ function EstudarPage() {
                 key={m.kind}
                 onClick={() => generate(m.kind)}
                 disabled={!!loadingKind}
-                className="group relative rounded-2xl border border-border/60 bg-card/60 p-5 text-left backdrop-blur-sm transition hover:border-primary/50 hover:shadow-[var(--shadow-glow)] disabled:opacity-50"
+                className="group relative overflow-hidden rounded-2xl border border-primary/30 bg-gradient-to-br from-card/90 via-card/70 to-primary/10 p-5 text-left shadow-[var(--shadow-soft)] backdrop-blur-md transition-all duration-300 hover:-translate-y-1 hover:border-primary/70 hover:shadow-[var(--shadow-glow)] disabled:opacity-50"
               >
-                <m.icon className="mb-2 h-6 w-6 text-primary transition group-hover:scale-110" />
-                <div className="font-semibold">{m.label}</div>
-                <div className="text-xs text-muted-foreground">{m.desc}</div>
-                {isLoading && <div className="mt-2 text-xs text-primary">Gerando...</div>}
+                <span className="pointer-events-none absolute -inset-1 bg-gradient-primary opacity-0 blur-2xl transition-opacity duration-500 group-hover:opacity-40" />
+                <span className="pointer-events-none absolute inset-x-0 top-0 h-px bg-gradient-to-r from-transparent via-primary-glow to-transparent opacity-60" />
+                <div className="relative">
+                  <div className="mb-3 inline-flex rounded-xl bg-gradient-primary p-2 shadow-[var(--shadow-glow)] transition group-hover:scale-110">
+                    <m.icon className="h-5 w-5 text-primary-foreground" />
+                  </div>
+                  <div className="font-display font-semibold">{m.label}</div>
+                  <div className="text-xs text-muted-foreground">{m.desc}</div>
+                  {isLoading && <div className="mt-2 text-xs font-medium text-primary">Gerando...</div>}
+                </div>
               </button>
             );
           })}
