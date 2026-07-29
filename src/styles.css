@@ -193,10 +193,14 @@
 }
 
 @keyframes glow-pulse {
-  0%, 100% { box-shadow: 0 0 20px oklch(0.6 0.22 260 / 0.3); }
-  50% { box-shadow: 0 0 40px oklch(0.6 0.22 260 / 0.6); }
+  0%, 100% { box-shadow: 0 0 24px oklch(0.72 0.24 255 / 0.45); }
+  50% { box-shadow: 0 0 56px oklch(0.78 0.26 250 / 0.85); }
 }
 .glow-pulse { animation: glow-pulse 3s ease-in-out infinite; }
+
+/* Utility gradient text/button surfaces */
+.bg-gradient-primary { background-image: var(--gradient-primary); }
+.text-gradient { background: var(--gradient-primary); -webkit-background-clip: text; background-clip: text; color: transparent; }
 
 /* Flashcard flip */
 .perspective-1000 { perspective: 1000px; }
