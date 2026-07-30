@@ -13,7 +13,7 @@ import { PenSquare, Sparkles } from "lucide-react";
 import { toast } from "sonner";
 
 export const Route = createFileRoute("/_authenticated/escrita")({
-  head: () => ({ meta: [{ title: "Escrita — Urstudy" }, { name: "description", content: "Avalie sua escrita com IA e acompanhe sua média." }] }),
+  head: () => ({ meta: [{ title: "Escrita — Foxstudy" }, { name: "description", content: "Avalie sua escrita com IA e acompanhe sua média." }] }),
   component: EscritaPage,
 });
 

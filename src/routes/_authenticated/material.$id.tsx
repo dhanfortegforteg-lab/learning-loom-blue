@@ -5,7 +5,7 @@ import { MaterialViewer } from "@/components/materials/MaterialViewer";
 import { ArrowLeft } from "lucide-react";
 
 export const Route = createFileRoute("/_authenticated/material/$id")({
-  head: () => ({ meta: [{ title: "Material — Urstudy" }, { name: "description", content: "Visualização do material de estudo." }] }),
+  head: () => ({ meta: [{ title: "Material — Foxstudy" }, { name: "description", content: "Visualização do material de estudo." }] }),
   component: MaterialPage,
 });
 

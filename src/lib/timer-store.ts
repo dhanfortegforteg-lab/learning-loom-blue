@@ -9,7 +9,7 @@ type TimerState = {
   discipline: string;
 };
 
-const KEY = "urstudy-timer-v1";
+const KEY = "foxstudy-timer-v1";
 const load = (): TimerState => {
   if (typeof window === "undefined") return { running: false, startedAt: null, elapsedBefore: 0, goalMinutes: 25, discipline: "" };
   try {

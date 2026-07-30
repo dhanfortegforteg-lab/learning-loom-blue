@@ -6,11 +6,11 @@ import { Card } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
 import { Textarea } from "@/components/ui/textarea";
 import { HelpCircle, Send } from "lucide-react";
-import { WolfMascot } from "@/components/WolfMascot";
+import { FoxMascot } from "@/components/FoxMascot";
 
 export const Route = createFileRoute("/_authenticated/duvidas")({
   validateSearch: (s: Record<string, unknown>) => ({ q: (s.q as string) || "" }),
-  head: () => ({ meta: [{ title: "Dúvidas — Urstudy" }, { name: "description", content: "Tire dúvidas com o tutor de IA." }] }),
+  head: () => ({ meta: [{ title: "Dúvidas — Foxstudy" }, { name: "description", content: "Tire dúvidas com o tutor de IA." }] }),
   component: DuvidasPage,
 });
 
@@ -41,13 +41,13 @@ function DuvidasPage() {
       <Card className="min-h-[400px] space-y-3 p-4">
         {chat.length === 0 && (
           <div className="flex flex-col items-center py-12 text-center text-muted-foreground">
-            <WolfMascot className="mb-3 h-14 w-14" />
+            <FoxMascot className="mb-3 h-14 w-14" />
             Manda sua dúvida — respondo em segundos!
           </div>
         )}
         {chat.map((m, i) => (
           <div key={i} className={`flex gap-2 ${m.role === "user" ? "justify-end" : ""}`}>
-            {m.role === "wolf" && <WolfMascot className="h-8 w-8 shrink-0" />}
+            {m.role === "wolf" && <FoxMascot className="h-8 w-8 shrink-0" />}
             <div className={`max-w-[80%] whitespace-pre-wrap rounded-2xl px-4 py-3 text-sm ${m.role === "user" ? "bg-primary text-primary-foreground" : "bg-muted"}`}>
               {m.text}
             </div>

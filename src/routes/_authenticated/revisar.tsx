@@ -11,7 +11,7 @@ import { QuestionsRunner } from "@/components/materials/QuestionsRunner";
 import { toast } from "sonner";
 
 export const Route = createFileRoute("/_authenticated/revisar")({
-  head: () => ({ meta: [{ title: "Falhas na Revisão — Urstudy" }, { name: "description", content: "Revise seus erros com uma prática corretiva gerada por IA." }] }),
+  head: () => ({ meta: [{ title: "Falhas na Revisão — Foxstudy" }, { name: "description", content: "Revise seus erros com uma prática corretiva gerada por IA." }] }),
   component: RevisarPage,
 });
 

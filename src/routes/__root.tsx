@@ -17,9 +17,9 @@ export const Route = createRootRouteWithContext<{ queryClient: QueryClient }>()(
     meta: [
       { charSet: "utf-8" },
       { name: "viewport", content: "width=device-width, initial-scale=1" },
-      { title: "Urstudy — Ecossistema de Estudos com IA" },
+      { title: "Foxstudy — Ecossistema de Estudos com IA" },
       { name: "description", content: "Ecossistema de estudos com apostilas, flashcards, quiz, simulado e mais — tudo gerado por IA e gamificado." },
-      { property: "og:title", content: "Urstudy — Ecossistema de Estudos com IA" },
+      { property: "og:title", content: "Foxstudy — Ecossistema de Estudos com IA" },
       { property: "og:description", content: "Aprenda mais rápido: apostila, flashcards, mapa mental, prática guiada, simulado diário e desafios com XP." },
       { property: "og:type", content: "website" },
       { name: "twitter:card", content: "summary_large_image" },
@@ -57,7 +57,7 @@ function RootComponent() {
   useEffect(() => {
     // Apply saved theme
     if (typeof window !== "undefined") {
-      const saved = localStorage.getItem("urstudy-theme");
+      const saved = localStorage.getItem("foxstudy-theme");
       if (saved === "light") document.documentElement.classList.remove("dark");
       else document.documentElement.classList.add("dark");
     }

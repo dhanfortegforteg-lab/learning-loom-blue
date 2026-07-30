@@ -5,7 +5,7 @@ import { Card } from "@/components/ui/card";
 import { Award } from "lucide-react";
 
 export const Route = createFileRoute("/_authenticated/brasoes")({
-  head: () => ({ meta: [{ title: "Brasões — Urstudy" }, { name: "description", content: "Sua coleção de brasões e troféus." }] }),
+  head: () => ({ meta: [{ title: "Brasões — Foxstudy" }, { name: "description", content: "Sua coleção de brasões e troféus." }] }),
   component: BrasoesPage,
 });
 

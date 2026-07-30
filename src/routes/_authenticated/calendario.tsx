@@ -11,7 +11,7 @@ import { Calendar, Plus, Trash2 } from "lucide-react";
 import { toast } from "sonner";
 
 export const Route = createFileRoute("/_authenticated/calendario")({
-  head: () => ({ meta: [{ title: "Calendário — Urstudy" }, { name: "description", content: "Organize eventos e lembretes de estudo." }] }),
+  head: () => ({ meta: [{ title: "Calendário — Foxstudy" }, { name: "description", content: "Organize eventos e lembretes de estudo." }] }),
   component: CalendarioPage,
 });
 

@@ -6,7 +6,7 @@ import {
 } from "lucide-react";
 import { supabase } from "@/integrations/supabase/client";
 import { AnimatedBlobs } from "./AnimatedBlobs";
-import { WolfMascot } from "./WolfMascot";
+import { FoxMascot } from "./FoxMascot";
 import { Input } from "./ui/input";
 import { Button } from "./ui/button";
 import { TimerBadge } from "./TimerBadge";
@@ -38,7 +38,7 @@ export function AppShell({ children }: { children: ReactNode }) {
     const next = !dark;
     setDark(next);
     document.documentElement.classList.toggle("dark", next);
-    localStorage.setItem("urstudy-theme", next ? "dark" : "light");
+    localStorage.setItem("foxstudy-theme", next ? "dark" : "light");
   };
 
   const signOut = async () => {
@@ -56,9 +56,9 @@ export function AppShell({ children }: { children: ReactNode }) {
           <div className="blob blob-2" style={{ width: 200, height: 200, bottom: "10%", right: "-40%" }} />
         </div>
         <div className="relative flex items-center gap-3 p-5">
-          <WolfMascot className="h-11 w-11" />
+          <FoxMascot className="h-11 w-11" />
           <div>
-            <div className="font-display text-lg font-bold">Urstudy</div>
+            <div className="font-display text-lg font-bold">Foxstudy</div>
             <div className="text-[10px] uppercase tracking-widest text-muted-foreground">Ecossistema de estudos</div>
           </div>
         </div>
