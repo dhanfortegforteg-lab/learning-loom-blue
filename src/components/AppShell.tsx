@@ -14,6 +14,7 @@ import { TimerBadge } from "./TimerBadge";
 const nav = [
   { to: "/home", label: "Home", icon: Home },
   { to: "/estudar", label: "Estudar", icon: BookOpen },
+  { to: "/trilhas", label: "Estudo Automático", icon: Route },
   { to: "/biblioteca", label: "Biblioteca", icon: Library },
   { to: "/cronograma", label: "Cronograma", icon: Timer },
   { to: "/produtividade", label: "Fox Productivity", icon: Sparkles },
