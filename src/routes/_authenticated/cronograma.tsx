@@ -11,7 +11,7 @@ import { supabase } from "@/integrations/supabase/client";
 import { toast } from "sonner";
 
 export const Route = createFileRoute("/_authenticated/cronograma")({
-  head: () => ({ meta: [{ title: "Cronograma — Urstudy" }, { name: "description", content: "Cronômetro de estudos persistente com ganho de XP." }] }),
+  head: () => ({ meta: [{ title: "Cronograma — Foxstudy" }, { name: "description", content: "Cronômetro de estudos persistente com ganho de XP." }] }),
   component: CronogramaPage,
 });
 

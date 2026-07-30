@@ -9,7 +9,7 @@ import { Textarea } from "@/components/ui/textarea";
 import { NotebookPen, Plus, Trash2 } from "lucide-react";
 
 export const Route = createFileRoute("/_authenticated/anotacoes")({
-  head: () => ({ meta: [{ title: "Anotações — Urstudy" }, { name: "description", content: "Suas anotações de estudo." }] }),
+  head: () => ({ meta: [{ title: "Anotações — Foxstudy" }, { name: "description", content: "Suas anotações de estudo." }] }),
   component: AnotacoesPage,
 });
 

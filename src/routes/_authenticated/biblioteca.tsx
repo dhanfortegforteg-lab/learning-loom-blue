@@ -7,7 +7,7 @@ import { Input } from "@/components/ui/input";
 import { Library } from "lucide-react";
 
 export const Route = createFileRoute("/_authenticated/biblioteca")({
-  head: () => ({ meta: [{ title: "Biblioteca — Urstudy" }, { name: "description", content: "Histórico de todos os materiais gerados." }] }),
+  head: () => ({ meta: [{ title: "Biblioteca — Foxstudy" }, { name: "description", content: "Histórico de todos os materiais gerados." }] }),
   component: BibliotecaPage,
 });
 

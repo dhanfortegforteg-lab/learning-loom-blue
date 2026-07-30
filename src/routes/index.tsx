@@ -3,13 +3,13 @@ import { useEffect, useState } from "react";
 import { supabase } from "@/integrations/supabase/client";
 import { Button } from "@/components/ui/button";
 import { AnimatedBlobs } from "@/components/AnimatedBlobs";
-import { WolfMascot } from "@/components/WolfMascot";
+import { FoxMascot } from "@/components/FoxMascot";
 import { Sparkles, BookOpen, Trophy, Timer, Brain, PenSquare } from "lucide-react";
 
 export const Route = createFileRoute("/")({
   head: () => ({
     meta: [
-      { title: "Urstudy — Estudar ficou divertido" },
+      { title: "Foxstudy — Estudar ficou divertido" },
       { name: "description", content: "Gere apostilas, flashcards, mapas mentais, provas e simulados com IA. Ganhe XP, mantenha ofensiva e evolua todo dia." },
     ],
   }),
@@ -28,9 +28,9 @@ function Landing() {
       <div className="relative z-10">
         <header className="flex items-center justify-between px-6 py-5 md:px-12">
           <div className="flex items-center gap-3">
-            <WolfMascot className="h-10 w-10" />
+            <FoxMascot className="h-10 w-10" />
             <div>
-              <div className="font-display text-xl font-bold">Urstudy</div>
+              <div className="font-display text-xl font-bold">Foxstudy</div>
               <div className="text-[10px] uppercase tracking-widest text-muted-foreground">Ecossistema de estudos</div>
             </div>
           </div>

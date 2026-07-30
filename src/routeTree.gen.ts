@@ -13,6 +13,7 @@ import { Route as AuthRouteImport } from './routes/auth'
 import { Route as AuthenticatedRouteRouteImport } from './routes/_authenticated/route'
 import { Route as IndexRouteImport } from './routes/index'
 import { Route as AuthenticatedRevisarRouteImport } from './routes/_authenticated/revisar'
+import { Route as AuthenticatedProdutividadeRouteImport } from './routes/_authenticated/produtividade'
 import { Route as AuthenticatedHomeRouteImport } from './routes/_authenticated/home'
 import { Route as AuthenticatedEstudarRouteImport } from './routes/_authenticated/estudar'
 import { Route as AuthenticatedEscritaRouteImport } from './routes/_authenticated/escrita'
@@ -44,6 +45,12 @@ const AuthenticatedRevisarRoute = AuthenticatedRevisarRouteImport.update({
   path: '/revisar',
   getParentRoute: () => AuthenticatedRouteRoute,
 } as any)
+const AuthenticatedProdutividadeRoute =
+  AuthenticatedProdutividadeRouteImport.update({
+    id: '/produtividade',
+    path: '/produtividade',
+    getParentRoute: () => AuthenticatedRouteRoute,
+  } as any)
 const AuthenticatedHomeRoute = AuthenticatedHomeRouteImport.update({
   id: '/home',
   path: '/home',
@@ -113,6 +120,7 @@ export interface FileRoutesByFullPath {
   '/escrita': typeof AuthenticatedEscritaRoute
   '/estudar': typeof AuthenticatedEstudarRoute
   '/home': typeof AuthenticatedHomeRoute
+  '/produtividade': typeof AuthenticatedProdutividadeRoute
   '/revisar': typeof AuthenticatedRevisarRoute
   '/material/$id': typeof AuthenticatedMaterialIdRoute
 }
@@ -129,6 +137,7 @@ export interface FileRoutesByTo {
   '/escrita': typeof AuthenticatedEscritaRoute
   '/estudar': typeof AuthenticatedEstudarRoute
   '/home': typeof AuthenticatedHomeRoute
+  '/produtividade': typeof AuthenticatedProdutividadeRoute
   '/revisar': typeof AuthenticatedRevisarRoute
   '/material/$id': typeof AuthenticatedMaterialIdRoute
 }
@@ -147,6 +156,7 @@ export interface FileRoutesById {
   '/_authenticated/escrita': typeof AuthenticatedEscritaRoute
   '/_authenticated/estudar': typeof AuthenticatedEstudarRoute
   '/_authenticated/home': typeof AuthenticatedHomeRoute
+  '/_authenticated/produtividade': typeof AuthenticatedProdutividadeRoute
   '/_authenticated/revisar': typeof AuthenticatedRevisarRoute
   '/_authenticated/material/$id': typeof AuthenticatedMaterialIdRoute
 }
@@ -165,6 +175,7 @@ export interface FileRouteTypes {
     | '/escrita'
     | '/estudar'
     | '/home'
+    | '/produtividade'
     | '/revisar'
     | '/material/$id'
   fileRoutesByTo: FileRoutesByTo
@@ -181,6 +192,7 @@ export interface FileRouteTypes {
     | '/escrita'
     | '/estudar'
     | '/home'
+    | '/produtividade'
     | '/revisar'
     | '/material/$id'
   id:
@@ -198,6 +210,7 @@ export interface FileRouteTypes {
     | '/_authenticated/escrita'
     | '/_authenticated/estudar'
     | '/_authenticated/home'
+    | '/_authenticated/produtividade'
     | '/_authenticated/revisar'
     | '/_authenticated/material/$id'
   fileRoutesById: FileRoutesById
@@ -236,6 +249,13 @@ declare module '@tanstack/react-router' {
       path: '/revisar'
       fullPath: '/revisar'
       preLoaderRoute: typeof AuthenticatedRevisarRouteImport
+      parentRoute: typeof AuthenticatedRouteRoute
+    }
+    '/_authenticated/produtividade': {
+      id: '/_authenticated/produtividade'
+      path: '/produtividade'
+      fullPath: '/produtividade'
+      preLoaderRoute: typeof AuthenticatedProdutividadeRouteImport
       parentRoute: typeof AuthenticatedRouteRoute
     }
     '/_authenticated/home': {
@@ -329,6 +349,7 @@ interface AuthenticatedRouteRouteChildren {
   AuthenticatedEscritaRoute: typeof AuthenticatedEscritaRoute
   AuthenticatedEstudarRoute: typeof AuthenticatedEstudarRoute
   AuthenticatedHomeRoute: typeof AuthenticatedHomeRoute
+  AuthenticatedProdutividadeRoute: typeof AuthenticatedProdutividadeRoute
   AuthenticatedRevisarRoute: typeof AuthenticatedRevisarRoute
   AuthenticatedMaterialIdRoute: typeof AuthenticatedMaterialIdRoute
 }
@@ -344,6 +365,7 @@ const AuthenticatedRouteRouteChildren: AuthenticatedRouteRouteChildren = {
   AuthenticatedEscritaRoute: AuthenticatedEscritaRoute,
   AuthenticatedEstudarRoute: AuthenticatedEstudarRoute,
   AuthenticatedHomeRoute: AuthenticatedHomeRoute,
+  AuthenticatedProdutividadeRoute: AuthenticatedProdutividadeRoute,
   AuthenticatedRevisarRoute: AuthenticatedRevisarRoute,
   AuthenticatedMaterialIdRoute: AuthenticatedMaterialIdRoute,
 }

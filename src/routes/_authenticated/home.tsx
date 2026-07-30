@@ -3,11 +3,11 @@ import { useQuery } from "@tanstack/react-query";
 import { supabase } from "@/integrations/supabase/client";
 import { Card } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
-import { WolfMascot } from "@/components/WolfMascot";
+import { FoxMascot } from "@/components/FoxMascot";
 import { BookOpen, Target, Zap, Flame, Trophy, PenSquare, GraduationCap } from "lucide-react";
 
 export const Route = createFileRoute("/_authenticated/home")({
-  head: () => ({ meta: [{ title: "Home — Urstudy" }, { name: "description", content: "Painel do aluno com XP, ofensiva, materiais e desempenho." }] }),
+  head: () => ({ meta: [{ title: "Home — Foxstudy" }, { name: "description", content: "Painel do aluno com XP, ofensiva, materiais e desempenho." }] }),
   component: HomePage,
 });
 
@@ -49,7 +49,7 @@ function HomePage() {
     <div className="mx-auto max-w-6xl space-y-6">
       <div className="flex flex-wrap items-center justify-between gap-4">
         <div className="flex items-center gap-4">
-          <WolfMascot className="h-14 w-14" />
+          <FoxMascot className="h-14 w-14" />
           <div>
             <h1 className="font-display text-3xl font-bold">Olá, {profile.display_name} 👋</h1>
             <p className="text-muted-foreground">Vamos estudar hoje? 🚀</p>

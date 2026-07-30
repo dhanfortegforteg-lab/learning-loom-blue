@@ -11,7 +11,7 @@ import { BookOpen, HelpCircle, ListChecks, Presentation, FileText, Brain, Baby, 
 import { toast } from "sonner";
 
 export const Route = createFileRoute("/_authenticated/estudar")({
-  head: () => ({ meta: [{ title: "Estudar — Urstudy" }, { name: "description", content: "Gere apostilas, flashcards, mapas mentais e mais com IA." }] }),
+  head: () => ({ meta: [{ title: "Estudar — Foxstudy" }, { name: "description", content: "Gere apostilas, flashcards, mapas mentais e mais com IA." }] }),
   component: EstudarPage,
 });
 

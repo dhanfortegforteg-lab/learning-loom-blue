@@ -8,14 +8,14 @@ import { Label } from "@/components/ui/label";
 import { Card } from "@/components/ui/card";
 import { toast } from "sonner";
 import { AnimatedBlobs } from "@/components/AnimatedBlobs";
-import { WolfMascot } from "@/components/WolfMascot";
+import { FoxMascot } from "@/components/FoxMascot";
 
 export const Route = createFileRoute("/auth")({
   validateSearch: (s: Record<string, unknown>) => ({ mode: (s.mode as string) === "signup" ? "signup" : "signin" }),
   head: () => ({
     meta: [
-      { title: "Entrar — Urstudy" },
-      { name: "description", content: "Entre ou crie sua conta no Urstudy e comece a estudar com IA." },
+      { title: "Entrar — Foxstudy" },
+      { name: "description", content: "Entre ou crie sua conta no Foxstudy e comece a estudar com IA." },
     ],
   }),
   component: AuthPage,
@@ -70,7 +70,7 @@ function AuthPage() {
       <div className="relative z-10 mx-auto flex min-h-screen max-w-md items-center justify-center p-6">
         <Card className="w-full border-border/60 bg-card/80 p-8 backdrop-blur-xl">
           <div className="mb-6 flex flex-col items-center text-center">
-            <WolfMascot className="h-14 w-14" />
+            <FoxMascot className="h-14 w-14" />
             <h1 className="mt-3 font-display text-2xl font-bold">
               {mode === "signup" ? "Criar conta" : "Bem-vindo de volta"}
             </h1>

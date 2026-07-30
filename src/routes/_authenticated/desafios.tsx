@@ -5,7 +5,7 @@ import { Card } from "@/components/ui/card";
 import { Trophy, Timer, PenSquare, ListChecks, BookOpen } from "lucide-react";
 
 export const Route = createFileRoute("/_authenticated/desafios")({
-  head: () => ({ meta: [{ title: "Desafios — Urstudy" }, { name: "description", content: "Complete os desafios diários e ganhe XP." }] }),
+  head: () => ({ meta: [{ title: "Desafios — Foxstudy" }, { name: "description", content: "Complete os desafios diários e ganhe XP." }] }),
   component: DesafiosPage,
 });
 
