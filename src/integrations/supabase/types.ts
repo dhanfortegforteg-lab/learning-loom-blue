@@ -289,6 +289,86 @@ export type Database = {
         }
         Relationships: []
       }
+      study_tracks: {
+        Row: {
+          created_at: string
+          id: string
+          position: number
+          subject: string
+          updated_at: string
+          user_id: string
+          year_level: string
+        }
+        Insert: {
+          created_at?: string
+          id?: string
+          position?: number
+          subject: string
+          updated_at?: string
+          user_id: string
+          year_level: string
+        }
+        Update: {
+          created_at?: string
+          id?: string
+          position?: number
+          subject?: string
+          updated_at?: string
+          user_id?: string
+          year_level?: string
+        }
+        Relationships: []
+      }
+      track_contents: {
+        Row: {
+          completed: boolean
+          created_at: string
+          description: string | null
+          id: string
+          position: number
+          score: number
+          sessions: Json | null
+          title: string
+          track_id: string
+          updated_at: string
+          user_id: string
+        }
+        Insert: {
+          completed?: boolean
+          created_at?: string
+          description?: string | null
+          id?: string
+          position?: number
+          score?: number
+          sessions?: Json | null
+          title: string
+          track_id: string
+          updated_at?: string
+          user_id: string
+        }
+        Update: {
+          completed?: boolean
+          created_at?: string
+          description?: string | null
+          id?: string
+          position?: number
+          score?: number
+          sessions?: Json | null
+          title?: string
+          track_id?: string
+          updated_at?: string
+          user_id?: string
+        }
+        Relationships: [
+          {
+            foreignKeyName: "track_contents_track_id_fkey"
+            columns: ["track_id"]
+            isOneToOne: false
+            referencedRelation: "study_tracks"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
       writings: {
         Row: {
           created_at: string
