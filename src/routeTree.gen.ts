@@ -12,6 +12,7 @@ import { Route as rootRouteImport } from './routes/__root'
 import { Route as AuthRouteImport } from './routes/auth'
 import { Route as AuthenticatedRouteRouteImport } from './routes/_authenticated/route'
 import { Route as IndexRouteImport } from './routes/index'
+import { Route as AuthenticatedTrilhasRouteImport } from './routes/_authenticated/trilhas'
 import { Route as AuthenticatedRevisarRouteImport } from './routes/_authenticated/revisar'
 import { Route as AuthenticatedProdutividadeRouteImport } from './routes/_authenticated/produtividade'
 import { Route as AuthenticatedHomeRouteImport } from './routes/_authenticated/home'
@@ -24,6 +25,7 @@ import { Route as AuthenticatedCalendarioRouteImport } from './routes/_authentic
 import { Route as AuthenticatedBrasoesRouteImport } from './routes/_authenticated/brasoes'
 import { Route as AuthenticatedBibliotecaRouteImport } from './routes/_authenticated/biblioteca'
 import { Route as AuthenticatedAnotacoesRouteImport } from './routes/_authenticated/anotacoes'
+import { Route as AuthenticatedTrilhaContentIdRouteImport } from './routes/_authenticated/trilha.$contentId'
 import { Route as AuthenticatedMaterialIdRouteImport } from './routes/_authenticated/material.$id'
 
 const AuthRoute = AuthRouteImport.update({
@@ -39,6 +41,11 @@ const IndexRoute = IndexRouteImport.update({
   id: '/',
   path: '/',
   getParentRoute: () => rootRouteImport,
+} as any)
+const AuthenticatedTrilhasRoute = AuthenticatedTrilhasRouteImport.update({
+  id: '/trilhas',
+  path: '/trilhas',
+  getParentRoute: () => AuthenticatedRouteRoute,
 } as any)
 const AuthenticatedRevisarRoute = AuthenticatedRevisarRouteImport.update({
   id: '/revisar',
@@ -101,6 +108,12 @@ const AuthenticatedAnotacoesRoute = AuthenticatedAnotacoesRouteImport.update({
   path: '/anotacoes',
   getParentRoute: () => AuthenticatedRouteRoute,
 } as any)
+const AuthenticatedTrilhaContentIdRoute =
+  AuthenticatedTrilhaContentIdRouteImport.update({
+    id: '/trilha/$contentId',
+    path: '/trilha/$contentId',
+    getParentRoute: () => AuthenticatedRouteRoute,
+  } as any)
 const AuthenticatedMaterialIdRoute = AuthenticatedMaterialIdRouteImport.update({
   id: '/material/$id',
   path: '/material/$id',
@@ -122,7 +135,9 @@ export interface FileRoutesByFullPath {
   '/home': typeof AuthenticatedHomeRoute
   '/produtividade': typeof AuthenticatedProdutividadeRoute
   '/revisar': typeof AuthenticatedRevisarRoute
+  '/trilhas': typeof AuthenticatedTrilhasRoute
   '/material/$id': typeof AuthenticatedMaterialIdRoute
+  '/trilha/$contentId': typeof AuthenticatedTrilhaContentIdRoute
 }
 export interface FileRoutesByTo {
   '/': typeof IndexRoute
@@ -139,7 +154,9 @@ export interface FileRoutesByTo {
   '/home': typeof AuthenticatedHomeRoute
   '/produtividade': typeof AuthenticatedProdutividadeRoute
   '/revisar': typeof AuthenticatedRevisarRoute
+  '/trilhas': typeof AuthenticatedTrilhasRoute
   '/material/$id': typeof AuthenticatedMaterialIdRoute
+  '/trilha/$contentId': typeof AuthenticatedTrilhaContentIdRoute
 }
 export interface FileRoutesById {
   __root__: typeof rootRouteImport
@@ -158,7 +175,9 @@ export interface FileRoutesById {
   '/_authenticated/home': typeof AuthenticatedHomeRoute
   '/_authenticated/produtividade': typeof AuthenticatedProdutividadeRoute
   '/_authenticated/revisar': typeof AuthenticatedRevisarRoute
+  '/_authenticated/trilhas': typeof AuthenticatedTrilhasRoute
   '/_authenticated/material/$id': typeof AuthenticatedMaterialIdRoute
+  '/_authenticated/trilha/$contentId': typeof AuthenticatedTrilhaContentIdRoute
 }
 export interface FileRouteTypes {
   fileRoutesByFullPath: FileRoutesByFullPath
@@ -177,7 +196,9 @@ export interface FileRouteTypes {
     | '/home'
     | '/produtividade'
     | '/revisar'
+    | '/trilhas'
     | '/material/$id'
+    | '/trilha/$contentId'
   fileRoutesByTo: FileRoutesByTo
   to:
     | '/'
@@ -194,7 +215,9 @@ export interface FileRouteTypes {
     | '/home'
     | '/produtividade'
     | '/revisar'
+    | '/trilhas'
     | '/material/$id'
+    | '/trilha/$contentId'
   id:
     | '__root__'
     | '/'
@@ -212,7 +235,9 @@ export interface FileRouteTypes {
     | '/_authenticated/home'
     | '/_authenticated/produtividade'
     | '/_authenticated/revisar'
+    | '/_authenticated/trilhas'
     | '/_authenticated/material/$id'
+    | '/_authenticated/trilha/$contentId'
   fileRoutesById: FileRoutesById
 }
 export interface RootRouteChildren {
@@ -243,6 +268,13 @@ declare module '@tanstack/react-router' {
       fullPath: '/'
       preLoaderRoute: typeof IndexRouteImport
       parentRoute: typeof rootRouteImport
+    }
+    '/_authenticated/trilhas': {
+      id: '/_authenticated/trilhas'
+      path: '/trilhas'
+      fullPath: '/trilhas'
+      preLoaderRoute: typeof AuthenticatedTrilhasRouteImport
+      parentRoute: typeof AuthenticatedRouteRoute
     }
     '/_authenticated/revisar': {
       id: '/_authenticated/revisar'
@@ -328,6 +360,13 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof AuthenticatedAnotacoesRouteImport
       parentRoute: typeof AuthenticatedRouteRoute
     }
+    '/_authenticated/trilha/$contentId': {
+      id: '/_authenticated/trilha/$contentId'
+      path: '/trilha/$contentId'
+      fullPath: '/trilha/$contentId'
+      preLoaderRoute: typeof AuthenticatedTrilhaContentIdRouteImport
+      parentRoute: typeof AuthenticatedRouteRoute
+    }
     '/_authenticated/material/$id': {
       id: '/_authenticated/material/$id'
       path: '/material/$id'
@@ -351,7 +390,9 @@ interface AuthenticatedRouteRouteChildren {
   AuthenticatedHomeRoute: typeof AuthenticatedHomeRoute
   AuthenticatedProdutividadeRoute: typeof AuthenticatedProdutividadeRoute
   AuthenticatedRevisarRoute: typeof AuthenticatedRevisarRoute
+  AuthenticatedTrilhasRoute: typeof AuthenticatedTrilhasRoute
   AuthenticatedMaterialIdRoute: typeof AuthenticatedMaterialIdRoute
+  AuthenticatedTrilhaContentIdRoute: typeof AuthenticatedTrilhaContentIdRoute
 }
 
 const AuthenticatedRouteRouteChildren: AuthenticatedRouteRouteChildren = {
@@ -367,7 +408,9 @@ const AuthenticatedRouteRouteChildren: AuthenticatedRouteRouteChildren = {
   AuthenticatedHomeRoute: AuthenticatedHomeRoute,
   AuthenticatedProdutividadeRoute: AuthenticatedProdutividadeRoute,
   AuthenticatedRevisarRoute: AuthenticatedRevisarRoute,
+  AuthenticatedTrilhasRoute: AuthenticatedTrilhasRoute,
   AuthenticatedMaterialIdRoute: AuthenticatedMaterialIdRoute,
+  AuthenticatedTrilhaContentIdRoute: AuthenticatedTrilhaContentIdRoute,
 }
 
 const AuthenticatedRouteRouteWithChildren =

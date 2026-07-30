@@ -8,7 +8,6 @@ import { Card } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
 import { Label } from "@/components/ui/label";
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
-import { Route as TrailRoute } from "./trilha.$contentId";
 import { Lock, CheckCircle2, Play, Route as RouteIcon, Sparkles } from "lucide-react";
 import { toast } from "sonner";
 
@@ -113,7 +112,7 @@ function TrilhasPage() {
                       <li key={c.id}>
                         {unlocked ? (
                           <Link
-                            to={TrailRoute.to}
+                            to="/trilha/$contentId"
                             params={{ contentId: c.id }}
                             className={`flex items-center gap-4 rounded-2xl border p-4 transition hover:shadow-[var(--shadow-glow)] ${
                               done ? "border-green-500/50 bg-green-500/5" : "border-primary/40 bg-primary/5 hover:border-primary"
