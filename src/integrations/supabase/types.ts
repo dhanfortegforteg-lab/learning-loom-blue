@@ -115,6 +115,54 @@ export type Database = {
         }
         Relationships: []
       }
+      fox_rewards: {
+        Row: {
+          created_at: string
+          day: string
+          id: string
+          user_id: string
+        }
+        Insert: {
+          created_at?: string
+          day: string
+          id?: string
+          user_id: string
+        }
+        Update: {
+          created_at?: string
+          day?: string
+          id?: string
+          user_id?: string
+        }
+        Relationships: []
+      }
+      fox_tasks: {
+        Row: {
+          created_at: string
+          day: string
+          done: boolean
+          id: string
+          title: string
+          user_id: string
+        }
+        Insert: {
+          created_at?: string
+          day?: string
+          done?: boolean
+          id?: string
+          title: string
+          user_id: string
+        }
+        Update: {
+          created_at?: string
+          day?: string
+          done?: boolean
+          id?: string
+          title?: string
+          user_id?: string
+        }
+        Relationships: []
+      }
       materials: {
         Row: {
           content: Json
