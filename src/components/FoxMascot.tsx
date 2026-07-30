@@ -36,5 +36,3 @@ export function FoxMascot({
   );
 }
 
-// Compatibilidade com o nome antigo
-export const FoxMascot = FoxMascot;
