@@ -2,7 +2,7 @@ import { Link, useRouterState, useNavigate } from "@tanstack/react-router";
 import { type ReactNode, useEffect, useState } from "react";
 import {
   Home, BookOpen, Library, Timer, Trophy, Calendar, PenSquare,
-  HelpCircle, NotebookPen, Award, LogOut, Search, Moon, Sun, User, Sparkles, Route as RouteIcon,
+  HelpCircle, NotebookPen, Award, LogOut, Search, Moon, Sun, User, Sparkles, Route as RouteIcon, ClipboardCheck,
 } from "lucide-react";
 import { supabase } from "@/integrations/supabase/client";
 import { AnimatedBlobs } from "./AnimatedBlobs";
@@ -15,6 +15,8 @@ const nav = [
   { to: "/home", label: "Home", icon: Home },
   { to: "/estudar", label: "Estudar", icon: BookOpen },
   { to: "/trilhas", label: "Estudo Automático", icon: RouteIcon },
+  { to: "/avaliacao", label: "Avaliação", icon: ClipboardCheck },
+
   { to: "/biblioteca", label: "Biblioteca", icon: Library },
   { to: "/cronograma", label: "Cronograma", icon: Timer },
   { to: "/produtividade", label: "Fox Productivity", icon: Sparkles },
