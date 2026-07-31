@@ -46,7 +46,7 @@ function TrilhaContentPage() {
   const [pAns, setPAns] = useState<Record<number, number>>({});
   const [pDone, setPDone] = useState(false);
   const [sAns, setSAns] = useState<Record<number, number>>({});
-  const [finished, setFinished] = useState<{ score: number; unlocked: boolean } | null>(null);
+  const [finished, setFinished] = useState<{ score: number; attempts: number; unlocked: boolean } | null>(null);
   const [busy, setBusy] = useState(false);
 
   const { data: content } = useQuery({
