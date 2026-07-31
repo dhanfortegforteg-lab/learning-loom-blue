@@ -205,22 +205,64 @@ export const generateContentSessions = createServerFn({ method: "POST" })
     return { sessions };
   });
 
+export const setContentGoal = createServerFn({ method: "POST" })
+  .middleware([requireSupabaseAuth])
+  .inputValidator((raw: unknown) =>
+    z
+      .object({
+        contentId: z.string().uuid(),
+        applyToTrack: z.boolean().optional(),
+        unlockRule: z.enum(["score", "attempts", "both", "any", "free"]),
+        minScore: z.number().min(0).max(10),
+        minAttempts: z.number().int().min(1).max(20),
+      })
+      .parse(raw),
+  )
+  .handler(async ({ data, context }) => {
+    const patch = { unlock_rule: data.unlockRule, min_score: data.minScore, min_attempts: data.minAttempts };
+    if (data.applyToTrack) {
+      const { data: c } = await context.supabase
+        .from("track_contents")
+        .select("track_id")
+        .eq("id", data.contentId)
+        .single();
+      if (!c) throw new Error("Conteúdo não encontrado");
+      const { error } = await context.supabase
+        .from("track_contents")
+        .update(patch)
+        .eq("track_id", c.track_id)
+        .eq("user_id", context.userId);
+      if (error) throw new Error(error.message);
+      return { ok: true, scope: "track" as const };
+    }
+    const { error } = await context.supabase
+      .from("track_contents")
+      .update(patch)
+      .eq("id", data.contentId)
+      .eq("user_id", context.userId);
+    if (error) throw new Error(error.message);
+    return { ok: true, scope: "content" as const };
+  });
+
 export const submitContentResult = createServerFn({ method: "POST" })
   .middleware([requireSupabaseAuth])
   .inputValidator((raw: unknown) =>
     z.object({ contentId: z.string().uuid(), correct: z.number(), total: z.number().min(1) }).parse(raw),
   )
   .handler(async ({ data, context }) => {
+    const { goalMet } = await import("./unlock");
     const score = Math.round((data.correct / data.total) * 100) / 10; // 0..10
     const { data: current } = await context.supabase
       .from("track_contents")
-      .select("score")
+      .select("score, attempts, min_score, min_attempts, unlock_rule")
       .eq("id", data.contentId)
       .single();
     const best = Math.max(Number(current?.score ?? 0), score);
+    const attempts = Number(current?.attempts ?? 0) + 1;
+    const completed = goalMet({ ...current, score: best, attempts });
     await context.supabase
       .from("track_contents")
-      .update({ score: best, completed: best >= 6 })
+      .update({ score: best, attempts, completed })
       .eq("id", data.contentId);
 
     const { data: prof } = await context.supabase.from("profiles").select("xp").eq("id", context.userId).maybeSingle();
@@ -229,5 +271,6 @@ export const submitContentResult = createServerFn({ method: "POST" })
       .update({ xp: (prof?.xp ?? 0) + data.correct * 5 })
       .eq("id", context.userId);
 
-    return { score, unlocked: best >= 6 };
+    return { score, attempts, unlocked: completed };
   });
+
