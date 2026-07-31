@@ -4,6 +4,8 @@ import { useServerFn } from "@tanstack/react-start";
 import { useQuery } from "@tanstack/react-query";
 import { supabase } from "@/integrations/supabase/client";
 import { generateContentSessions, submitContentResult } from "@/lib/tracks.functions";
+import { goalLabel } from "@/lib/unlock";
+
 import { Card } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
 import { FoxMascot } from "@/components/FoxMascot";
