@@ -4,6 +4,8 @@ import { useServerFn } from "@tanstack/react-start";
 import { useQuery } from "@tanstack/react-query";
 import { supabase } from "@/integrations/supabase/client";
 import { generateContentSessions, submitContentResult } from "@/lib/tracks.functions";
+import { goalLabel } from "@/lib/unlock";
+
 import { Card } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
 import { FoxMascot } from "@/components/FoxMascot";
@@ -44,7 +46,7 @@ function TrilhaContentPage() {
   const [pAns, setPAns] = useState<Record<number, number>>({});
   const [pDone, setPDone] = useState(false);
   const [sAns, setSAns] = useState<Record<number, number>>({});
-  const [finished, setFinished] = useState<{ score: number; unlocked: boolean } | null>(null);
+  const [finished, setFinished] = useState<{ score: number; attempts: number; unlocked: boolean } | null>(null);
   const [busy, setBusy] = useState(false);
 
   const { data: content } = useQuery({
@@ -193,11 +195,14 @@ function TrilhaContentPage() {
               <Trophy className="mx-auto mb-2 h-10 w-10 text-primary" />
               <div className="font-display text-3xl font-bold">{finished.score.toFixed(1)}</div>
               <p className="text-sm text-muted-foreground">
-                {finished.unlocked ? "Conteúdo concluído! Próximo desbloqueado 🎉" : "Você precisa de nota acima de 6.0 para desbloquear o próximo."}
+                {finished.unlocked
+                  ? "Meta atingida! Próximo conteúdo desbloqueado 🎉"
+                  : `Ainda falta atingir a meta: ${goalLabel(content)} (${finished.attempts} tentativa(s)).`}
               </p>
               <Button className="mt-4" onClick={() => navigate({ to: "/trilhas" })}>Voltar às trilhas</Button>
             </div>
           )}
+
           {(simulado.questions ?? []).map((q: any, i: number) => (
             <div key={i} className="space-y-2">
               {q.text && <div className="rounded-2xl border border-border/60 bg-muted/30 p-4 text-sm italic leading-relaxed">{q.text}</div>}

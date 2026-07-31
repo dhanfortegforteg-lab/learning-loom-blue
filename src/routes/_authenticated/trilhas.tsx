@@ -3,13 +3,18 @@ import { useQuery, useQueryClient } from "@tanstack/react-query";
 import { useState } from "react";
 import { useServerFn } from "@tanstack/react-start";
 import { supabase } from "@/integrations/supabase/client";
-import { generateTrackPlan } from "@/lib/tracks.functions";
+import { generateTrackPlan, setContentGoal } from "@/lib/tracks.functions";
+import { goalMet, goalLabel, UNLOCK_RULES, type UnlockRule } from "@/lib/unlock";
 import { Card } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
 import { Label } from "@/components/ui/label";
+import { Input } from "@/components/ui/input";
+import { Switch } from "@/components/ui/switch";
+import { Dialog, DialogContent, DialogHeader, DialogTitle, DialogFooter } from "@/components/ui/dialog";
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
-import { Lock, CheckCircle2, Play, Route as RouteIcon, Sparkles } from "lucide-react";
+import { Lock, CheckCircle2, Play, Route as RouteIcon, Sparkles, Target } from "lucide-react";
 import { toast } from "sonner";
+
 
 export const Route = createFileRoute("/_authenticated/trilhas")({
   head: () => ({
@@ -35,6 +40,7 @@ function TrilhasPage() {
   const qc = useQueryClient();
   const [year, setYear] = useState("");
   const [loading, setLoading] = useState(false);
+  const [goalFor, setGoalFor] = useState<any>(null);
   const plan = useServerFn(generateTrackPlan);
 
   const { data } = useQuery({
@@ -69,7 +75,8 @@ function TrilhasPage() {
           <RouteIcon className="h-7 w-7 text-primary" /> Estudo Automático
         </h1>
         <p className="mt-1 text-sm text-muted-foreground">
-          Escolha seu ano letivo e a IA monta uma trilha por matéria. Cada conteúdo só libera o próximo com nota acima de 6.0.
+          Escolha seu ano letivo e a IA monta uma trilha por matéria. Cada conteúdo tem uma meta de desbloqueio
+          configurável (nota mínima e/ou tentativas) — o padrão é nota 6.0.
         </p>
       </div>
 
@@ -106,15 +113,15 @@ function TrilhasPage() {
                 <ol className="space-y-2">
                   {items.map((c: any, i: number) => {
                     const prev = items[i - 1];
-                    const unlocked = i === 0 || Number(prev?.score ?? 0) >= 6;
-                    const done = c.completed;
+                    const unlocked = i === 0 || goalMet(prev);
+                    const done = goalMet(c) && Number(c.attempts ?? 0) > 0;
                     return (
-                      <li key={c.id}>
+                      <li key={c.id} className="flex items-center gap-2">
                         {unlocked ? (
                           <Link
                             to="/trilha/$contentId"
                             params={{ contentId: c.id }}
-                            className={`flex items-center gap-4 rounded-2xl border p-4 transition hover:shadow-[var(--shadow-glow)] ${
+                            className={`flex flex-1 items-center gap-4 rounded-2xl border p-4 transition hover:shadow-[var(--shadow-glow)] ${
                               done ? "border-green-500/50 bg-green-500/5" : "border-primary/40 bg-primary/5 hover:border-primary"
                             }`}
                           >
@@ -124,6 +131,9 @@ function TrilhasPage() {
                             <span className="flex-1">
                               <span className="block font-semibold">{c.title}</span>
                               <span className="block text-xs text-muted-foreground">{c.description}</span>
+                              <span className="mt-1 block text-[11px] text-primary/80">
+                                Meta: {goalLabel(c)} · {Number(c.attempts ?? 0)} tentativa(s)
+                              </span>
                             </span>
                             {Number(c.score) > 0 && (
                               <span className={`text-sm font-bold ${done ? "text-green-500" : "text-amber-500"}`}>
@@ -133,18 +143,27 @@ function TrilhasPage() {
                             <Play className="h-4 w-4 text-primary" />
                           </Link>
                         ) : (
-                          <div className="flex items-center gap-4 rounded-2xl border border-border/50 bg-muted/20 p-4 opacity-60">
+                          <div className="flex flex-1 items-center gap-4 rounded-2xl border border-border/50 bg-muted/20 p-4 opacity-60">
                             <span className="flex h-9 w-9 shrink-0 items-center justify-center rounded-full bg-muted text-sm font-bold">
                               <Lock className="h-4 w-4" />
                             </span>
                             <span className="flex-1">
                               <span className="block font-semibold">{c.title}</span>
                               <span className="block text-xs text-muted-foreground">
-                                Conclua o conteúdo anterior com nota acima de 6.0
+                                Meta do conteúdo anterior: {goalLabel(prev)}
                               </span>
                             </span>
                           </div>
                         )}
+                        <Button
+                          variant="ghost"
+                          size="icon"
+                          aria-label={`Configurar meta de ${c.title}`}
+                          onClick={() => setGoalFor(c)}
+                          className="shrink-0 text-muted-foreground hover:text-primary"
+                        >
+                          <Target className="h-4 w-4" />
+                        </Button>
                       </li>
                     );
                   })}
@@ -154,6 +173,109 @@ function TrilhasPage() {
           })}
         </div>
       )}
+
+      <GoalDialog
+        content={goalFor}
+        onClose={() => setGoalFor(null)}
+        onSaved={() => qc.invalidateQueries({ queryKey: ["trilhas"] })}
+      />
     </div>
   );
 }
+
+function GoalDialog({ content, onClose, onSaved }: { content: any; onClose: () => void; onSaved: () => void }) {
+  const save = useServerFn(setContentGoal);
+  const [rule, setRule] = useState<UnlockRule>("score");
+  const [minScore, setMinScore] = useState("6.0");
+  const [minAttempts, setMinAttempts] = useState("1");
+  const [applyToTrack, setApplyToTrack] = useState(false);
+  const [busy, setBusy] = useState(false);
+  const [loadedFor, setLoadedFor] = useState<string | null>(null);
+
+  if (content && loadedFor !== content.id) {
+    setLoadedFor(content.id);
+    setRule((content.unlock_rule ?? "score") as UnlockRule);
+    setMinScore(Number(content.min_score ?? 6).toFixed(1));
+    setMinAttempts(String(content.min_attempts ?? 1));
+    setApplyToTrack(false);
+  }
+
+  const submit = async () => {
+    setBusy(true);
+    try {
+      await save({
+        data: {
+          contentId: content.id,
+          unlockRule: rule,
+          minScore: Math.min(10, Math.max(0, Number(minScore) || 0)),
+          minAttempts: Math.min(20, Math.max(1, Math.round(Number(minAttempts) || 1))),
+          applyToTrack,
+        },
+      });
+      toast.success(applyToTrack ? "Meta aplicada a toda a matéria" : "Meta atualizada");
+      onSaved();
+      onClose();
+    } catch (e: any) {
+      toast.error(e.message ?? "Falha ao salvar a meta");
+    } finally {
+      setBusy(false);
+    }
+  };
+
+  return (
+    <Dialog open={!!content} onOpenChange={(o) => !o && onClose()}>
+      <DialogContent className="glass">
+        <DialogHeader>
+          <DialogTitle className="flex items-center gap-2">
+            <Target className="h-5 w-5 text-primary" /> Meta de desbloqueio
+          </DialogTitle>
+        </DialogHeader>
+        <p className="text-sm text-muted-foreground">{content?.title}</p>
+
+        <div className="space-y-4">
+          <div>
+            <Label className="mb-1 block text-xs uppercase tracking-widest text-muted-foreground">Regra</Label>
+            <Select value={rule} onValueChange={(v) => setRule(v as UnlockRule)}>
+              <SelectTrigger><SelectValue /></SelectTrigger>
+              <SelectContent>
+                {UNLOCK_RULES.map((r) => <SelectItem key={r.value} value={r.value}>{r.label}</SelectItem>)}
+              </SelectContent>
+            </Select>
+          </div>
+
+          <div className="grid grid-cols-2 gap-3">
+            <div>
+              <Label className="mb-1 block text-xs uppercase tracking-widest text-muted-foreground">Nota mínima</Label>
+              <Input
+                type="number" min={0} max={10} step={0.5}
+                value={minScore}
+                disabled={rule === "free" || rule === "attempts"}
+                onChange={(e) => setMinScore(e.target.value)}
+              />
+            </div>
+            <div>
+              <Label className="mb-1 block text-xs uppercase tracking-widest text-muted-foreground">Tentativas</Label>
+              <Input
+                type="number" min={1} max={20} step={1}
+                value={minAttempts}
+                disabled={rule === "free" || rule === "score"}
+                onChange={(e) => setMinAttempts(e.target.value)}
+              />
+            </div>
+          </div>
+
+          <div className="flex items-center justify-between rounded-xl border border-border/60 p-3">
+            <span className="text-sm">Aplicar a todos os conteúdos desta matéria</span>
+            <Switch checked={applyToTrack} onCheckedChange={setApplyToTrack} />
+          </div>
+        </div>
+
+        <DialogFooter>
+          <Button variant="ghost" onClick={onClose}>Cancelar</Button>
+          <Button onClick={submit} disabled={busy}>{busy ? "Salvando..." : "Salvar meta"}</Button>
+        </DialogFooter>
+      </DialogContent>
+    </Dialog>
+  );
+}
+

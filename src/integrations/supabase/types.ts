@@ -321,41 +321,53 @@ export type Database = {
       }
       track_contents: {
         Row: {
+          attempts: number
           completed: boolean
           created_at: string
           description: string | null
           id: string
+          min_attempts: number
+          min_score: number
           position: number
           score: number
           sessions: Json | null
           title: string
           track_id: string
+          unlock_rule: string
           updated_at: string
           user_id: string
         }
         Insert: {
+          attempts?: number
           completed?: boolean
           created_at?: string
           description?: string | null
           id?: string
+          min_attempts?: number
+          min_score?: number
           position?: number
           score?: number
           sessions?: Json | null
           title: string
           track_id: string
+          unlock_rule?: string
           updated_at?: string
           user_id: string
         }
         Update: {
+          attempts?: number
           completed?: boolean
           created_at?: string
           description?: string | null
           id?: string
+          min_attempts?: number
+          min_score?: number
           position?: number
           score?: number
           sessions?: Json | null
           title?: string
           track_id?: string
+          unlock_rule?: string
           updated_at?: string
           user_id?: string
         }
