@@ -193,11 +193,14 @@ function TrilhaContentPage() {
               <Trophy className="mx-auto mb-2 h-10 w-10 text-primary" />
               <div className="font-display text-3xl font-bold">{finished.score.toFixed(1)}</div>
               <p className="text-sm text-muted-foreground">
-                {finished.unlocked ? "Conteúdo concluído! Próximo desbloqueado 🎉" : "Você precisa de nota acima de 6.0 para desbloquear o próximo."}
+                {finished.unlocked
+                  ? "Meta atingida! Próximo conteúdo desbloqueado 🎉"
+                  : `Ainda falta atingir a meta: ${goalLabel(content)} (${finished.attempts} tentativa(s)).`}
               </p>
               <Button className="mt-4" onClick={() => navigate({ to: "/trilhas" })}>Voltar às trilhas</Button>
             </div>
           )}
+
           {(simulado.questions ?? []).map((q: any, i: number) => (
             <div key={i} className="space-y-2">
               {q.text && <div className="rounded-2xl border border-border/60 bg-muted/30 p-4 text-sm italic leading-relaxed">{q.text}</div>}
