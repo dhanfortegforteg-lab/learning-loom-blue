@@ -265,6 +265,33 @@ export type Database = {
         }
         Relationships: []
       }
+      reward_claims: {
+        Row: {
+          created_at: string
+          id: string
+          kind: string
+          reward_id: string
+          user_id: string
+          xp: number
+        }
+        Insert: {
+          created_at?: string
+          id?: string
+          kind: string
+          reward_id: string
+          user_id: string
+          xp?: number
+        }
+        Update: {
+          created_at?: string
+          id?: string
+          kind?: string
+          reward_id?: string
+          user_id?: string
+          xp?: number
+        }
+        Relationships: []
+      }
       study_sessions: {
         Row: {
           created_at: string
