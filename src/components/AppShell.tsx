@@ -2,7 +2,7 @@ import { Link, useRouterState, useNavigate } from "@tanstack/react-router";
 import { type ReactNode, useEffect, useState } from "react";
 import {
   Home, BookOpen, Library, Timer, Trophy, Calendar, PenSquare,
-  HelpCircle, NotebookPen, Award, LogOut, Search, Moon, Sun, User, Sparkles, Route as RouteIcon, ClipboardCheck,
+  HelpCircle, NotebookPen, Award, LogOut, Search, Moon, Sun, User, Sparkles, Route as RouteIcon, ClipboardCheck, Gift,
 } from "lucide-react";
 import { supabase } from "@/integrations/supabase/client";
 import { AnimatedBlobs } from "./AnimatedBlobs";
@@ -26,6 +26,7 @@ const nav = [
   { to: "/duvidas", label: "Dúvidas", icon: HelpCircle },
   { to: "/anotacoes", label: "Anotações", icon: NotebookPen },
   { to: "/brasoes", label: "Brasões", icon: Award },
+  { to: "/recompensas", label: "Recompensas", icon: Gift },
 ] as const;
 
 export function AppShell({ children }: { children: ReactNode }) {

@@ -10,12 +10,20 @@ export const Route = createFileRoute("/_authenticated/brasoes")({
 });
 
 const BRASOES = [
-  { name: "Carvão", xp: 0, color: "from-gray-600 to-gray-800", emoji: "🪨" },
-  { name: "Cobre", xp: 250, color: "from-orange-500 to-amber-700", emoji: "🥉" },
-  { name: "Prata", xp: 500, color: "from-slate-300 to-slate-500", emoji: "🥈" },
-  { name: "Ouro", xp: 1000, color: "from-yellow-400 to-yellow-600", emoji: "🥇" },
-  { name: "Diamante", xp: 2000, color: "from-cyan-300 to-blue-500", emoji: "💎" },
-  { name: "Platina", xp: 3500, color: "from-purple-400 to-fuchsia-600", emoji: "👑" },
+  { name: "Carvão", xp: 0, color: "from-zinc-700 to-zinc-950", emoji: "⚫" },
+  { name: "Ferro", xp: 150, color: "from-slate-300 to-slate-600", emoji: "🔩" },
+  { name: "Cobre", xp: 250, color: "from-orange-400 to-amber-700", emoji: "🟠" },
+  { name: "Bronze", xp: 400, color: "from-amber-500 to-orange-800", emoji: "🟤" },
+  { name: "Prata", xp: 500, color: "from-slate-100 to-slate-400", emoji: "⚪" },
+  { name: "Ouro", xp: 1000, color: "from-yellow-300 to-yellow-600", emoji: "🟡" },
+  { name: "Esmeralda", xp: 1500, color: "from-emerald-300 to-emerald-600", emoji: "🟢" },
+  { name: "Safira", xp: 1750, color: "from-sky-300 to-blue-600", emoji: "🔵" },
+  { name: "Rubi", xp: 1900, color: "from-rose-400 to-red-700", emoji: "🔴" },
+  { name: "Diamante", xp: 2000, color: "from-cyan-200 to-cyan-500", emoji: "💠" },
+  { name: "Ametista", xp: 2750, color: "from-violet-400 to-purple-700", emoji: "🟣" },
+  { name: "Platina", xp: 3500, color: "from-slate-200 to-indigo-400", emoji: "🏅" },
+  { name: "Obsidiana", xp: 4200, color: "from-neutral-800 to-black", emoji: "⬛" },
+  { name: "Netherita", xp: 4600, color: "from-fuchsia-600 to-purple-950", emoji: "🟪" },
   { name: "Mestre", xp: 5000, color: "from-primary to-[var(--primary-glow)]", emoji: "🏆" },
 ];
 
