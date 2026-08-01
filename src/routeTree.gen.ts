@@ -14,6 +14,7 @@ import { Route as AuthenticatedRouteRouteImport } from './routes/_authenticated/
 import { Route as IndexRouteImport } from './routes/index'
 import { Route as AuthenticatedTrilhasRouteImport } from './routes/_authenticated/trilhas'
 import { Route as AuthenticatedRevisarRouteImport } from './routes/_authenticated/revisar'
+import { Route as AuthenticatedRecompensasRouteImport } from './routes/_authenticated/recompensas'
 import { Route as AuthenticatedProdutividadeRouteImport } from './routes/_authenticated/produtividade'
 import { Route as AuthenticatedHomeRouteImport } from './routes/_authenticated/home'
 import { Route as AuthenticatedEstudarRouteImport } from './routes/_authenticated/estudar'
@@ -53,6 +54,12 @@ const AuthenticatedRevisarRoute = AuthenticatedRevisarRouteImport.update({
   path: '/revisar',
   getParentRoute: () => AuthenticatedRouteRoute,
 } as any)
+const AuthenticatedRecompensasRoute =
+  AuthenticatedRecompensasRouteImport.update({
+    id: '/recompensas',
+    path: '/recompensas',
+    getParentRoute: () => AuthenticatedRouteRoute,
+  } as any)
 const AuthenticatedProdutividadeRoute =
   AuthenticatedProdutividadeRouteImport.update({
     id: '/produtividade',
@@ -141,6 +148,7 @@ export interface FileRoutesByFullPath {
   '/estudar': typeof AuthenticatedEstudarRoute
   '/home': typeof AuthenticatedHomeRoute
   '/produtividade': typeof AuthenticatedProdutividadeRoute
+  '/recompensas': typeof AuthenticatedRecompensasRoute
   '/revisar': typeof AuthenticatedRevisarRoute
   '/trilhas': typeof AuthenticatedTrilhasRoute
   '/material/$id': typeof AuthenticatedMaterialIdRoute
@@ -161,6 +169,7 @@ export interface FileRoutesByTo {
   '/estudar': typeof AuthenticatedEstudarRoute
   '/home': typeof AuthenticatedHomeRoute
   '/produtividade': typeof AuthenticatedProdutividadeRoute
+  '/recompensas': typeof AuthenticatedRecompensasRoute
   '/revisar': typeof AuthenticatedRevisarRoute
   '/trilhas': typeof AuthenticatedTrilhasRoute
   '/material/$id': typeof AuthenticatedMaterialIdRoute
@@ -183,6 +192,7 @@ export interface FileRoutesById {
   '/_authenticated/estudar': typeof AuthenticatedEstudarRoute
   '/_authenticated/home': typeof AuthenticatedHomeRoute
   '/_authenticated/produtividade': typeof AuthenticatedProdutividadeRoute
+  '/_authenticated/recompensas': typeof AuthenticatedRecompensasRoute
   '/_authenticated/revisar': typeof AuthenticatedRevisarRoute
   '/_authenticated/trilhas': typeof AuthenticatedTrilhasRoute
   '/_authenticated/material/$id': typeof AuthenticatedMaterialIdRoute
@@ -205,6 +215,7 @@ export interface FileRouteTypes {
     | '/estudar'
     | '/home'
     | '/produtividade'
+    | '/recompensas'
     | '/revisar'
     | '/trilhas'
     | '/material/$id'
@@ -225,6 +236,7 @@ export interface FileRouteTypes {
     | '/estudar'
     | '/home'
     | '/produtividade'
+    | '/recompensas'
     | '/revisar'
     | '/trilhas'
     | '/material/$id'
@@ -246,6 +258,7 @@ export interface FileRouteTypes {
     | '/_authenticated/estudar'
     | '/_authenticated/home'
     | '/_authenticated/produtividade'
+    | '/_authenticated/recompensas'
     | '/_authenticated/revisar'
     | '/_authenticated/trilhas'
     | '/_authenticated/material/$id'
@@ -293,6 +306,13 @@ declare module '@tanstack/react-router' {
       path: '/revisar'
       fullPath: '/revisar'
       preLoaderRoute: typeof AuthenticatedRevisarRouteImport
+      parentRoute: typeof AuthenticatedRouteRoute
+    }
+    '/_authenticated/recompensas': {
+      id: '/_authenticated/recompensas'
+      path: '/recompensas'
+      fullPath: '/recompensas'
+      preLoaderRoute: typeof AuthenticatedRecompensasRouteImport
       parentRoute: typeof AuthenticatedRouteRoute
     }
     '/_authenticated/produtividade': {
@@ -409,6 +429,7 @@ interface AuthenticatedRouteRouteChildren {
   AuthenticatedEstudarRoute: typeof AuthenticatedEstudarRoute
   AuthenticatedHomeRoute: typeof AuthenticatedHomeRoute
   AuthenticatedProdutividadeRoute: typeof AuthenticatedProdutividadeRoute
+  AuthenticatedRecompensasRoute: typeof AuthenticatedRecompensasRoute
   AuthenticatedRevisarRoute: typeof AuthenticatedRevisarRoute
   AuthenticatedTrilhasRoute: typeof AuthenticatedTrilhasRoute
   AuthenticatedMaterialIdRoute: typeof AuthenticatedMaterialIdRoute
@@ -428,6 +449,7 @@ const AuthenticatedRouteRouteChildren: AuthenticatedRouteRouteChildren = {
   AuthenticatedEstudarRoute: AuthenticatedEstudarRoute,
   AuthenticatedHomeRoute: AuthenticatedHomeRoute,
   AuthenticatedProdutividadeRoute: AuthenticatedProdutividadeRoute,
+  AuthenticatedRecompensasRoute: AuthenticatedRecompensasRoute,
   AuthenticatedRevisarRoute: AuthenticatedRevisarRoute,
   AuthenticatedTrilhasRoute: AuthenticatedTrilhasRoute,
   AuthenticatedMaterialIdRoute: AuthenticatedMaterialIdRoute,
