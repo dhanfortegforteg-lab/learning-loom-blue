@@ -32,11 +32,68 @@ const SUGESTOES = [
   "Corrigir os erros da última prática",
 ];
 
-function moodFor(done: number): { mood: FoxMood; label: string; desc: string } {
-  if (done >= 5) return { mood: "happy", label: "Feliz", desc: "A raposinha está radiante! Você completou o dia 🎉" };
-  if (done === 4) return { mood: "neutral", label: "Neutra", desc: "Quase lá — falta 1 tarefa para ela ficar feliz." };
-  if (done === 3) return { mood: "tired", label: "Cansada", desc: "Ela está se recuperando. Continue!" };
-  return { mood: "dead", label: "Exausta", desc: "A raposinha precisa de você. Conclua tarefas para revivê-la." };
+type FoxState = {
+  mood: FoxMood;
+  label: string;
+  desc: string;
+  vitality: number;
+  fx: string;
+  aura: string;
+};
+
+const STATES: FoxState[] = [
+  {
+    mood: "dead",
+    label: "Exausta",
+    desc: "A raposinha desmaiou de cansaço. Conclua a primeira tarefa para revivê-la.",
+    vitality: 0,
+    fx: "grayscale-[0.85] brightness-[0.6] saturate-50 scale-95",
+    aura: "oklch(0.55 0.02 260 / 0.35)",
+  },
+  {
+    mood: "dead",
+    label: "Respirando",
+    desc: "Um sinal de vida! Ela abriu um olhinho — continue assim.",
+    vitality: 20,
+    fx: "grayscale-[0.5] brightness-75 saturate-75 scale-[0.97]",
+    aura: "oklch(0.6 0.1 265 / 0.45)",
+  },
+  {
+    mood: "tired",
+    label: "Fraquinha",
+    desc: "Ela conseguiu sentar, mas ainda está bem molinha.",
+    vitality: 40,
+    fx: "grayscale-[0.25] brightness-90 saturate-90",
+    aura: "oklch(0.65 0.16 258 / 0.5)",
+  },
+  {
+    mood: "tired",
+    label: "Cansada",
+    desc: "Está se recuperando de verdade agora. Não pare!",
+    vitality: 60,
+    fx: "brightness-100 saturate-100",
+    aura: "oklch(0.7 0.2 255 / 0.55)",
+  },
+  {
+    mood: "neutral",
+    label: "Neutra",
+    desc: "Quase lá — falta 1 tarefa para ela ficar radiante.",
+    vitality: 80,
+    fx: "brightness-105 saturate-110 scale-[1.03]",
+    aura: "oklch(0.75 0.22 252 / 0.65)",
+  },
+  {
+    mood: "happy",
+    label: "Feliz",
+    desc: "A raposinha está radiante! Você completou o dia 🎉",
+    vitality: 100,
+    fx: "brightness-110 saturate-125 scale-105",
+    aura: "oklch(0.8 0.26 250 / 0.85)",
+  },
+];
+
+function moodFor(done: number): FoxState {
+  return STATES[Math.min(done, 5)];
 }
 
 const today = () => new Date().toISOString().slice(0, 10);
