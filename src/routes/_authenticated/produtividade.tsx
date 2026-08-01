@@ -175,13 +175,32 @@ function ProdutividadePage() {
         <Card className="glass relative overflow-hidden p-6 text-center">
           <div className="pointer-events-none absolute inset-0 bg-gradient-hero opacity-70" />
           <div className="relative">
-            <FoxMascot mood={state.mood} className="mx-auto h-44 w-44" />
+            <div
+              className="mx-auto flex h-48 w-48 items-center justify-center rounded-full transition-all duration-700"
+              style={{ boxShadow: `0 0 70px -10px ${state.aura}` }}
+            >
+              <FoxMascot
+                mood={state.mood}
+                className={`h-44 w-44 transition-all duration-700 ${state.fx} ${done >= 5 ? "animate-[glow-pulse_3s_ease-in-out_infinite] rounded-full" : ""}`}
+              />
+            </div>
             <div className="mt-3 font-display text-2xl font-bold text-gradient">{state.label}</div>
             <p className="mt-1 text-sm text-muted-foreground">{state.desc}</p>
-            <div className="mt-4 h-2 w-full overflow-hidden rounded-full bg-muted">
-              <div className="h-full bg-gradient-primary transition-all duration-500" style={{ width: `${progress}%` }} />
+            <div className="mt-4 flex items-center justify-center gap-1.5">
+              {[0, 1, 2, 3, 4].map((i) => (
+                <span
+                  key={i}
+                  className={`h-2.5 w-6 rounded-full transition-all duration-500 ${i < done ? "bg-gradient-primary shadow-glow" : "bg-muted"}`}
+                />
+              ))}
             </div>
-            <div className="mt-2 text-xs text-muted-foreground">{done} de 5 tarefas concluídas</div>
+            <div className="mt-4 h-2 w-full overflow-hidden rounded-full bg-muted">
+              <div className="h-full bg-gradient-primary transition-all duration-700" style={{ width: `${progress}%` }} />
+            </div>
+            <div className="mt-2 text-xs text-muted-foreground">
+              {done} de 5 tarefas · vitalidade {state.vitality}%
+            </div>
+
             {rewarded && <div className="mt-3 inline-flex rounded-full bg-primary/15 px-3 py-1 text-xs font-medium text-primary">+20 XP recebidos hoje ✨</div>}
           </div>
         </Card>
