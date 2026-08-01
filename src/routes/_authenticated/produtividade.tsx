@@ -32,11 +32,68 @@ const SUGESTOES = [
   "Corrigir os erros da última prática",
 ];
 
-function moodFor(done: number): { mood: FoxMood; label: string; desc: string } {
-  if (done >= 5) return { mood: "happy", label: "Feliz", desc: "A raposinha está radiante! Você completou o dia 🎉" };
-  if (done === 4) return { mood: "neutral", label: "Neutra", desc: "Quase lá — falta 1 tarefa para ela ficar feliz." };
-  if (done === 3) return { mood: "tired", label: "Cansada", desc: "Ela está se recuperando. Continue!" };
-  return { mood: "dead", label: "Exausta", desc: "A raposinha precisa de você. Conclua tarefas para revivê-la." };
+type FoxState = {
+  mood: FoxMood;
+  label: string;
+  desc: string;
+  vitality: number;
+  fx: string;
+  aura: string;
+};
+
+const STATES: FoxState[] = [
+  {
+    mood: "dead",
+    label: "Exausta",
+    desc: "A raposinha desmaiou de cansaço. Conclua a primeira tarefa para revivê-la.",
+    vitality: 0,
+    fx: "grayscale-[0.85] brightness-[0.6] saturate-50 scale-95",
+    aura: "oklch(0.55 0.02 260 / 0.35)",
+  },
+  {
+    mood: "dead",
+    label: "Respirando",
+    desc: "Um sinal de vida! Ela abriu um olhinho — continue assim.",
+    vitality: 20,
+    fx: "grayscale-[0.5] brightness-75 saturate-75 scale-[0.97]",
+    aura: "oklch(0.6 0.1 265 / 0.45)",
+  },
+  {
+    mood: "tired",
+    label: "Fraquinha",
+    desc: "Ela conseguiu sentar, mas ainda está bem molinha.",
+    vitality: 40,
+    fx: "grayscale-[0.25] brightness-90 saturate-90",
+    aura: "oklch(0.65 0.16 258 / 0.5)",
+  },
+  {
+    mood: "tired",
+    label: "Cansada",
+    desc: "Está se recuperando de verdade agora. Não pare!",
+    vitality: 60,
+    fx: "brightness-100 saturate-100",
+    aura: "oklch(0.7 0.2 255 / 0.55)",
+  },
+  {
+    mood: "neutral",
+    label: "Neutra",
+    desc: "Quase lá — falta 1 tarefa para ela ficar radiante.",
+    vitality: 80,
+    fx: "brightness-105 saturate-110 scale-[1.03]",
+    aura: "oklch(0.75 0.22 252 / 0.65)",
+  },
+  {
+    mood: "happy",
+    label: "Feliz",
+    desc: "A raposinha está radiante! Você completou o dia 🎉",
+    vitality: 100,
+    fx: "brightness-110 saturate-125 scale-105",
+    aura: "oklch(0.8 0.26 250 / 0.85)",
+  },
+];
+
+function moodFor(done: number): FoxState {
+  return STATES[Math.min(done, 5)];
 }
 
 const today = () => new Date().toISOString().slice(0, 10);
@@ -118,13 +175,32 @@ function ProdutividadePage() {
         <Card className="glass relative overflow-hidden p-6 text-center">
           <div className="pointer-events-none absolute inset-0 bg-gradient-hero opacity-70" />
           <div className="relative">
-            <FoxMascot mood={state.mood} className="mx-auto h-44 w-44" />
+            <div
+              className="mx-auto flex h-48 w-48 items-center justify-center rounded-full transition-all duration-700"
+              style={{ boxShadow: `0 0 70px -10px ${state.aura}` }}
+            >
+              <FoxMascot
+                mood={state.mood}
+                className={`h-44 w-44 transition-all duration-700 ${state.fx} ${done >= 5 ? "animate-[glow-pulse_3s_ease-in-out_infinite] rounded-full" : ""}`}
+              />
+            </div>
             <div className="mt-3 font-display text-2xl font-bold text-gradient">{state.label}</div>
             <p className="mt-1 text-sm text-muted-foreground">{state.desc}</p>
-            <div className="mt-4 h-2 w-full overflow-hidden rounded-full bg-muted">
-              <div className="h-full bg-gradient-primary transition-all duration-500" style={{ width: `${progress}%` }} />
+            <div className="mt-4 flex items-center justify-center gap-1.5">
+              {[0, 1, 2, 3, 4].map((i) => (
+                <span
+                  key={i}
+                  className={`h-2.5 w-6 rounded-full transition-all duration-500 ${i < done ? "bg-gradient-primary shadow-glow" : "bg-muted"}`}
+                />
+              ))}
             </div>
-            <div className="mt-2 text-xs text-muted-foreground">{done} de 5 tarefas concluídas</div>
+            <div className="mt-4 h-2 w-full overflow-hidden rounded-full bg-muted">
+              <div className="h-full bg-gradient-primary transition-all duration-700" style={{ width: `${progress}%` }} />
+            </div>
+            <div className="mt-2 text-xs text-muted-foreground">
+              {done} de 5 tarefas · vitalidade {state.vitality}%
+            </div>
+
             {rewarded && <div className="mt-3 inline-flex rounded-full bg-primary/15 px-3 py-1 text-xs font-medium text-primary">+20 XP recebidos hoje ✨</div>}
           </div>
         </Card>
