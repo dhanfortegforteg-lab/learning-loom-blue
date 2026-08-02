@@ -80,9 +80,25 @@ function promptFor(kind: string, input: z.infer<typeof InputSchema>) {
       schema: { type: "object", properties: { center: { type: "string" }, branches: { type: "array", items: { type: "object", properties: { title: { type: "string" }, items: { type: "array", items: { type: "string" } } }, required: ["title", "items"] } } }, required: ["center", "branches"] },
     },
     explicacao_simples: {
-      sys: "Você explica assuntos como se estivesse falando com uma criança de 6 anos: analogias simples, frases curtas, zero jargão.",
-      user: `Explique "${input.subject}" de forma super simples, como para uma criança do 1º ano. ${ctx}. Use analogias com objetos do dia a dia.`,
-      schema: { type: "object", properties: { title: { type: "string" }, story: { type: "string" }, analogies: { type: "array", items: { type: "string" } } }, required: ["title", "story"] },
+      sys: "Você é um professor didático e formal. Explica com linguagem correta, clara e bem estruturada, no nível de compreensão de uma criança de 10 anos: frases organizadas, vocabulário simples porém formal, sem gírias e sem infantilização exagerada.",
+      user: `Explique "${input.subject}" de forma clara, formal e bem organizada, para um estudante de cerca de 10 anos. ${ctx}.
+Estruture assim:
+- "intro": 1 parágrafo apresentando o assunto e por que ele é importante.
+- "sections": 3 a 5 seções, cada uma com "title", "body" (2 parágrafos claros e formais) e "example" (exemplo concreto do cotidiano).
+- "keyTerms": 3 a 6 termos essenciais com "term" e "definition" curta e precisa.
+- "analogies": 2 a 4 comparações do dia a dia que facilitem a compreensão.
+- "summary": conclusão em 3 a 5 frases retomando as ideias centrais.
+Não use emojis nem linguagem de bebê.`,
+      schema: {
+        type: "object", properties: {
+          title: { type: "string" },
+          intro: { type: "string" },
+          sections: { type: "array", items: { type: "object", properties: { title: { type: "string" }, body: { type: "string" }, example: { type: "string" } }, required: ["title", "body"] } },
+          keyTerms: { type: "array", items: { type: "object", properties: { term: { type: "string" }, definition: { type: "string" } }, required: ["term", "definition"] } },
+          analogies: { type: "array", items: { type: "string" } },
+          summary: { type: "string" },
+        }, required: ["title", "intro", "sections", "summary"],
+      },
     },
     pratica: {
       sys: "Você monta prática guiada: 5 seções, cada uma com teoria curta + 2 perguntas objetivas.",
