@@ -75,9 +75,32 @@ function promptFor(kind: string, input: z.infer<typeof InputSchema>) {
       schema: { type: "object", properties: { title: { type: "string" }, sections: { type: "array", items: { type: "object", properties: { heading: { type: "string" }, body: { type: "string" }, example: { type: "string" } }, required: ["heading", "body"] } } }, required: ["title", "sections"] },
     },
     mapa_mental: {
-      sys: "Você organiza conteúdos em mapas mentais claros.",
-      user: `Crie um mapa mental para "${input.subject}". ${ctx}. Tema central + 5-6 ramos, cada um com 3-4 sub-ideias.`,
-      schema: { type: "object", properties: { center: { type: "string" }, branches: { type: "array", items: { type: "object", properties: { title: { type: "string" }, items: { type: "array", items: { type: "string" } } }, required: ["title", "items"] } } }, required: ["center", "branches"] },
+      sys: "Você é um professor que ensina por meio de mapas mentais explicativos. Cada ramo e cada sub-ideia devem ENSINAR o conteúdo, não apenas listar palavras soltas.",
+      user: `Crie um mapa mental EXPLICATIVO sobre "${input.subject}". ${ctx}.
+Regras:
+- "center": tema central. "overview": 1 parágrafo explicando o assunto por inteiro e como os ramos se conectam.
+- "branches": 5 a 6 ramos. Cada ramo tem "title", "summary" (2 a 4 frases explicando o subtema de fato) e "items" com 3 a 4 sub-ideias.
+- Cada sub-ideia é um objeto com "label" (nome curto do conceito) e "detail" (1 a 2 frases explicando o conceito com clareza, incluindo exemplo, fórmula ou causa quando fizer sentido).
+- Nunca escreva apenas frases genéricas ou tópicos soltos: sempre explique o porquê e o como.
+- "connections": 2 a 4 frases mostrando relações entre ramos diferentes.
+- "keyIdea": a ideia central que o aluno precisa levar do mapa.`,
+      schema: {
+        type: "object", properties: {
+          center: { type: "string" },
+          overview: { type: "string" },
+          branches: {
+            type: "array", items: {
+              type: "object", properties: {
+                title: { type: "string" },
+                summary: { type: "string" },
+                items: { type: "array", items: { type: "object", properties: { label: { type: "string" }, detail: { type: "string" } }, required: ["label", "detail"] } },
+              }, required: ["title", "summary", "items"],
+            },
+          },
+          connections: { type: "array", items: { type: "string" } },
+          keyIdea: { type: "string" },
+        }, required: ["center", "overview", "branches"],
+      },
     },
     explicacao_simples: {
       sys: "Você é um professor didático e formal. Explica com linguagem correta, clara e bem estruturada, no nível de compreensão de uma criança de 10 anos: frases organizadas, vocabulário simples porém formal, sem gírias e sem infantilização exagerada.",
