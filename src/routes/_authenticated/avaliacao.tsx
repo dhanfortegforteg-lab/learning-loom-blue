@@ -13,6 +13,7 @@ import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@
 import { FoxMascot } from "@/components/FoxMascot";
 import { ClipboardCheck, Check, X, Trophy, GraduationCap, BarChart3, RotateCcw } from "lucide-react";
 import { toast } from "sonner";
+import { DeleteAllButton, DeleteItemButton } from "@/components/DeleteControls";
 
 export const Route = createFileRoute("/_authenticated/avaliacao")({
   head: () => ({
