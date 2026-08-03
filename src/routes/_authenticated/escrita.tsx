@@ -51,6 +51,23 @@ function EscritaPage() {
     finally { setLoading(false); }
   };
 
+  const delWriting = async (id: string) => {
+    const { error } = await supabase.from("writings").delete().eq("id", id);
+    if (error) return toast.error(error.message);
+    qc.invalidateQueries({ queryKey: ["writings"] });
+    toast.success("Redação excluída");
+  };
+
+  const delAllWritings = async () => {
+    const { data: sess } = await supabase.auth.getSession();
+    const uid = sess.session?.user.id;
+    if (!uid) return;
+    const { error } = await supabase.from("writings").delete().eq("user_id", uid);
+    if (error) return toast.error(error.message);
+    qc.invalidateQueries({ queryKey: ["writings"] });
+    toast.success("Histórico de redações excluído");
+  };
+
   const words = text.trim() ? text.trim().split(/\s+/).length : 0;
   const target = 300;
   const progress = Math.min(100, Math.round((words / target) * 100));
