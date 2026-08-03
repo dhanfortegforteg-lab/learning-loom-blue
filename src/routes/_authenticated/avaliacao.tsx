@@ -80,6 +80,23 @@ function AvaliacaoPage() {
       (await supabase.from("exam_scores").select("*").order("created_at", { ascending: false }).limit(20)).data ?? [],
   });
 
+  const delScore = async (id: string) => {
+    const { error } = await supabase.from("exam_scores").delete().eq("id", id);
+    if (error) return toast.error(error.message);
+    refetch();
+    toast.success("Resultado excluído");
+  };
+
+  const delAllScores = async () => {
+    const { data: sess } = await supabase.auth.getSession();
+    const uid = sess.session?.user.id;
+    if (!uid) return;
+    const { error } = await supabase.from("exam_scores").delete().eq("user_id", uid);
+    if (error) return toast.error(error.message);
+    refetch();
+    toast.success("Histórico de avaliações excluído");
+  };
+
   const media = history?.length
     ? history.reduce((a, r) => a + Number(r.score), 0) / history.length
     : null;
