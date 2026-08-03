@@ -42,6 +42,7 @@ function EstudarPage() {
   const [difficulty, setDifficulty] = useState(DIFFICULTIES[1]);
   const [size, setSize] = useState(SIZES[0]);
   const [loadingKind, setLoadingKind] = useState<string | null>(null);
+  const [bulk, setBulk] = useState<{ done: number; total: number; current: string } | null>(null);
   const gen = useServerFn(generateMaterial);
 
   const generate = async (kind: string) => {
@@ -57,6 +58,29 @@ function EstudarPage() {
       setLoadingKind(null);
     }
   };
+
+  const generateAll = async () => {
+    if (!subject.trim()) return toast.error("Digite o assunto");
+    const total = MATERIALS.length;
+    let done = 0;
+    let fails = 0;
+    setBulk({ done: 0, total, current: MATERIALS[0].label });
+    for (const m of MATERIALS) {
+      setBulk({ done, total, current: m.label });
+      try {
+        await gen({ data: { kind: m.kind as any, stage, discipline, subject, difficulty, size } });
+      } catch {
+        fails++;
+      }
+      done++;
+      setBulk({ done, total, current: m.label });
+    }
+    setBulk(null);
+    if (fails === total) toast.error("Não foi possível gerar os materiais");
+    else toast.success(`${total - fails} de ${total} materiais gerados! Veja na Biblioteca 📚`);
+    if (fails < total) navigate({ to: "/biblioteca" });
+  };
+
 
   return (
     <div className="mx-auto max-w-6xl space-y-6">
@@ -102,16 +126,40 @@ function EstudarPage() {
         </div>
       </Card>
 
+      <Card className="relative overflow-hidden border-primary/40 bg-gradient-to-br from-primary/15 via-card to-card p-5">
+        <span className="pointer-events-none absolute inset-x-0 top-0 h-px bg-gradient-to-r from-transparent via-primary-glow to-transparent" />
+        <div className="flex flex-col gap-3 sm:flex-row sm:items-center sm:justify-between">
+          <div>
+            <h2 className="font-display text-xl font-bold flex items-center gap-2"><Sparkles className="h-5 w-5 text-primary" /> Gerar todos os materiais</h2>
+            <p className="text-sm text-muted-foreground">
+              Cria de uma só vez os {MATERIALS.length} materiais sobre o assunto e salva tudo na Biblioteca.
+            </p>
+          </div>
+          <Button size="lg" onClick={generateAll} disabled={!!bulk || !!loadingKind} className="shadow-[var(--shadow-glow)]">
+            {bulk ? `Gerando ${bulk.done}/${bulk.total}...` : "Gerar tudo ⚡"}
+          </Button>
+        </div>
+        {bulk && (
+          <div className="mt-4 space-y-2">
+            <div className="h-2 w-full overflow-hidden rounded-full bg-muted">
+              <div className="h-full bg-gradient-primary transition-all duration-500" style={{ width: `${(bulk.done / bulk.total) * 100}%` }} />
+            </div>
+            <p className="text-xs text-muted-foreground">Gerando agora: <span className="font-medium text-primary">{bulk.current}</span></p>
+          </div>
+        )}
+      </Card>
+
       <div>
         <h2 className="mb-3 font-display text-xl font-bold">Gerar Material ✨</h2>
         <div className="grid grid-cols-2 gap-3 sm:grid-cols-3 lg:grid-cols-4">
+
           {MATERIALS.map((m) => {
             const isLoading = loadingKind === m.kind;
             return (
               <button
                 key={m.kind}
                 onClick={() => generate(m.kind)}
-                disabled={!!loadingKind}
+                disabled={!!loadingKind || !!bulk}
                 className="group relative overflow-hidden rounded-2xl border border-primary/30 bg-gradient-to-br from-card/90 via-card/70 to-primary/10 p-5 text-left shadow-[var(--shadow-soft)] backdrop-blur-md transition-all duration-300 hover:-translate-y-1 hover:border-primary/70 hover:shadow-[var(--shadow-glow)] disabled:opacity-50"
               >
                 <span className="pointer-events-none absolute -inset-1 bg-gradient-primary opacity-0 blur-2xl transition-opacity duration-500 group-hover:opacity-40" />
