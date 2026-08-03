@@ -42,6 +42,7 @@ function EstudarPage() {
   const [difficulty, setDifficulty] = useState(DIFFICULTIES[1]);
   const [size, setSize] = useState(SIZES[0]);
   const [loadingKind, setLoadingKind] = useState<string | null>(null);
+  const [bulk, setBulk] = useState<{ done: number; total: number; current: string } | null>(null);
   const gen = useServerFn(generateMaterial);
 
   const generate = async (kind: string) => {
@@ -57,6 +58,29 @@ function EstudarPage() {
       setLoadingKind(null);
     }
   };
+
+  const generateAll = async () => {
+    if (!subject.trim()) return toast.error("Digite o assunto");
+    const total = MATERIALS.length;
+    let done = 0;
+    let fails = 0;
+    setBulk({ done: 0, total, current: MATERIALS[0].label });
+    for (const m of MATERIALS) {
+      setBulk({ done, total, current: m.label });
+      try {
+        await gen({ data: { kind: m.kind as any, stage, discipline, subject, difficulty, size } });
+      } catch {
+        fails++;
+      }
+      done++;
+      setBulk({ done, total, current: m.label });
+    }
+    setBulk(null);
+    if (fails === total) toast.error("Não foi possível gerar os materiais");
+    else toast.success(`${total - fails} de ${total} materiais gerados! Veja na Biblioteca 📚`);
+    if (fails < total) navigate({ to: "/biblioteca" });
+  };
+
 
   return (
     <div className="mx-auto max-w-6xl space-y-6">
