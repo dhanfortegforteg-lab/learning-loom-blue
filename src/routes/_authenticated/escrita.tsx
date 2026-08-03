@@ -132,7 +132,10 @@ function EscritaPage() {
 
       {writings && writings.length > 0 && (
         <div>
-          <h2 className="mb-3 font-display text-2xl font-bold">Histórico</h2>
+          <div className="mb-3 flex flex-wrap items-center justify-between gap-3">
+            <h2 className="font-display text-2xl font-bold">Histórico</h2>
+            <DeleteAllButton label="redações salvas" count={writings.length} onConfirm={delAllWritings} />
+          </div>
           <div className="grid gap-2">
             {writings.map((w: any) => (
               <Card key={w.id} className="glass flex items-center justify-between p-4 transition hover:shadow-glow">
@@ -140,7 +143,10 @@ function EscritaPage() {
                   <div className="font-medium">{w.subject || "Redação"}</div>
                   <div className="text-xs text-muted-foreground">{w.discipline} · {new Date(w.created_at).toLocaleDateString("pt-BR")}</div>
                 </div>
-                <div className="font-display text-2xl font-bold text-gradient">{w.score}</div>
+                <div className="flex items-center gap-2">
+                  <div className="font-display text-2xl font-bold text-gradient">{w.score}</div>
+                  <DeleteItemButton label="esta redação" onConfirm={() => delWriting(w.id)} />
+                </div>
               </Card>
             ))}
           </div>
