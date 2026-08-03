@@ -126,9 +126,33 @@ function EstudarPage() {
         </div>
       </Card>
 
+      <Card className="relative overflow-hidden border-primary/40 bg-gradient-to-br from-primary/15 via-card to-card p-5">
+        <span className="pointer-events-none absolute inset-x-0 top-0 h-px bg-gradient-to-r from-transparent via-primary-glow to-transparent" />
+        <div className="flex flex-col gap-3 sm:flex-row sm:items-center sm:justify-between">
+          <div>
+            <h2 className="font-display text-xl font-bold flex items-center gap-2"><Sparkles className="h-5 w-5 text-primary" /> Gerar todos os materiais</h2>
+            <p className="text-sm text-muted-foreground">
+              Cria de uma só vez os {MATERIALS.length} materiais sobre o assunto e salva tudo na Biblioteca.
+            </p>
+          </div>
+          <Button size="lg" onClick={generateAll} disabled={!!bulk || !!loadingKind} className="shadow-[var(--shadow-glow)]">
+            {bulk ? `Gerando ${bulk.done}/${bulk.total}...` : "Gerar tudo ⚡"}
+          </Button>
+        </div>
+        {bulk && (
+          <div className="mt-4 space-y-2">
+            <div className="h-2 w-full overflow-hidden rounded-full bg-muted">
+              <div className="h-full bg-gradient-primary transition-all duration-500" style={{ width: `${(bulk.done / bulk.total) * 100}%` }} />
+            </div>
+            <p className="text-xs text-muted-foreground">Gerando agora: <span className="font-medium text-primary">{bulk.current}</span></p>
+          </div>
+        )}
+      </Card>
+
       <div>
         <h2 className="mb-3 font-display text-xl font-bold">Gerar Material ✨</h2>
         <div className="grid grid-cols-2 gap-3 sm:grid-cols-3 lg:grid-cols-4">
+
           {MATERIALS.map((m) => {
             const isLoading = loadingKind === m.kind;
             return (
