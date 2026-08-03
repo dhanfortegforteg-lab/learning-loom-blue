@@ -290,7 +290,10 @@ function AvaliacaoPage() {
       </Card>
 
       <Card className="glass p-6">
-        <h2 className="mb-3 font-display text-xl font-bold">Histórico de desempenho</h2>
+        <div className="mb-3 flex flex-wrap items-center justify-between gap-3">
+          <h2 className="font-display text-xl font-bold">Histórico de desempenho</h2>
+          <DeleteAllButton label="avaliações salvas" count={history?.length ?? 0} onConfirm={delAllScores} />
+        </div>
         {!history?.length ? (
           <p className="text-sm text-muted-foreground">Nenhuma avaliação ainda. Faça a primeira para começar a medir seu aprendizado.</p>
         ) : (
@@ -303,8 +306,11 @@ function AvaliacaoPage() {
                     {r.kind === "prova" ? "Prova" : "Simulado"} · {new Date(r.created_at).toLocaleDateString("pt-BR")}
                   </div>
                 </div>
-                <div className={`font-display text-xl font-bold ${Number(r.score) >= 6 ? "text-green-500" : "text-destructive"}`}>
-                  {Number(r.score).toFixed(1)}
+                <div className="flex items-center gap-2">
+                  <div className={`font-display text-xl font-bold ${Number(r.score) >= 6 ? "text-green-500" : "text-destructive"}`}>
+                    {Number(r.score).toFixed(1)}
+                  </div>
+                  <DeleteItemButton label="este resultado" onConfirm={() => delScore(r.id)} />
                 </div>
               </div>
             ))}
