@@ -7,7 +7,8 @@ import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import { Textarea } from "@/components/ui/textarea";
-import { Calendar, Plus, Trash2 } from "lucide-react";
+import { Calendar, Plus } from "lucide-react";
+import { DeleteAllButton, DeleteItemButton } from "@/components/DeleteControls";
 import { toast } from "sonner";
 
 export const Route = createFileRoute("/_authenticated/calendario")({
@@ -68,7 +69,7 @@ function CalendarioPage() {
               <div className="font-semibold">{e.title}</div>
               {e.description && <div className="text-sm text-muted-foreground">{e.description}</div>}
             </div>
-            <Button size="icon" variant="ghost" onClick={() => del(e.id)}><Trash2 className="h-4 w-4 text-destructive" /></Button>
+            <DeleteItemButton label={`o evento "${e.title}"`} onConfirm={() => del(e.id)} />
           </Card>
         ))}
         {(!data || data.length === 0) && <Card className="p-8 text-center text-muted-foreground">Nenhum evento ainda.</Card>}
