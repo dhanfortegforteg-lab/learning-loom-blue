@@ -159,7 +159,7 @@ function EstudarPage() {
               <button
                 key={m.kind}
                 onClick={() => generate(m.kind)}
-                disabled={!!loadingKind}
+                disabled={!!loadingKind || !!bulk}
                 className="group relative overflow-hidden rounded-2xl border border-primary/30 bg-gradient-to-br from-card/90 via-card/70 to-primary/10 p-5 text-left shadow-[var(--shadow-soft)] backdrop-blur-md transition-all duration-300 hover:-translate-y-1 hover:border-primary/70 hover:shadow-[var(--shadow-glow)] disabled:opacity-50"
               >
                 <span className="pointer-events-none absolute -inset-1 bg-gradient-primary opacity-0 blur-2xl transition-opacity duration-500 group-hover:opacity-40" />
