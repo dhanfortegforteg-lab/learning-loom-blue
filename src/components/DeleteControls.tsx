@@ -17,7 +17,7 @@ type ConfirmProps = {
   title: string;
   description: string;
   confirmLabel?: string;
-  onConfirm: () => void | Promise<void>;
+  onConfirm: () => unknown;
   children: ReactNode;
 };
 
@@ -51,7 +51,7 @@ export function DeleteItemButton({
   className = "",
 }: {
   label?: string;
-  onConfirm: () => void | Promise<void>;
+  onConfirm: () => unknown;
   className?: string;
 }) {
   return (
@@ -84,7 +84,7 @@ export function DeleteAllButton({
 }: {
   label: string;
   count: number;
-  onConfirm: () => void | Promise<void>;
+  onConfirm: () => unknown;
 }) {
   if (!count) return null;
   return (
