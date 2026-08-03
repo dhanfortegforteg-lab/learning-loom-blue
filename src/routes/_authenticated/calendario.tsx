@@ -7,7 +7,8 @@ import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import { Textarea } from "@/components/ui/textarea";
-import { Calendar, Plus, Trash2 } from "lucide-react";
+import { Calendar, Plus } from "lucide-react";
+import { DeleteAllButton, DeleteItemButton } from "@/components/DeleteControls";
 import { toast } from "sonner";
 
 export const Route = createFileRoute("/_authenticated/calendario")({
@@ -37,10 +38,21 @@ function CalendarioPage() {
     await supabase.from("events").delete().eq("id", id);
     qc.invalidateQueries({ queryKey: ["events"] });
   };
+  const delAll = async () => {
+    const { data: sess } = await supabase.auth.getSession();
+    const uid = sess.session?.user.id;
+    if (!uid) return;
+    await supabase.from("events").delete().eq("user_id", uid);
+    qc.invalidateQueries({ queryKey: ["events"] });
+    toast.success("Eventos excluídos");
+  };
 
   return (
     <div className="mx-auto max-w-5xl space-y-6">
-      <h1 className="font-display text-3xl font-bold flex items-center gap-2"><Calendar className="h-7 w-7 text-primary" /> Calendário</h1>
+      <div className="flex flex-wrap items-center justify-between gap-3">
+        <h1 className="font-display text-3xl font-bold flex items-center gap-2"><Calendar className="h-7 w-7 text-primary" /> Calendário</h1>
+        <DeleteAllButton label="eventos" count={data?.length ?? 0} onConfirm={delAll} />
+      </div>
       <Card className="p-5">
         <div className="grid gap-3 md:grid-cols-4">
           <div className="md:col-span-2"><Label>Título</Label><Input value={title} onChange={(e) => setTitle(e.target.value)} /></div>
@@ -57,7 +69,7 @@ function CalendarioPage() {
               <div className="font-semibold">{e.title}</div>
               {e.description && <div className="text-sm text-muted-foreground">{e.description}</div>}
             </div>
-            <Button size="icon" variant="ghost" onClick={() => del(e.id)}><Trash2 className="h-4 w-4 text-destructive" /></Button>
+            <DeleteItemButton label={`o evento "${e.title}"`} onConfirm={() => del(e.id)} />
           </Card>
         ))}
         {(!data || data.length === 0) && <Card className="p-8 text-center text-muted-foreground">Nenhum evento ainda.</Card>}

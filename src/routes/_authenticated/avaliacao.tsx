@@ -13,6 +13,7 @@ import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@
 import { FoxMascot } from "@/components/FoxMascot";
 import { ClipboardCheck, Check, X, Trophy, GraduationCap, BarChart3, RotateCcw } from "lucide-react";
 import { toast } from "sonner";
+import { DeleteAllButton, DeleteItemButton } from "@/components/DeleteControls";
 
 export const Route = createFileRoute("/_authenticated/avaliacao")({
   head: () => ({
@@ -79,6 +80,23 @@ function AvaliacaoPage() {
     queryFn: async () =>
       (await supabase.from("exam_scores").select("*").order("created_at", { ascending: false }).limit(20)).data ?? [],
   });
+
+  const delScore = async (id: string) => {
+    const { error } = await supabase.from("exam_scores").delete().eq("id", id);
+    if (error) return toast.error(error.message);
+    refetch();
+    toast.success("Resultado excluído");
+  };
+
+  const delAllScores = async () => {
+    const { data: sess } = await supabase.auth.getSession();
+    const uid = sess.session?.user.id;
+    if (!uid) return;
+    const { error } = await supabase.from("exam_scores").delete().eq("user_id", uid);
+    if (error) return toast.error(error.message);
+    refetch();
+    toast.success("Histórico de avaliações excluído");
+  };
 
   const media = history?.length
     ? history.reduce((a, r) => a + Number(r.score), 0) / history.length
@@ -290,7 +308,10 @@ function AvaliacaoPage() {
       </Card>
 
       <Card className="glass p-6">
-        <h2 className="mb-3 font-display text-xl font-bold">Histórico de desempenho</h2>
+        <div className="mb-3 flex flex-wrap items-center justify-between gap-3">
+          <h2 className="font-display text-xl font-bold">Histórico de desempenho</h2>
+          <DeleteAllButton label="avaliações salvas" count={history?.length ?? 0} onConfirm={delAllScores} />
+        </div>
         {!history?.length ? (
           <p className="text-sm text-muted-foreground">Nenhuma avaliação ainda. Faça a primeira para começar a medir seu aprendizado.</p>
         ) : (
@@ -303,8 +324,11 @@ function AvaliacaoPage() {
                     {r.kind === "prova" ? "Prova" : "Simulado"} · {new Date(r.created_at).toLocaleDateString("pt-BR")}
                   </div>
                 </div>
-                <div className={`font-display text-xl font-bold ${Number(r.score) >= 6 ? "text-green-500" : "text-destructive"}`}>
-                  {Number(r.score).toFixed(1)}
+                <div className="flex items-center gap-2">
+                  <div className={`font-display text-xl font-bold ${Number(r.score) >= 6 ? "text-green-500" : "text-destructive"}`}>
+                    {Number(r.score).toFixed(1)}
+                  </div>
+                  <DeleteItemButton label="este resultado" onConfirm={() => delScore(r.id)} />
                 </div>
               </div>
             ))}

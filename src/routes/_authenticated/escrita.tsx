@@ -10,6 +10,7 @@ import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import { Textarea } from "@/components/ui/textarea";
 import { PenSquare, Sparkles } from "lucide-react";
+import { DeleteAllButton, DeleteItemButton } from "@/components/DeleteControls";
 import { toast } from "sonner";
 
 export const Route = createFileRoute("/_authenticated/escrita")({
@@ -49,6 +50,23 @@ function EscritaPage() {
       toast.success(`Nota: ${res.content.score}/100`);
     } catch (e: any) { toast.error(e.message); }
     finally { setLoading(false); }
+  };
+
+  const delWriting = async (id: string) => {
+    const { error } = await supabase.from("writings").delete().eq("id", id);
+    if (error) return toast.error(error.message);
+    qc.invalidateQueries({ queryKey: ["writings"] });
+    toast.success("Redação excluída");
+  };
+
+  const delAllWritings = async () => {
+    const { data: sess } = await supabase.auth.getSession();
+    const uid = sess.session?.user.id;
+    if (!uid) return;
+    const { error } = await supabase.from("writings").delete().eq("user_id", uid);
+    if (error) return toast.error(error.message);
+    qc.invalidateQueries({ queryKey: ["writings"] });
+    toast.success("Histórico de redações excluído");
   };
 
   const words = text.trim() ? text.trim().split(/\s+/).length : 0;
@@ -132,7 +150,10 @@ function EscritaPage() {
 
       {writings && writings.length > 0 && (
         <div>
-          <h2 className="mb-3 font-display text-2xl font-bold">Histórico</h2>
+          <div className="mb-3 flex flex-wrap items-center justify-between gap-3">
+            <h2 className="font-display text-2xl font-bold">Histórico</h2>
+            <DeleteAllButton label="redações salvas" count={writings.length} onConfirm={delAllWritings} />
+          </div>
           <div className="grid gap-2">
             {writings.map((w: any) => (
               <Card key={w.id} className="glass flex items-center justify-between p-4 transition hover:shadow-glow">
@@ -140,7 +161,10 @@ function EscritaPage() {
                   <div className="font-medium">{w.subject || "Redação"}</div>
                   <div className="text-xs text-muted-foreground">{w.discipline} · {new Date(w.created_at).toLocaleDateString("pt-BR")}</div>
                 </div>
-                <div className="font-display text-2xl font-bold text-gradient">{w.score}</div>
+                <div className="flex items-center gap-2">
+                  <div className="font-display text-2xl font-bold text-gradient">{w.score}</div>
+                  <DeleteItemButton label="esta redação" onConfirm={() => delWriting(w.id)} />
+                </div>
               </Card>
             ))}
           </div>
