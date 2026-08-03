@@ -6,7 +6,8 @@ import { Card } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Textarea } from "@/components/ui/textarea";
-import { NotebookPen, Plus, Trash2 } from "lucide-react";
+import { NotebookPen, Plus } from "lucide-react";
+import { DeleteAllButton, DeleteItemButton } from "@/components/DeleteControls";
 
 export const Route = createFileRoute("/_authenticated/anotacoes")({
   head: () => ({ meta: [{ title: "Anotações — Foxstudy" }, { name: "description", content: "Suas anotações de estudo." }] }),
@@ -61,7 +62,7 @@ function AnotacoesPage() {
                 <p className="mt-1 whitespace-pre-wrap text-sm text-muted-foreground">{n.content}</p>
                 <div className="mt-2 text-xs text-muted-foreground">{new Date(n.updated_at).toLocaleString("pt-BR")}</div>
               </div>
-              <Button size="icon" variant="ghost" onClick={() => del(n.id)}><Trash2 className="h-4 w-4 text-destructive" /></Button>
+              <DeleteItemButton label={`a anotação "${n.title}"`} onConfirm={() => del(n.id)} />
             </div>
           </Card>
         ))}
