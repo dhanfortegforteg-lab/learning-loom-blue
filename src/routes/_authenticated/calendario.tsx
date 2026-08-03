@@ -37,10 +37,21 @@ function CalendarioPage() {
     await supabase.from("events").delete().eq("id", id);
     qc.invalidateQueries({ queryKey: ["events"] });
   };
+  const delAll = async () => {
+    const { data: sess } = await supabase.auth.getSession();
+    const uid = sess.session?.user.id;
+    if (!uid) return;
+    await supabase.from("events").delete().eq("user_id", uid);
+    qc.invalidateQueries({ queryKey: ["events"] });
+    toast.success("Eventos excluídos");
+  };
 
   return (
     <div className="mx-auto max-w-5xl space-y-6">
-      <h1 className="font-display text-3xl font-bold flex items-center gap-2"><Calendar className="h-7 w-7 text-primary" /> Calendário</h1>
+      <div className="flex flex-wrap items-center justify-between gap-3">
+        <h1 className="font-display text-3xl font-bold flex items-center gap-2"><Calendar className="h-7 w-7 text-primary" /> Calendário</h1>
+        <DeleteAllButton label="eventos" count={data?.length ?? 0} onConfirm={delAll} />
+      </div>
       <Card className="p-5">
         <div className="grid gap-3 md:grid-cols-4">
           <div className="md:col-span-2"><Label>Título</Label><Input value={title} onChange={(e) => setTitle(e.target.value)} /></div>
