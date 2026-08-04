@@ -17,6 +17,7 @@ const nav = [
   { to: "/trilhas", label: "Estudo Automático", icon: RouteIcon },
   { to: "/avaliacao", label: "Avaliação", icon: ClipboardCheck },
 
+  { to: "/flashcards", label: "Flashcards", icon: Layers },
   { to: "/biblioteca", label: "Biblioteca", icon: Library },
   { to: "/cronograma", label: "Cronograma", icon: Timer },
   { to: "/produtividade", label: "Fox Productivity", icon: Sparkles },
