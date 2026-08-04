@@ -135,6 +135,22 @@ function DeckList({ onOpen, onReview }: { onOpen: (id: string) => void; onReview
         <DeleteAllButton label="baralhos" count={decks?.length ?? 0} onConfirm={removeAll} />
       </div>
 
+      <Card className="flex flex-wrap items-center justify-between gap-4 border-primary/50 bg-gradient-to-r from-primary/15 to-card p-5 shadow-[var(--shadow-glow)]">
+        <div>
+          <div className="flex items-center gap-2 font-display text-xl font-bold"><RotateCcw className="h-5 w-5 text-primary" /> Revisão do dia</div>
+          <p className="text-sm text-muted-foreground">
+            {dueCount > 0 ? `${dueCount} cartão(ões) prontos para revisar agora.` : "Nenhum cartão vencido — tudo em dia!"}
+          </p>
+          <div className="mt-2 flex flex-wrap gap-2 text-[11px] text-muted-foreground">
+            {byBox.map((n, idx) => (
+              <span key={idx} className="rounded-full bg-muted px-2 py-0.5">Caixa {idx + 1}: {n}</span>
+            ))}
+          </div>
+        </div>
+        <Button onClick={onReview} disabled={dueCount === 0}>Revisar agora</Button>
+      </Card>
+
+
       <Card className="space-y-3 border-primary/40 bg-gradient-to-br from-card to-primary/10 p-5 shadow-[var(--shadow-glow)]">
         <div className="flex items-center gap-2 text-sm font-medium text-primary"><Sparkles className="h-4 w-4" /> Novo baralho</div>
         <div className="grid gap-3 md:grid-cols-[2fr_1fr_auto]">
