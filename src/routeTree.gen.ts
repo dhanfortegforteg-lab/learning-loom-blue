@@ -17,6 +17,7 @@ import { Route as AuthenticatedRevisarRouteImport } from './routes/_authenticate
 import { Route as AuthenticatedRecompensasRouteImport } from './routes/_authenticated/recompensas'
 import { Route as AuthenticatedProdutividadeRouteImport } from './routes/_authenticated/produtividade'
 import { Route as AuthenticatedHomeRouteImport } from './routes/_authenticated/home'
+import { Route as AuthenticatedFlashcardsRouteImport } from './routes/_authenticated/flashcards'
 import { Route as AuthenticatedEstudarRouteImport } from './routes/_authenticated/estudar'
 import { Route as AuthenticatedEscritaRouteImport } from './routes/_authenticated/escrita'
 import { Route as AuthenticatedDuvidasRouteImport } from './routes/_authenticated/duvidas'
@@ -69,6 +70,11 @@ const AuthenticatedProdutividadeRoute =
 const AuthenticatedHomeRoute = AuthenticatedHomeRouteImport.update({
   id: '/home',
   path: '/home',
+  getParentRoute: () => AuthenticatedRouteRoute,
+} as any)
+const AuthenticatedFlashcardsRoute = AuthenticatedFlashcardsRouteImport.update({
+  id: '/flashcards',
+  path: '/flashcards',
   getParentRoute: () => AuthenticatedRouteRoute,
 } as any)
 const AuthenticatedEstudarRoute = AuthenticatedEstudarRouteImport.update({
@@ -146,6 +152,7 @@ export interface FileRoutesByFullPath {
   '/duvidas': typeof AuthenticatedDuvidasRoute
   '/escrita': typeof AuthenticatedEscritaRoute
   '/estudar': typeof AuthenticatedEstudarRoute
+  '/flashcards': typeof AuthenticatedFlashcardsRoute
   '/home': typeof AuthenticatedHomeRoute
   '/produtividade': typeof AuthenticatedProdutividadeRoute
   '/recompensas': typeof AuthenticatedRecompensasRoute
@@ -167,6 +174,7 @@ export interface FileRoutesByTo {
   '/duvidas': typeof AuthenticatedDuvidasRoute
   '/escrita': typeof AuthenticatedEscritaRoute
   '/estudar': typeof AuthenticatedEstudarRoute
+  '/flashcards': typeof AuthenticatedFlashcardsRoute
   '/home': typeof AuthenticatedHomeRoute
   '/produtividade': typeof AuthenticatedProdutividadeRoute
   '/recompensas': typeof AuthenticatedRecompensasRoute
@@ -190,6 +198,7 @@ export interface FileRoutesById {
   '/_authenticated/duvidas': typeof AuthenticatedDuvidasRoute
   '/_authenticated/escrita': typeof AuthenticatedEscritaRoute
   '/_authenticated/estudar': typeof AuthenticatedEstudarRoute
+  '/_authenticated/flashcards': typeof AuthenticatedFlashcardsRoute
   '/_authenticated/home': typeof AuthenticatedHomeRoute
   '/_authenticated/produtividade': typeof AuthenticatedProdutividadeRoute
   '/_authenticated/recompensas': typeof AuthenticatedRecompensasRoute
@@ -213,6 +222,7 @@ export interface FileRouteTypes {
     | '/duvidas'
     | '/escrita'
     | '/estudar'
+    | '/flashcards'
     | '/home'
     | '/produtividade'
     | '/recompensas'
@@ -234,6 +244,7 @@ export interface FileRouteTypes {
     | '/duvidas'
     | '/escrita'
     | '/estudar'
+    | '/flashcards'
     | '/home'
     | '/produtividade'
     | '/recompensas'
@@ -256,6 +267,7 @@ export interface FileRouteTypes {
     | '/_authenticated/duvidas'
     | '/_authenticated/escrita'
     | '/_authenticated/estudar'
+    | '/_authenticated/flashcards'
     | '/_authenticated/home'
     | '/_authenticated/produtividade'
     | '/_authenticated/recompensas'
@@ -327,6 +339,13 @@ declare module '@tanstack/react-router' {
       path: '/home'
       fullPath: '/home'
       preLoaderRoute: typeof AuthenticatedHomeRouteImport
+      parentRoute: typeof AuthenticatedRouteRoute
+    }
+    '/_authenticated/flashcards': {
+      id: '/_authenticated/flashcards'
+      path: '/flashcards'
+      fullPath: '/flashcards'
+      preLoaderRoute: typeof AuthenticatedFlashcardsRouteImport
       parentRoute: typeof AuthenticatedRouteRoute
     }
     '/_authenticated/estudar': {
@@ -427,6 +446,7 @@ interface AuthenticatedRouteRouteChildren {
   AuthenticatedDuvidasRoute: typeof AuthenticatedDuvidasRoute
   AuthenticatedEscritaRoute: typeof AuthenticatedEscritaRoute
   AuthenticatedEstudarRoute: typeof AuthenticatedEstudarRoute
+  AuthenticatedFlashcardsRoute: typeof AuthenticatedFlashcardsRoute
   AuthenticatedHomeRoute: typeof AuthenticatedHomeRoute
   AuthenticatedProdutividadeRoute: typeof AuthenticatedProdutividadeRoute
   AuthenticatedRecompensasRoute: typeof AuthenticatedRecompensasRoute
@@ -447,6 +467,7 @@ const AuthenticatedRouteRouteChildren: AuthenticatedRouteRouteChildren = {
   AuthenticatedDuvidasRoute: AuthenticatedDuvidasRoute,
   AuthenticatedEscritaRoute: AuthenticatedEscritaRoute,
   AuthenticatedEstudarRoute: AuthenticatedEstudarRoute,
+  AuthenticatedFlashcardsRoute: AuthenticatedFlashcardsRoute,
   AuthenticatedHomeRoute: AuthenticatedHomeRoute,
   AuthenticatedProdutividadeRoute: AuthenticatedProdutividadeRoute,
   AuthenticatedRecompensasRoute: AuthenticatedRecompensasRoute,

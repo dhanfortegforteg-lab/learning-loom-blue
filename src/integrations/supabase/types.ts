@@ -115,6 +115,83 @@ export type Database = {
         }
         Relationships: []
       }
+      flashcard_cards: {
+        Row: {
+          back: string
+          box: number
+          created_at: string
+          deck_id: string
+          due_at: string
+          front: string
+          id: string
+          position: number
+          updated_at: string
+          user_id: string
+        }
+        Insert: {
+          back: string
+          box?: number
+          created_at?: string
+          deck_id: string
+          due_at?: string
+          front: string
+          id?: string
+          position?: number
+          updated_at?: string
+          user_id: string
+        }
+        Update: {
+          back?: string
+          box?: number
+          created_at?: string
+          deck_id?: string
+          due_at?: string
+          front?: string
+          id?: string
+          position?: number
+          updated_at?: string
+          user_id?: string
+        }
+        Relationships: [
+          {
+            foreignKeyName: "flashcard_cards_deck_id_fkey"
+            columns: ["deck_id"]
+            isOneToOne: false
+            referencedRelation: "flashcard_decks"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
+      flashcard_decks: {
+        Row: {
+          created_at: string
+          description: string | null
+          id: string
+          subject: string | null
+          title: string
+          updated_at: string
+          user_id: string
+        }
+        Insert: {
+          created_at?: string
+          description?: string | null
+          id?: string
+          subject?: string | null
+          title: string
+          updated_at?: string
+          user_id: string
+        }
+        Update: {
+          created_at?: string
+          description?: string | null
+          id?: string
+          subject?: string | null
+          title?: string
+          updated_at?: string
+          user_id?: string
+        }
+        Relationships: []
+      }
       fox_rewards: {
         Row: {
           created_at: string
