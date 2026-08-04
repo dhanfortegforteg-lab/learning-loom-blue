@@ -28,10 +28,46 @@ const BOX_DAYS = [0, 1, 2, 4, 8, 16];
 
 function FlashcardsPage() {
   const [deckId, setDeckId] = useState<string | null>(null);
-  return deckId ? <DeckView id={deckId} onBack={() => setDeckId(null)} /> : <DeckList onOpen={setDeckId} />;
+  const [review, setReview] = useState(false);
+  if (review) return <GlobalReview onBack={() => setReview(false)} />;
+  return deckId ? <DeckView id={deckId} onBack={() => setDeckId(null)} /> : <DeckList onOpen={setDeckId} onReview={() => setReview(true)} />;
 }
 
-function DeckList({ onOpen }: { onOpen: (id: string) => void }) {
+/** Revisão global: junta os cartões vencidos de todos os baralhos (Leitner). */
+function GlobalReview({ onBack }: { onBack: () => void }) {
+  const qc = useQueryClient();
+  const { data: cards } = useQuery({
+    queryKey: ["review-due"],
+    queryFn: async () =>
+      (await supabase.from("flashcard_cards").select("*").lte("due_at", new Date().toISOString()).order("box", { ascending: true })).data ?? [],
+  });
+
+  return (
+    <div className="mx-auto max-w-4xl space-y-6">
+      <div className="flex items-center gap-3">
+        <Button variant="ghost" size="icon" onClick={onBack} aria-label="Voltar"><ArrowLeft className="h-4 w-4" /></Button>
+        <div>
+          <h1 className="font-display text-2xl font-bold">Revisão do dia</h1>
+          <p className="text-xs text-muted-foreground">{cards?.length ?? 0} cartões vencidos em todos os baralhos</p>
+        </div>
+      </div>
+      {(cards?.length ?? 0) === 0 ? (
+        <Card className="p-12 text-center text-muted-foreground">Nada para revisar agora. Volte quando os cartões vencerem.</Card>
+      ) : (
+        <StudyMode
+          cards={cards!}
+          onDone={() => {
+            qc.invalidateQueries({ queryKey: ["review-due"] });
+            qc.invalidateQueries({ queryKey: ["decks"] });
+          }}
+        />
+      )}
+    </div>
+  );
+}
+
+function DeckList({ onOpen, onReview }: { onOpen: (id: string) => void; onReview: () => void }) {
+
   const qc = useQueryClient();
   const [title, setTitle] = useState("");
   const [subject, setSubject] = useState("");
