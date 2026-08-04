@@ -76,7 +76,18 @@ function DeckList({ onOpen, onReview }: { onOpen: (id: string) => void; onReview
     queryKey: ["decks"],
     queryFn: async () => (await supabase.from("flashcard_decks").select("*, flashcard_cards(count)").order("created_at", { ascending: false })).data ?? [],
   });
-  const refresh = () => qc.invalidateQueries({ queryKey: ["decks"] });
+  const { data: allCards } = useQuery({
+    queryKey: ["cards-overview"],
+    queryFn: async () => (await supabase.from("flashcard_cards").select("box, due_at")).data ?? [],
+  });
+  const dueCount = (allCards ?? []).filter((c: any) => new Date(c.due_at).getTime() <= Date.now()).length;
+  const byBox = [1, 2, 3, 4, 5].map((b) => (allCards ?? []).filter((c: any) => c.box === b).length);
+
+  const refresh = () => {
+    qc.invalidateQueries({ queryKey: ["decks"] });
+    qc.invalidateQueries({ queryKey: ["cards-overview"] });
+  };
+
 
   const create = async () => {
     if (!title.trim()) return toast.error("Dê um nome ao baralho");
