@@ -27,9 +27,11 @@ import { Route as AuthenticatedCalendarioRouteImport } from './routes/_authentic
 import { Route as AuthenticatedBrasoesRouteImport } from './routes/_authenticated/brasoes'
 import { Route as AuthenticatedBibliotecaRouteImport } from './routes/_authenticated/biblioteca'
 import { Route as AuthenticatedAvaliacaoRouteImport } from './routes/_authenticated/avaliacao'
+import { Route as AuthenticatedAtrasadoRouteImport } from './routes/_authenticated/atrasado'
 import { Route as AuthenticatedAnotacoesRouteImport } from './routes/_authenticated/anotacoes'
 import { Route as AuthenticatedTrilhaContentIdRouteImport } from './routes/_authenticated/trilha.$contentId'
 import { Route as AuthenticatedMaterialIdRouteImport } from './routes/_authenticated/material.$id'
+import { Route as AuthenticatedAtrasadoLateIdRouteImport } from './routes/_authenticated/atrasado.$lateId'
 
 const AuthRoute = AuthRouteImport.update({
   id: '/auth',
@@ -122,6 +124,11 @@ const AuthenticatedAvaliacaoRoute = AuthenticatedAvaliacaoRouteImport.update({
   path: '/avaliacao',
   getParentRoute: () => AuthenticatedRouteRoute,
 } as any)
+const AuthenticatedAtrasadoRoute = AuthenticatedAtrasadoRouteImport.update({
+  id: '/atrasado',
+  path: '/atrasado',
+  getParentRoute: () => AuthenticatedRouteRoute,
+} as any)
 const AuthenticatedAnotacoesRoute = AuthenticatedAnotacoesRouteImport.update({
   id: '/anotacoes',
   path: '/anotacoes',
@@ -138,11 +145,18 @@ const AuthenticatedMaterialIdRoute = AuthenticatedMaterialIdRouteImport.update({
   path: '/material/$id',
   getParentRoute: () => AuthenticatedRouteRoute,
 } as any)
+const AuthenticatedAtrasadoLateIdRoute =
+  AuthenticatedAtrasadoLateIdRouteImport.update({
+    id: '/$lateId',
+    path: '/$lateId',
+    getParentRoute: () => AuthenticatedAtrasadoRoute,
+  } as any)
 
 export interface FileRoutesByFullPath {
   '/': typeof IndexRoute
   '/auth': typeof AuthRoute
   '/anotacoes': typeof AuthenticatedAnotacoesRoute
+  '/atrasado': typeof AuthenticatedAtrasadoRouteWithChildren
   '/avaliacao': typeof AuthenticatedAvaliacaoRoute
   '/biblioteca': typeof AuthenticatedBibliotecaRoute
   '/brasoes': typeof AuthenticatedBrasoesRoute
@@ -158,6 +172,7 @@ export interface FileRoutesByFullPath {
   '/recompensas': typeof AuthenticatedRecompensasRoute
   '/revisar': typeof AuthenticatedRevisarRoute
   '/trilhas': typeof AuthenticatedTrilhasRoute
+  '/atrasado/$lateId': typeof AuthenticatedAtrasadoLateIdRoute
   '/material/$id': typeof AuthenticatedMaterialIdRoute
   '/trilha/$contentId': typeof AuthenticatedTrilhaContentIdRoute
 }
@@ -165,6 +180,7 @@ export interface FileRoutesByTo {
   '/': typeof IndexRoute
   '/auth': typeof AuthRoute
   '/anotacoes': typeof AuthenticatedAnotacoesRoute
+  '/atrasado': typeof AuthenticatedAtrasadoRouteWithChildren
   '/avaliacao': typeof AuthenticatedAvaliacaoRoute
   '/biblioteca': typeof AuthenticatedBibliotecaRoute
   '/brasoes': typeof AuthenticatedBrasoesRoute
@@ -180,6 +196,7 @@ export interface FileRoutesByTo {
   '/recompensas': typeof AuthenticatedRecompensasRoute
   '/revisar': typeof AuthenticatedRevisarRoute
   '/trilhas': typeof AuthenticatedTrilhasRoute
+  '/atrasado/$lateId': typeof AuthenticatedAtrasadoLateIdRoute
   '/material/$id': typeof AuthenticatedMaterialIdRoute
   '/trilha/$contentId': typeof AuthenticatedTrilhaContentIdRoute
 }
@@ -189,6 +206,7 @@ export interface FileRoutesById {
   '/_authenticated': typeof AuthenticatedRouteRouteWithChildren
   '/auth': typeof AuthRoute
   '/_authenticated/anotacoes': typeof AuthenticatedAnotacoesRoute
+  '/_authenticated/atrasado': typeof AuthenticatedAtrasadoRouteWithChildren
   '/_authenticated/avaliacao': typeof AuthenticatedAvaliacaoRoute
   '/_authenticated/biblioteca': typeof AuthenticatedBibliotecaRoute
   '/_authenticated/brasoes': typeof AuthenticatedBrasoesRoute
@@ -204,6 +222,7 @@ export interface FileRoutesById {
   '/_authenticated/recompensas': typeof AuthenticatedRecompensasRoute
   '/_authenticated/revisar': typeof AuthenticatedRevisarRoute
   '/_authenticated/trilhas': typeof AuthenticatedTrilhasRoute
+  '/_authenticated/atrasado/$lateId': typeof AuthenticatedAtrasadoLateIdRoute
   '/_authenticated/material/$id': typeof AuthenticatedMaterialIdRoute
   '/_authenticated/trilha/$contentId': typeof AuthenticatedTrilhaContentIdRoute
 }
@@ -213,6 +232,7 @@ export interface FileRouteTypes {
     | '/'
     | '/auth'
     | '/anotacoes'
+    | '/atrasado'
     | '/avaliacao'
     | '/biblioteca'
     | '/brasoes'
@@ -228,6 +248,7 @@ export interface FileRouteTypes {
     | '/recompensas'
     | '/revisar'
     | '/trilhas'
+    | '/atrasado/$lateId'
     | '/material/$id'
     | '/trilha/$contentId'
   fileRoutesByTo: FileRoutesByTo
@@ -235,6 +256,7 @@ export interface FileRouteTypes {
     | '/'
     | '/auth'
     | '/anotacoes'
+    | '/atrasado'
     | '/avaliacao'
     | '/biblioteca'
     | '/brasoes'
@@ -250,6 +272,7 @@ export interface FileRouteTypes {
     | '/recompensas'
     | '/revisar'
     | '/trilhas'
+    | '/atrasado/$lateId'
     | '/material/$id'
     | '/trilha/$contentId'
   id:
@@ -258,6 +281,7 @@ export interface FileRouteTypes {
     | '/_authenticated'
     | '/auth'
     | '/_authenticated/anotacoes'
+    | '/_authenticated/atrasado'
     | '/_authenticated/avaliacao'
     | '/_authenticated/biblioteca'
     | '/_authenticated/brasoes'
@@ -273,6 +297,7 @@ export interface FileRouteTypes {
     | '/_authenticated/recompensas'
     | '/_authenticated/revisar'
     | '/_authenticated/trilhas'
+    | '/_authenticated/atrasado/$lateId'
     | '/_authenticated/material/$id'
     | '/_authenticated/trilha/$contentId'
   fileRoutesById: FileRoutesById
@@ -411,6 +436,13 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof AuthenticatedAvaliacaoRouteImport
       parentRoute: typeof AuthenticatedRouteRoute
     }
+    '/_authenticated/atrasado': {
+      id: '/_authenticated/atrasado'
+      path: '/atrasado'
+      fullPath: '/atrasado'
+      preLoaderRoute: typeof AuthenticatedAtrasadoRouteImport
+      parentRoute: typeof AuthenticatedRouteRoute
+    }
     '/_authenticated/anotacoes': {
       id: '/_authenticated/anotacoes'
       path: '/anotacoes'
@@ -432,11 +464,32 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof AuthenticatedMaterialIdRouteImport
       parentRoute: typeof AuthenticatedRouteRoute
     }
+    '/_authenticated/atrasado/$lateId': {
+      id: '/_authenticated/atrasado/$lateId'
+      path: '/$lateId'
+      fullPath: '/atrasado/$lateId'
+      preLoaderRoute: typeof AuthenticatedAtrasadoLateIdRouteImport
+      parentRoute: typeof AuthenticatedAtrasadoRoute
+    }
   }
 }
 
+interface AuthenticatedAtrasadoRouteChildren {
+  AuthenticatedAtrasadoLateIdRoute: typeof AuthenticatedAtrasadoLateIdRoute
+}
+
+const AuthenticatedAtrasadoRouteChildren: AuthenticatedAtrasadoRouteChildren = {
+  AuthenticatedAtrasadoLateIdRoute: AuthenticatedAtrasadoLateIdRoute,
+}
+
+const AuthenticatedAtrasadoRouteWithChildren =
+  AuthenticatedAtrasadoRoute._addFileChildren(
+    AuthenticatedAtrasadoRouteChildren,
+  )
+
 interface AuthenticatedRouteRouteChildren {
   AuthenticatedAnotacoesRoute: typeof AuthenticatedAnotacoesRoute
+  AuthenticatedAtrasadoRoute: typeof AuthenticatedAtrasadoRouteWithChildren
   AuthenticatedAvaliacaoRoute: typeof AuthenticatedAvaliacaoRoute
   AuthenticatedBibliotecaRoute: typeof AuthenticatedBibliotecaRoute
   AuthenticatedBrasoesRoute: typeof AuthenticatedBrasoesRoute
@@ -458,6 +511,7 @@ interface AuthenticatedRouteRouteChildren {
 
 const AuthenticatedRouteRouteChildren: AuthenticatedRouteRouteChildren = {
   AuthenticatedAnotacoesRoute: AuthenticatedAnotacoesRoute,
+  AuthenticatedAtrasadoRoute: AuthenticatedAtrasadoRouteWithChildren,
   AuthenticatedAvaliacaoRoute: AuthenticatedAvaliacaoRoute,
   AuthenticatedBibliotecaRoute: AuthenticatedBibliotecaRoute,
   AuthenticatedBrasoesRoute: AuthenticatedBrasoesRoute,
