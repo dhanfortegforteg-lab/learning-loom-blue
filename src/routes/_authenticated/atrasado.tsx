@@ -131,7 +131,7 @@ function AtrasadoPage() {
         <section className="space-y-3">
           <div className="flex items-center justify-between">
             <h2 className="font-display text-xl font-bold">Meus estudos atrasados</h2>
-            <DeleteAllButton onConfirm={delAll} label="Excluir tudo" />
+            <DeleteAllButton onConfirm={delAll} label="estudos atrasados" count={list.length} />
           </div>
           {list.map((r: any) => (
             <Card key={r.id} className="flex items-center gap-4 p-4">
