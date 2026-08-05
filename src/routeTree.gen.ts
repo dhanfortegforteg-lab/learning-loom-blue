@@ -27,6 +27,7 @@ import { Route as AuthenticatedCalendarioRouteImport } from './routes/_authentic
 import { Route as AuthenticatedBrasoesRouteImport } from './routes/_authenticated/brasoes'
 import { Route as AuthenticatedBibliotecaRouteImport } from './routes/_authenticated/biblioteca'
 import { Route as AuthenticatedAvaliacaoRouteImport } from './routes/_authenticated/avaliacao'
+import { Route as AuthenticatedAtrasadoRouteImport } from './routes/_authenticated/atrasado'
 import { Route as AuthenticatedAnotacoesRouteImport } from './routes/_authenticated/anotacoes'
 import { Route as AuthenticatedTrilhaContentIdRouteImport } from './routes/_authenticated/trilha.$contentId'
 import { Route as AuthenticatedMaterialIdRouteImport } from './routes/_authenticated/material.$id'
@@ -122,6 +123,11 @@ const AuthenticatedAvaliacaoRoute = AuthenticatedAvaliacaoRouteImport.update({
   path: '/avaliacao',
   getParentRoute: () => AuthenticatedRouteRoute,
 } as any)
+const AuthenticatedAtrasadoRoute = AuthenticatedAtrasadoRouteImport.update({
+  id: '/atrasado',
+  path: '/atrasado',
+  getParentRoute: () => AuthenticatedRouteRoute,
+} as any)
 const AuthenticatedAnotacoesRoute = AuthenticatedAnotacoesRouteImport.update({
   id: '/anotacoes',
   path: '/anotacoes',
@@ -143,6 +149,7 @@ export interface FileRoutesByFullPath {
   '/': typeof IndexRoute
   '/auth': typeof AuthRoute
   '/anotacoes': typeof AuthenticatedAnotacoesRoute
+  '/atrasado': typeof AuthenticatedAtrasadoRoute
   '/avaliacao': typeof AuthenticatedAvaliacaoRoute
   '/biblioteca': typeof AuthenticatedBibliotecaRoute
   '/brasoes': typeof AuthenticatedBrasoesRoute
@@ -165,6 +172,7 @@ export interface FileRoutesByTo {
   '/': typeof IndexRoute
   '/auth': typeof AuthRoute
   '/anotacoes': typeof AuthenticatedAnotacoesRoute
+  '/atrasado': typeof AuthenticatedAtrasadoRoute
   '/avaliacao': typeof AuthenticatedAvaliacaoRoute
   '/biblioteca': typeof AuthenticatedBibliotecaRoute
   '/brasoes': typeof AuthenticatedBrasoesRoute
@@ -189,6 +197,7 @@ export interface FileRoutesById {
   '/_authenticated': typeof AuthenticatedRouteRouteWithChildren
   '/auth': typeof AuthRoute
   '/_authenticated/anotacoes': typeof AuthenticatedAnotacoesRoute
+  '/_authenticated/atrasado': typeof AuthenticatedAtrasadoRoute
   '/_authenticated/avaliacao': typeof AuthenticatedAvaliacaoRoute
   '/_authenticated/biblioteca': typeof AuthenticatedBibliotecaRoute
   '/_authenticated/brasoes': typeof AuthenticatedBrasoesRoute
@@ -213,6 +222,7 @@ export interface FileRouteTypes {
     | '/'
     | '/auth'
     | '/anotacoes'
+    | '/atrasado'
     | '/avaliacao'
     | '/biblioteca'
     | '/brasoes'
@@ -235,6 +245,7 @@ export interface FileRouteTypes {
     | '/'
     | '/auth'
     | '/anotacoes'
+    | '/atrasado'
     | '/avaliacao'
     | '/biblioteca'
     | '/brasoes'
@@ -258,6 +269,7 @@ export interface FileRouteTypes {
     | '/_authenticated'
     | '/auth'
     | '/_authenticated/anotacoes'
+    | '/_authenticated/atrasado'
     | '/_authenticated/avaliacao'
     | '/_authenticated/biblioteca'
     | '/_authenticated/brasoes'
@@ -411,6 +423,13 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof AuthenticatedAvaliacaoRouteImport
       parentRoute: typeof AuthenticatedRouteRoute
     }
+    '/_authenticated/atrasado': {
+      id: '/_authenticated/atrasado'
+      path: '/atrasado'
+      fullPath: '/atrasado'
+      preLoaderRoute: typeof AuthenticatedAtrasadoRouteImport
+      parentRoute: typeof AuthenticatedRouteRoute
+    }
     '/_authenticated/anotacoes': {
       id: '/_authenticated/anotacoes'
       path: '/anotacoes'
@@ -437,6 +456,7 @@ declare module '@tanstack/react-router' {
 
 interface AuthenticatedRouteRouteChildren {
   AuthenticatedAnotacoesRoute: typeof AuthenticatedAnotacoesRoute
+  AuthenticatedAtrasadoRoute: typeof AuthenticatedAtrasadoRoute
   AuthenticatedAvaliacaoRoute: typeof AuthenticatedAvaliacaoRoute
   AuthenticatedBibliotecaRoute: typeof AuthenticatedBibliotecaRoute
   AuthenticatedBrasoesRoute: typeof AuthenticatedBrasoesRoute
@@ -458,6 +478,7 @@ interface AuthenticatedRouteRouteChildren {
 
 const AuthenticatedRouteRouteChildren: AuthenticatedRouteRouteChildren = {
   AuthenticatedAnotacoesRoute: AuthenticatedAnotacoesRoute,
+  AuthenticatedAtrasadoRoute: AuthenticatedAtrasadoRoute,
   AuthenticatedAvaliacaoRoute: AuthenticatedAvaliacaoRoute,
   AuthenticatedBibliotecaRoute: AuthenticatedBibliotecaRoute,
   AuthenticatedBrasoesRoute: AuthenticatedBrasoesRoute,
