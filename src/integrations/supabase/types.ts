@@ -240,6 +240,66 @@ export type Database = {
         }
         Relationships: []
       }
+      late_studies: {
+        Row: {
+          completed: boolean
+          content: string
+          created_at: string
+          essay_feedback: string | null
+          essay_score: number | null
+          id: string
+          mode: string
+          percent: number
+          plan: Json | null
+          progress: Json
+          recall_pct: number
+          review_progress: Json
+          review_started_at: string | null
+          score: number
+          subject: string | null
+          updated_at: string
+          user_id: string
+        }
+        Insert: {
+          completed?: boolean
+          content: string
+          created_at?: string
+          essay_feedback?: string | null
+          essay_score?: number | null
+          id?: string
+          mode?: string
+          percent?: number
+          plan?: Json | null
+          progress?: Json
+          recall_pct?: number
+          review_progress?: Json
+          review_started_at?: string | null
+          score?: number
+          subject?: string | null
+          updated_at?: string
+          user_id: string
+        }
+        Update: {
+          completed?: boolean
+          content?: string
+          created_at?: string
+          essay_feedback?: string | null
+          essay_score?: number | null
+          id?: string
+          mode?: string
+          percent?: number
+          plan?: Json | null
+          progress?: Json
+          recall_pct?: number
+          review_progress?: Json
+          review_started_at?: string | null
+          score?: number
+          subject?: string | null
+          updated_at?: string
+          user_id?: string
+        }
+        Relationships: []
+      }
       materials: {
         Row: {
           content: Json
