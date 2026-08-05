@@ -348,15 +348,21 @@ export const saveLateProgress = createServerFn({ method: "POST" })
       .parse(raw),
   )
   .handler(async ({ data, context }) => {
-    const patch: Record<string, unknown> = {};
-    if (data.progress !== undefined) patch['progress'] = data.progress;
-    if (data.reviewProgress !== undefined) patch['review_progress'] = data.reviewProgress;
-    if (data.score !== undefined) patch['score'] = data.score;
-    if (data.percent !== undefined) patch['percent'] = data.percent;
-    if (data.completed !== undefined) patch['completed'] = data.completed;
+    const patch: {
+      progress?: unknown;
+      review_progress?: unknown;
+      score?: number;
+      percent?: number;
+      completed?: boolean;
+    } = {};
+    if (data.progress !== undefined) patch.progress = data.progress;
+    if (data.reviewProgress !== undefined) patch.review_progress = data.reviewProgress;
+    if (data.score !== undefined) patch.score = data.score;
+    if (data.percent !== undefined) patch.percent = data.percent;
+    if (data.completed !== undefined) patch.completed = data.completed;
     const { error } = await context.supabase
       .from("late_studies")
-      .update(patch)
+      .update(patch as never)
       .eq("id", data.id)
       .eq("user_id", context.userId);
     if (error) throw new Error(error.message);
