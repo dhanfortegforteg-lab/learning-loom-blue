@@ -15,6 +15,7 @@ const nav = [
   { to: "/home", label: "Home", icon: Home },
   { to: "/estudar", label: "Estudar", icon: BookOpen },
   { to: "/trilhas", label: "Estudo Automático", icon: RouteIcon },
+  { to: "/atrasado", label: "Estudo Atrasado", icon: History },
   { to: "/avaliacao", label: "Avaliação", icon: ClipboardCheck },
 
   { to: "/flashcards", label: "Flashcards", icon: Layers },
