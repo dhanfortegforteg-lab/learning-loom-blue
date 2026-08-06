@@ -5,6 +5,7 @@ import { useQuery } from "@tanstack/react-query";
 import { supabase } from "@/integrations/supabase/client";
 import { generateContentSessions, submitContentResult } from "@/lib/tracks.functions";
 import { goalLabel } from "@/lib/unlock";
+import { NeededContentsButton } from "@/components/NeededContentsButton";
 
 import { Card } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
@@ -118,7 +119,10 @@ function TrilhaContentPage() {
         <ArrowLeft className="h-4 w-4" /> Voltar às trilhas
       </button>
 
-      <h1 className="font-display text-3xl font-bold text-gradient">{content?.title}</h1>
+      <div className="flex flex-wrap items-center justify-between gap-3">
+        <h1 className="font-display text-3xl font-bold text-gradient">{content?.title}</h1>
+        <NeededContentsButton topic={content?.title} />
+      </div>
 
       <div className="grid grid-cols-4 gap-2">
         {STEPS.map((s, i) => (

@@ -1,4 +1,5 @@
-import { Link, useRouterState, useNavigate } from "@tanstack/react-router";
+import {
+  Network, Link, useRouterState, useNavigate } from "@tanstack/react-router";
 import { type ReactNode, useEffect, useState } from "react";
 import {
   Home, BookOpen, Library, Timer, Trophy, Calendar, PenSquare,
@@ -16,6 +17,7 @@ const nav = [
   { to: "/estudar", label: "Estudar", icon: BookOpen },
   { to: "/trilhas", label: "Estudo Automático", icon: RouteIcon },
   { to: "/atrasado", label: "Estudo Atrasado", icon: History },
+  { to: "/necessarios", label: "Conteúdos Necessários", icon: Network },
   { to: "/avaliacao", label: "Avaliação", icon: ClipboardCheck },
 
   { to: "/flashcards", label: "Flashcards", icon: Layers },

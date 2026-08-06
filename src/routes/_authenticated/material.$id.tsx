@@ -3,6 +3,7 @@ import { useQuery, useQueryClient } from "@tanstack/react-query";
 import { supabase } from "@/integrations/supabase/client";
 import { MaterialViewer } from "@/components/materials/MaterialViewer";
 import { DeleteItemButton } from "@/components/DeleteControls";
+import { NeededContentsButton } from "@/components/NeededContentsButton";
 import { ArrowLeft } from "lucide-react";
 import { toast } from "sonner";
 
@@ -47,7 +48,10 @@ function MaterialPage() {
             </div>
           )}
         </div>
-        <DeleteItemButton label="este material" onConfirm={remove} />
+        <div className="flex shrink-0 items-center gap-2">
+          <NeededContentsButton topic={data.subject} subject={data.discipline} />
+          <DeleteItemButton label="este material" onConfirm={remove} />
+        </div>
       </div>
       <MaterialViewer kind={data.kind} content={data.content} materialId={data.id} />
     </div>
