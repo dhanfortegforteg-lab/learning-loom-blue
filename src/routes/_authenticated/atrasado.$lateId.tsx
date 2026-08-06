@@ -10,6 +10,7 @@ import { Textarea } from "@/components/ui/textarea";
 import { Progress } from "@/components/ui/progress";
 import { FoxMascot } from "@/components/FoxMascot";
 import { ArrowLeft, BookOpen, Check, ClipboardCheck, FileText, Lightbulb, PenSquare, ScrollText, Sparkles, Trophy, X } from "lucide-react";
+import { NeededContentsButton } from "@/components/NeededContentsButton";
 import { toast } from "sonner";
 
 export const Route = createFileRoute("/_authenticated/atrasado/$lateId")({
@@ -207,6 +208,7 @@ function LateRunnerPage() {
           Lembrança {row?.recall_pct}% · {mode === "estudo" ? "estudo completo" : "revisão + mini estudo"} · média mínima 7.0 ·
           nota atual {totalScore.toFixed(1)}
         </p>
+        <NeededContentsButton topic={row?.content} subject={row?.subject} className="mt-3" />
         <Progress value={row?.percent ?? 0} className="mt-3 h-2" />
       </div>
 

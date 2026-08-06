@@ -11,7 +11,7 @@ import { AnimatedBlobs } from "@/components/AnimatedBlobs";
 import { FoxMascot } from "@/components/FoxMascot";
 
 export const Route = createFileRoute("/auth")({
-  validateSearch: (s: Record<string, unknown>) => ({ mode: (s.mode as string) === "signup" ? "signup" : "signin" }),
+  validateSearch: (s: Record<string, unknown>): { mode?: "signin" | "signup" } => ({ mode: s.mode === "signup" ? "signup" : "signin" }),
   head: () => ({
     meta: [
       { title: "Entrar — Foxstudy" },
@@ -24,7 +24,7 @@ export const Route = createFileRoute("/auth")({
 function AuthPage() {
   const { mode: initial } = Route.useSearch();
   const navigate = useNavigate();
-  const [mode, setMode] = useState<"signin" | "signup">(initial);
+  const [mode, setMode] = useState<"signin" | "signup">(initial ?? "signin");
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [name, setName] = useState("");

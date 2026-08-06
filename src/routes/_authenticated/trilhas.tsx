@@ -4,6 +4,7 @@ import { useState } from "react";
 import { useServerFn } from "@tanstack/react-start";
 import { supabase } from "@/integrations/supabase/client";
 import { generateTrackPlan, setContentGoal } from "@/lib/tracks.functions";
+import { NEEDED_YEAR } from "@/lib/related.functions";
 import { goalMet, goalLabel, UNLOCK_RULES, type UnlockRule } from "@/lib/unlock";
 import { Card } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
@@ -66,7 +67,7 @@ function TrilhasPage() {
     }
   };
 
-  const tracks = data?.tracks ?? [];
+  const tracks = (data?.tracks ?? []).filter((t: any) => t.year_level !== NEEDED_YEAR);
 
   return (
     <div className="mx-auto max-w-6xl space-y-6">
