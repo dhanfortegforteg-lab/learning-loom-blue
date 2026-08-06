@@ -1,9 +1,8 @@
-import {
-  Network, Link, useRouterState, useNavigate } from "@tanstack/react-router";
+import { Link, useRouterState, useNavigate } from "@tanstack/react-router";
 import { type ReactNode, useEffect, useState } from "react";
 import {
   Home, BookOpen, Library, Timer, Trophy, Calendar, PenSquare,
-  HelpCircle, NotebookPen, Award, LogOut, Search, Moon, Sun, User, Sparkles, Route as RouteIcon, ClipboardCheck, Gift, Layers, History,
+  HelpCircle, NotebookPen, Award, LogOut, Search, Moon, Sun, User, Sparkles, Route as RouteIcon, ClipboardCheck, Gift, Layers, History, Network,
 } from "lucide-react";
 import { supabase } from "@/integrations/supabase/client";
 import { AnimatedBlobs } from "./AnimatedBlobs";
