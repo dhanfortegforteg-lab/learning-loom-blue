@@ -16,6 +16,7 @@ import { Route as AuthenticatedTrilhasRouteImport } from './routes/_authenticate
 import { Route as AuthenticatedRevisarRouteImport } from './routes/_authenticated/revisar'
 import { Route as AuthenticatedRecompensasRouteImport } from './routes/_authenticated/recompensas'
 import { Route as AuthenticatedProdutividadeRouteImport } from './routes/_authenticated/produtividade'
+import { Route as AuthenticatedNecessariosRouteImport } from './routes/_authenticated/necessarios'
 import { Route as AuthenticatedHomeRouteImport } from './routes/_authenticated/home'
 import { Route as AuthenticatedFlashcardsRouteImport } from './routes/_authenticated/flashcards'
 import { Route as AuthenticatedEstudarRouteImport } from './routes/_authenticated/estudar'
@@ -67,6 +68,12 @@ const AuthenticatedProdutividadeRoute =
   AuthenticatedProdutividadeRouteImport.update({
     id: '/produtividade',
     path: '/produtividade',
+    getParentRoute: () => AuthenticatedRouteRoute,
+  } as any)
+const AuthenticatedNecessariosRoute =
+  AuthenticatedNecessariosRouteImport.update({
+    id: '/necessarios',
+    path: '/necessarios',
     getParentRoute: () => AuthenticatedRouteRoute,
   } as any)
 const AuthenticatedHomeRoute = AuthenticatedHomeRouteImport.update({
@@ -168,6 +175,7 @@ export interface FileRoutesByFullPath {
   '/estudar': typeof AuthenticatedEstudarRoute
   '/flashcards': typeof AuthenticatedFlashcardsRoute
   '/home': typeof AuthenticatedHomeRoute
+  '/necessarios': typeof AuthenticatedNecessariosRoute
   '/produtividade': typeof AuthenticatedProdutividadeRoute
   '/recompensas': typeof AuthenticatedRecompensasRoute
   '/revisar': typeof AuthenticatedRevisarRoute
@@ -192,6 +200,7 @@ export interface FileRoutesByTo {
   '/estudar': typeof AuthenticatedEstudarRoute
   '/flashcards': typeof AuthenticatedFlashcardsRoute
   '/home': typeof AuthenticatedHomeRoute
+  '/necessarios': typeof AuthenticatedNecessariosRoute
   '/produtividade': typeof AuthenticatedProdutividadeRoute
   '/recompensas': typeof AuthenticatedRecompensasRoute
   '/revisar': typeof AuthenticatedRevisarRoute
@@ -218,6 +227,7 @@ export interface FileRoutesById {
   '/_authenticated/estudar': typeof AuthenticatedEstudarRoute
   '/_authenticated/flashcards': typeof AuthenticatedFlashcardsRoute
   '/_authenticated/home': typeof AuthenticatedHomeRoute
+  '/_authenticated/necessarios': typeof AuthenticatedNecessariosRoute
   '/_authenticated/produtividade': typeof AuthenticatedProdutividadeRoute
   '/_authenticated/recompensas': typeof AuthenticatedRecompensasRoute
   '/_authenticated/revisar': typeof AuthenticatedRevisarRoute
@@ -244,6 +254,7 @@ export interface FileRouteTypes {
     | '/estudar'
     | '/flashcards'
     | '/home'
+    | '/necessarios'
     | '/produtividade'
     | '/recompensas'
     | '/revisar'
@@ -268,6 +279,7 @@ export interface FileRouteTypes {
     | '/estudar'
     | '/flashcards'
     | '/home'
+    | '/necessarios'
     | '/produtividade'
     | '/recompensas'
     | '/revisar'
@@ -293,6 +305,7 @@ export interface FileRouteTypes {
     | '/_authenticated/estudar'
     | '/_authenticated/flashcards'
     | '/_authenticated/home'
+    | '/_authenticated/necessarios'
     | '/_authenticated/produtividade'
     | '/_authenticated/recompensas'
     | '/_authenticated/revisar'
@@ -357,6 +370,13 @@ declare module '@tanstack/react-router' {
       path: '/produtividade'
       fullPath: '/produtividade'
       preLoaderRoute: typeof AuthenticatedProdutividadeRouteImport
+      parentRoute: typeof AuthenticatedRouteRoute
+    }
+    '/_authenticated/necessarios': {
+      id: '/_authenticated/necessarios'
+      path: '/necessarios'
+      fullPath: '/necessarios'
+      preLoaderRoute: typeof AuthenticatedNecessariosRouteImport
       parentRoute: typeof AuthenticatedRouteRoute
     }
     '/_authenticated/home': {
@@ -501,6 +521,7 @@ interface AuthenticatedRouteRouteChildren {
   AuthenticatedEstudarRoute: typeof AuthenticatedEstudarRoute
   AuthenticatedFlashcardsRoute: typeof AuthenticatedFlashcardsRoute
   AuthenticatedHomeRoute: typeof AuthenticatedHomeRoute
+  AuthenticatedNecessariosRoute: typeof AuthenticatedNecessariosRoute
   AuthenticatedProdutividadeRoute: typeof AuthenticatedProdutividadeRoute
   AuthenticatedRecompensasRoute: typeof AuthenticatedRecompensasRoute
   AuthenticatedRevisarRoute: typeof AuthenticatedRevisarRoute
@@ -523,6 +544,7 @@ const AuthenticatedRouteRouteChildren: AuthenticatedRouteRouteChildren = {
   AuthenticatedEstudarRoute: AuthenticatedEstudarRoute,
   AuthenticatedFlashcardsRoute: AuthenticatedFlashcardsRoute,
   AuthenticatedHomeRoute: AuthenticatedHomeRoute,
+  AuthenticatedNecessariosRoute: AuthenticatedNecessariosRoute,
   AuthenticatedProdutividadeRoute: AuthenticatedProdutividadeRoute,
   AuthenticatedRecompensasRoute: AuthenticatedRecompensasRoute,
   AuthenticatedRevisarRoute: AuthenticatedRevisarRoute,
@@ -542,13 +564,3 @@ const rootRouteChildren: RootRouteChildren = {
 export const routeTree = rootRouteImport
   ._addFileChildren(rootRouteChildren)
   ._addFileTypes<FileRouteTypes>()
-
-import type { getRouter } from './router.tsx'
-import type { startInstance } from './start.ts'
-declare module '@tanstack/react-start' {
-  interface Register {
-    ssr: true
-    router: Awaited<ReturnType<typeof getRouter>>
-    config: Awaited<ReturnType<typeof startInstance.getOptions>>
-  }
-}

@@ -72,7 +72,7 @@ function NecessariosPage() {
             “Conteúdos necessários”.
           </p>
         </div>
-        {tracks.length > 0 && <DeleteAllButton label="todas as tabelas" onConfirm={removeAll} />}
+        {tracks.length > 0 && <DeleteAllButton label="todas as tabelas" count={tracks.length} onConfirm={removeAll} />}
       </div>
 
       {tracks.length === 0 ? (
