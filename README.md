@@ -1,14 +1,16 @@
-# Welcome to your Lovable project
+# Estudo Azul
+
+Crie um app de estudos que possuí esses materiais: apostila, flashcards, questões, slides, resumo, mapa mental, explicação simples, prática, escrita, prova, quiz, falhas na revisão e simulado.  A apostila deve ter mecânica moderna, com escrita organizada e chamativa, com uma explicação retratada em blocos. Já os flashcards deve ter um visual moderno, chamativo e com mecânicas funcionais como a virada do cartão para ver a resposta. As questões precisam ser interativas para a escolha da resposta do aluno, visual moderno e chamativo. Os slides deve ter imagens modernas, chamativas e profissionais de acordo com a disciplina e o assunto, e uma explicação rápida, dividida e organizada e com um visual chamativo e moderno. O resumo precisa estar em uma linguagem mais informal e fácil de compreender, com exemplos estruturados e com uma organização de escrita bonita. Os mapas mentais devem ser organizados em blocos explicativos, funcionais e compreensíveis ao tema escolhido, um visual chamativo, moderno e com mecânicas de brilhar os olhos! A explicação simples deve ser totalmente informal e muito fácil de se compreender, um exemplo é como explicar uma matéria de 9º ano para uma criança de 1º ano. Já a prática deve ser pensada delicadamente, pois nesse material haverá 5 seções de estudo, que terá a participação de teorias + perguntas. Ele funcionará assim, cada seção terá uma teoria explicando um parte do assunto, e depois ( separadamente ) terá 2 perguntas sobre essa teoria. Com isso o aluno aprenderá o conteúdo mais rápido fazendo 5 seções com teorias e perguntas, e um visual moderno e chamativo. Já a escrita, será como uma avaliação do aluno, que terá opções adicionais, como o assunto, disciplina e a média da escrita, que o máximo da média pode alcançar até 100. E quero que o visual seja moderno e chamativo. Já a prova será um material difícil, pois a linguagem será um pouco mais formal e clara, portanto terá no mínimo 15 questões e textos com uma dificuldade de leitura considerada média ou moderada. As questões deve ser interativas por conta da escolha ao invés de textos. A escrita deve ser bem organizada e estruturada, e com um visual moderno e chamativo. Já o quiz deve ter questões um pouco mais puxado a teorias e um pouco mais difícil de responder. O mecanismo das questões devem ser mais trabalhado, funcional e interativo. E com um visual moderno e chamativo. Já a falha na revisão deve ser bem pensada e construída, pois ela ajudará o aluno a compreender melhor o assunto para corrigir os erros relatados, e um visual chamativo e moderno. O simulado será diário com perguntas ao nível médio e linguagem formal, que será como avaliação, que será registrada na média de simulado mensalmente ( e quero que esse registro aconteça durante o período mensal ), que o máximo que essa média pode ser alcançada é até 500.  Os sistemas e mecânicas do site são: sistema de progresso do aluno, que salvará os erros, histórico de materiais e variáveis, atividades diárias, que no máximo por dia serão 5, sistema de biblioteca/histórico dos materiais salvos, sistema de criação do material, que é preciso que tenha opções de etapa, assunto, disciplina, dificuldade de leitura, tamanho do texto e gerar todos os materiais principais automaticamente, sistema de cronograma, sistema de avaliação, sistema de anotação e eventos, mecânica guia de técnicas de estudo, sistema de pesquisa, sistema de ofensiva diária, sistema de calendário, assistente/mascote tutor e guia, disciplina, assunto e etapa, dificuldade de leitura do material, sistema de pesquisa e dúvidas, sistema de login e segurança, sistema de recompensa: brasões, troféus, estrelas e ranking, sistema de level e XP, sistema de média, escrita, aluno e avaliação/simulado, sistema de notificações dadas a cada dia, sistema de estudo engraçado, sistema de desempenho dos estudos, sistema de leitura de PDF, sistema de prática nos materiais, sistema de produtividade usando tarefas com um mascote, sistema de sequência dos estudos. As características são: visual do site moderno, mas com variáveis detalhes, coloração azul como a imagem, fundo a escolha do aluno: preto ou branco, manchas azuis ( também conforme a imagem ) chamativas e em movimento, e que essas manchas apareçam também no menu, e que essa coloração azul tenha em todos as opções e também nos materiais. O mascote é um lobo com a mesma coloração azul, que a sua aparências é exatamente igual a segunda imagem acima. E quero deixar claro que as mecânicas são parecidas com o app Teachy AI. Mas esse site deve ser completo, funcional e bonito. E quero deixar claro que após esse site ser construído, verifique se há algum sistema corrompido ou em mal funcionamento ou se há alguma mecânica travando ou não está processando.
 
 This project was built with [Lovable](https://lovable.dev).
 
 ## Build with Lovable
 
-Open your project in the [Lovable editor](https://lovable.dev) and keep building.
+Continue developing this project in the [Lovable editor](https://lovable.dev/projects/d46c7311-fa93-4a4a-850d-a560445500f7).
 
 - **Ship faster**: describe what you want to build and Lovable handles the code.
-- **Stay in sync**: connect the project to GitHub and every change made in Lovable is committed straight to your repository.
-- **Full ownership**: this code is yours. Push to your repository and your changes sync back into Lovable, ready for your next prompt.
+- **Stay in sync**: every change made in Lovable is committed straight to this repository.
+- **Full ownership**: this code is yours. Push to `main` on GitHub and your changes sync back into Lovable, ready for your next prompt.
 
 ## Development
 
@@ -20,10 +22,3 @@ cd <repository-name>
 npm i
 npm run dev
 ```
-
-## Built with
-
-- TanStack Start
-- TypeScript
-- React
-- Tailwind CSS
