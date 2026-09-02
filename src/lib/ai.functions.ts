@@ -186,10 +186,12 @@ export const generateMaterial = createServerFn({ method: "POST" })
   .handler(async ({ data, context }) => {
     const p = promptFor(data.kind, data);
     if (!p) throw new Error("Tipo de material inválido");
+    const { callAI } = await import("./ai-call.server");
     const content = await callAI(
       [{ role: "system", content: p.sys }, { role: "user", content: p.user }],
       p.schema,
     );
+
 
     // Save unless it's a one-shot (duvida, escrita_avaliacao returned to client)
     let saved: { id: string } | null = null;
