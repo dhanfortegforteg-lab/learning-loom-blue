@@ -58,6 +58,63 @@ export type Database = {
           },
         ]
       }
+      custom_plans: {
+        Row: {
+          content: Json
+          created_at: string
+          id: string
+          request: string
+          subject: string | null
+          title: string
+          user_id: string
+        }
+        Insert: {
+          content: Json
+          created_at?: string
+          id?: string
+          request: string
+          subject?: string | null
+          title: string
+          user_id: string
+        }
+        Update: {
+          content?: Json
+          created_at?: string
+          id?: string
+          request?: string
+          subject?: string | null
+          title?: string
+          user_id?: string
+        }
+        Relationships: []
+      }
+      error_reviews: {
+        Row: {
+          content: Json
+          created_at: string
+          id: string
+          resolved: boolean
+          topic: string
+          user_id: string
+        }
+        Insert: {
+          content: Json
+          created_at?: string
+          id?: string
+          resolved?: boolean
+          topic: string
+          user_id: string
+        }
+        Update: {
+          content?: Json
+          created_at?: string
+          id?: string
+          resolved?: boolean
+          topic?: string
+          user_id?: string
+        }
+        Relationships: []
+      }
       events: {
         Row: {
           created_at: string
@@ -240,6 +297,63 @@ export type Database = {
         }
         Relationships: []
       }
+      keyword_sets: {
+        Row: {
+          created_at: string
+          id: string
+          subject: string
+          user_id: string
+          words: Json
+        }
+        Insert: {
+          created_at?: string
+          id?: string
+          subject: string
+          user_id: string
+          words?: Json
+        }
+        Update: {
+          created_at?: string
+          id?: string
+          subject?: string
+          user_id?: string
+          words?: Json
+        }
+        Relationships: []
+      }
+      language_lessons: {
+        Row: {
+          content: Json
+          created_at: string
+          id: string
+          language: string
+          progress: number
+          stage: string | null
+          topic: string
+          user_id: string
+        }
+        Insert: {
+          content: Json
+          created_at?: string
+          id?: string
+          language: string
+          progress?: number
+          stage?: string | null
+          topic: string
+          user_id: string
+        }
+        Update: {
+          content?: Json
+          created_at?: string
+          id?: string
+          language?: string
+          progress?: number
+          stage?: string | null
+          topic?: string
+          user_id?: string
+        }
+        Relationships: []
+      }
       late_studies: {
         Row: {
           completed: boolean
@@ -362,6 +476,36 @@ export type Database = {
           id?: string
           title?: string
           updated_at?: string
+          user_id?: string
+        }
+        Relationships: []
+      }
+      pdf_docs: {
+        Row: {
+          created_at: string
+          highlights: Json
+          id: string
+          last_page: number
+          name: string
+          path: string
+          user_id: string
+        }
+        Insert: {
+          created_at?: string
+          highlights?: Json
+          id?: string
+          last_page?: number
+          name: string
+          path: string
+          user_id: string
+        }
+        Update: {
+          created_at?: string
+          highlights?: Json
+          id?: string
+          last_page?: number
+          name?: string
+          path?: string
           user_id?: string
         }
         Relationships: []
