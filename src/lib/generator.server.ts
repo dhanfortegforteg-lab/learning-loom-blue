@@ -311,6 +311,19 @@ function fill(schema: any, key: string, ctx: Ctx): any {
       const qs = buildQuestions(ctx.bank, idx + 1, withText);
       return qs[idx] ?? q;
     }
+    // Flashcard: frente e verso precisam falar do MESMO conceito
+    if (schema.properties?.front && schema.properties?.back) {
+      const i = next(ctx);
+      const term = pick(ctx.bank.keywords, i) ?? ctx.bank.title;
+      const src =
+        ctx.bank.sentences.find((s) => s.toLowerCase().includes(term)) ??
+        pick(ctx.bank.sentences.length ? ctx.bank.sentences : ctx.bank.paragraphs, i);
+      return {
+        front: `O que significa "${cap(term)}" no estudo de ${ctx.bank.title}?`,
+        back: trimTo(src, 300),
+      };
+    }
+
     const out: any = {};
     for (const [k, sub] of Object.entries<any>(schema.properties ?? {})) out[k] = fill(sub, k, ctx);
     return out;
