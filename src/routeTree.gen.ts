@@ -22,6 +22,7 @@ import { Route as AuthenticatedHomeRouteImport } from './routes/_authenticated/h
 import { Route as AuthenticatedFlashcardsRouteImport } from './routes/_authenticated/flashcards'
 import { Route as AuthenticatedEstudarRouteImport } from './routes/_authenticated/estudar'
 import { Route as AuthenticatedEscritaRouteImport } from './routes/_authenticated/escrita'
+import { Route as AuthenticatedErrosRouteImport } from './routes/_authenticated/erros'
 import { Route as AuthenticatedDuvidasRouteImport } from './routes/_authenticated/duvidas'
 import { Route as AuthenticatedDesafiosRouteImport } from './routes/_authenticated/desafios'
 import { Route as AuthenticatedCronogramaRouteImport } from './routes/_authenticated/cronograma'
@@ -102,6 +103,11 @@ const AuthenticatedEscritaRoute = AuthenticatedEscritaRouteImport.update({
   path: '/escrita',
   getParentRoute: () => AuthenticatedRouteRoute,
 } as any)
+const AuthenticatedErrosRoute = AuthenticatedErrosRouteImport.update({
+  id: '/erros',
+  path: '/erros',
+  getParentRoute: () => AuthenticatedRouteRoute,
+} as any)
 const AuthenticatedDuvidasRoute = AuthenticatedDuvidasRouteImport.update({
   id: '/duvidas',
   path: '/duvidas',
@@ -177,6 +183,7 @@ export interface FileRoutesByFullPath {
   '/cronograma': typeof AuthenticatedCronogramaRoute
   '/desafios': typeof AuthenticatedDesafiosRoute
   '/duvidas': typeof AuthenticatedDuvidasRoute
+  '/erros': typeof AuthenticatedErrosRoute
   '/escrita': typeof AuthenticatedEscritaRoute
   '/estudar': typeof AuthenticatedEstudarRoute
   '/flashcards': typeof AuthenticatedFlashcardsRoute
@@ -203,6 +210,7 @@ export interface FileRoutesByTo {
   '/cronograma': typeof AuthenticatedCronogramaRoute
   '/desafios': typeof AuthenticatedDesafiosRoute
   '/duvidas': typeof AuthenticatedDuvidasRoute
+  '/erros': typeof AuthenticatedErrosRoute
   '/escrita': typeof AuthenticatedEscritaRoute
   '/estudar': typeof AuthenticatedEstudarRoute
   '/flashcards': typeof AuthenticatedFlashcardsRoute
@@ -231,6 +239,7 @@ export interface FileRoutesById {
   '/_authenticated/cronograma': typeof AuthenticatedCronogramaRoute
   '/_authenticated/desafios': typeof AuthenticatedDesafiosRoute
   '/_authenticated/duvidas': typeof AuthenticatedDuvidasRoute
+  '/_authenticated/erros': typeof AuthenticatedErrosRoute
   '/_authenticated/escrita': typeof AuthenticatedEscritaRoute
   '/_authenticated/estudar': typeof AuthenticatedEstudarRoute
   '/_authenticated/flashcards': typeof AuthenticatedFlashcardsRoute
@@ -259,6 +268,7 @@ export interface FileRouteTypes {
     | '/cronograma'
     | '/desafios'
     | '/duvidas'
+    | '/erros'
     | '/escrita'
     | '/estudar'
     | '/flashcards'
@@ -285,6 +295,7 @@ export interface FileRouteTypes {
     | '/cronograma'
     | '/desafios'
     | '/duvidas'
+    | '/erros'
     | '/escrita'
     | '/estudar'
     | '/flashcards'
@@ -312,6 +323,7 @@ export interface FileRouteTypes {
     | '/_authenticated/cronograma'
     | '/_authenticated/desafios'
     | '/_authenticated/duvidas'
+    | '/_authenticated/erros'
     | '/_authenticated/escrita'
     | '/_authenticated/estudar'
     | '/_authenticated/flashcards'
@@ -426,6 +438,13 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof AuthenticatedEscritaRouteImport
       parentRoute: typeof AuthenticatedRouteRoute
     }
+    '/_authenticated/erros': {
+      id: '/_authenticated/erros'
+      path: '/erros'
+      fullPath: '/erros'
+      preLoaderRoute: typeof AuthenticatedErrosRouteImport
+      parentRoute: typeof AuthenticatedRouteRoute
+    }
     '/_authenticated/duvidas': {
       id: '/_authenticated/duvidas'
       path: '/duvidas'
@@ -536,6 +555,7 @@ interface AuthenticatedRouteRouteChildren {
   AuthenticatedCronogramaRoute: typeof AuthenticatedCronogramaRoute
   AuthenticatedDesafiosRoute: typeof AuthenticatedDesafiosRoute
   AuthenticatedDuvidasRoute: typeof AuthenticatedDuvidasRoute
+  AuthenticatedErrosRoute: typeof AuthenticatedErrosRoute
   AuthenticatedEscritaRoute: typeof AuthenticatedEscritaRoute
   AuthenticatedEstudarRoute: typeof AuthenticatedEstudarRoute
   AuthenticatedFlashcardsRoute: typeof AuthenticatedFlashcardsRoute
@@ -560,6 +580,7 @@ const AuthenticatedRouteRouteChildren: AuthenticatedRouteRouteChildren = {
   AuthenticatedCronogramaRoute: AuthenticatedCronogramaRoute,
   AuthenticatedDesafiosRoute: AuthenticatedDesafiosRoute,
   AuthenticatedDuvidasRoute: AuthenticatedDuvidasRoute,
+  AuthenticatedErrosRoute: AuthenticatedErrosRoute,
   AuthenticatedEscritaRoute: AuthenticatedEscritaRoute,
   AuthenticatedEstudarRoute: AuthenticatedEstudarRoute,
   AuthenticatedFlashcardsRoute: AuthenticatedFlashcardsRoute,
