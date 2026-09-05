@@ -20,6 +20,7 @@ import { Route as AuthenticatedProdutividadeRouteImport } from './routes/_authen
 import { Route as AuthenticatedPlanoRouteImport } from './routes/_authenticated/plano'
 import { Route as AuthenticatedPalavrasChaveRouteImport } from './routes/_authenticated/palavras-chave'
 import { Route as AuthenticatedNecessariosRouteImport } from './routes/_authenticated/necessarios'
+import { Route as AuthenticatedLeitorRouteImport } from './routes/_authenticated/leitor'
 import { Route as AuthenticatedIdiomasRouteImport } from './routes/_authenticated/idiomas'
 import { Route as AuthenticatedHomeRouteImport } from './routes/_authenticated/home'
 import { Route as AuthenticatedFlashcardsRouteImport } from './routes/_authenticated/flashcards'
@@ -97,6 +98,11 @@ const AuthenticatedNecessariosRoute =
     path: '/necessarios',
     getParentRoute: () => AuthenticatedRouteRoute,
   } as any)
+const AuthenticatedLeitorRoute = AuthenticatedLeitorRouteImport.update({
+  id: '/leitor',
+  path: '/leitor',
+  getParentRoute: () => AuthenticatedRouteRoute,
+} as any)
 const AuthenticatedIdiomasRoute = AuthenticatedIdiomasRouteImport.update({
   id: '/idiomas',
   path: '/idiomas',
@@ -208,6 +214,7 @@ export interface FileRoutesByFullPath {
   '/flashcards': typeof AuthenticatedFlashcardsRoute
   '/home': typeof AuthenticatedHomeRoute
   '/idiomas': typeof AuthenticatedIdiomasRoute
+  '/leitor': typeof AuthenticatedLeitorRoute
   '/necessarios': typeof AuthenticatedNecessariosRoute
   '/palavras-chave': typeof AuthenticatedPalavrasChaveRoute
   '/plano': typeof AuthenticatedPlanoRoute
@@ -238,6 +245,7 @@ export interface FileRoutesByTo {
   '/flashcards': typeof AuthenticatedFlashcardsRoute
   '/home': typeof AuthenticatedHomeRoute
   '/idiomas': typeof AuthenticatedIdiomasRoute
+  '/leitor': typeof AuthenticatedLeitorRoute
   '/necessarios': typeof AuthenticatedNecessariosRoute
   '/palavras-chave': typeof AuthenticatedPalavrasChaveRoute
   '/plano': typeof AuthenticatedPlanoRoute
@@ -270,6 +278,7 @@ export interface FileRoutesById {
   '/_authenticated/flashcards': typeof AuthenticatedFlashcardsRoute
   '/_authenticated/home': typeof AuthenticatedHomeRoute
   '/_authenticated/idiomas': typeof AuthenticatedIdiomasRoute
+  '/_authenticated/leitor': typeof AuthenticatedLeitorRoute
   '/_authenticated/necessarios': typeof AuthenticatedNecessariosRoute
   '/_authenticated/palavras-chave': typeof AuthenticatedPalavrasChaveRoute
   '/_authenticated/plano': typeof AuthenticatedPlanoRoute
@@ -302,6 +311,7 @@ export interface FileRouteTypes {
     | '/flashcards'
     | '/home'
     | '/idiomas'
+    | '/leitor'
     | '/necessarios'
     | '/palavras-chave'
     | '/plano'
@@ -332,6 +342,7 @@ export interface FileRouteTypes {
     | '/flashcards'
     | '/home'
     | '/idiomas'
+    | '/leitor'
     | '/necessarios'
     | '/palavras-chave'
     | '/plano'
@@ -363,6 +374,7 @@ export interface FileRouteTypes {
     | '/_authenticated/flashcards'
     | '/_authenticated/home'
     | '/_authenticated/idiomas'
+    | '/_authenticated/leitor'
     | '/_authenticated/necessarios'
     | '/_authenticated/palavras-chave'
     | '/_authenticated/plano'
@@ -459,6 +471,13 @@ declare module '@tanstack/react-router' {
       path: '/necessarios'
       fullPath: '/necessarios'
       preLoaderRoute: typeof AuthenticatedNecessariosRouteImport
+      parentRoute: typeof AuthenticatedRouteRoute
+    }
+    '/_authenticated/leitor': {
+      id: '/_authenticated/leitor'
+      path: '/leitor'
+      fullPath: '/leitor'
+      preLoaderRoute: typeof AuthenticatedLeitorRouteImport
       parentRoute: typeof AuthenticatedRouteRoute
     }
     '/_authenticated/idiomas': {
@@ -619,6 +638,7 @@ interface AuthenticatedRouteRouteChildren {
   AuthenticatedFlashcardsRoute: typeof AuthenticatedFlashcardsRoute
   AuthenticatedHomeRoute: typeof AuthenticatedHomeRoute
   AuthenticatedIdiomasRoute: typeof AuthenticatedIdiomasRoute
+  AuthenticatedLeitorRoute: typeof AuthenticatedLeitorRoute
   AuthenticatedNecessariosRoute: typeof AuthenticatedNecessariosRoute
   AuthenticatedPalavrasChaveRoute: typeof AuthenticatedPalavrasChaveRoute
   AuthenticatedPlanoRoute: typeof AuthenticatedPlanoRoute
@@ -647,6 +667,7 @@ const AuthenticatedRouteRouteChildren: AuthenticatedRouteRouteChildren = {
   AuthenticatedFlashcardsRoute: AuthenticatedFlashcardsRoute,
   AuthenticatedHomeRoute: AuthenticatedHomeRoute,
   AuthenticatedIdiomasRoute: AuthenticatedIdiomasRoute,
+  AuthenticatedLeitorRoute: AuthenticatedLeitorRoute,
   AuthenticatedNecessariosRoute: AuthenticatedNecessariosRoute,
   AuthenticatedPalavrasChaveRoute: AuthenticatedPalavrasChaveRoute,
   AuthenticatedPlanoRoute: AuthenticatedPlanoRoute,
