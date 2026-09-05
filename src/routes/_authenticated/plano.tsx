@@ -124,8 +124,9 @@ function PlanoPage() {
           <h2 className="font-display text-xl font-bold">Histórico</h2>
           {!!plans?.length && (
             <DeleteAllButton
-              label="Excluir todos"
-              onDelete={async () => {
+              label="planos personalizados"
+              count={plans.length}
+              onConfirm={async () => {
                 await supabase.from("custom_plans").delete().neq("id", "00000000-0000-0000-0000-000000000000");
                 qc.invalidateQueries({ queryKey: ["custom_plans"] });
                 setOpenId(null);
@@ -145,7 +146,8 @@ function PlanoPage() {
                   Recriar
                 </Button>
                 <DeleteItemButton
-                  onDelete={async () => {
+                  label="este material"
+                  onConfirm={async () => {
                     await supabase.from("custom_plans").delete().eq("id", p.id);
                     qc.invalidateQueries({ queryKey: ["custom_plans"] });
                     if (openId === p.id) setOpenId(null);
