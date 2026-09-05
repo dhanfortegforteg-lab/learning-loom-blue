@@ -13,14 +13,20 @@ import { Route as AuthRouteImport } from './routes/auth'
 import { Route as AuthenticatedRouteRouteImport } from './routes/_authenticated/route'
 import { Route as IndexRouteImport } from './routes/index'
 import { Route as AuthenticatedTrilhasRouteImport } from './routes/_authenticated/trilhas'
+import { Route as AuthenticatedTecnicasRouteImport } from './routes/_authenticated/tecnicas'
 import { Route as AuthenticatedRevisarRouteImport } from './routes/_authenticated/revisar'
 import { Route as AuthenticatedRecompensasRouteImport } from './routes/_authenticated/recompensas'
 import { Route as AuthenticatedProdutividadeRouteImport } from './routes/_authenticated/produtividade'
+import { Route as AuthenticatedPlanoRouteImport } from './routes/_authenticated/plano'
+import { Route as AuthenticatedPalavrasChaveRouteImport } from './routes/_authenticated/palavras-chave'
 import { Route as AuthenticatedNecessariosRouteImport } from './routes/_authenticated/necessarios'
+import { Route as AuthenticatedLeitorRouteImport } from './routes/_authenticated/leitor'
+import { Route as AuthenticatedIdiomasRouteImport } from './routes/_authenticated/idiomas'
 import { Route as AuthenticatedHomeRouteImport } from './routes/_authenticated/home'
 import { Route as AuthenticatedFlashcardsRouteImport } from './routes/_authenticated/flashcards'
 import { Route as AuthenticatedEstudarRouteImport } from './routes/_authenticated/estudar'
 import { Route as AuthenticatedEscritaRouteImport } from './routes/_authenticated/escrita'
+import { Route as AuthenticatedErrosRouteImport } from './routes/_authenticated/erros'
 import { Route as AuthenticatedDuvidasRouteImport } from './routes/_authenticated/duvidas'
 import { Route as AuthenticatedDesafiosRouteImport } from './routes/_authenticated/desafios'
 import { Route as AuthenticatedCronogramaRouteImport } from './routes/_authenticated/cronograma'
@@ -53,6 +59,11 @@ const AuthenticatedTrilhasRoute = AuthenticatedTrilhasRouteImport.update({
   path: '/trilhas',
   getParentRoute: () => AuthenticatedRouteRoute,
 } as any)
+const AuthenticatedTecnicasRoute = AuthenticatedTecnicasRouteImport.update({
+  id: '/tecnicas',
+  path: '/tecnicas',
+  getParentRoute: () => AuthenticatedRouteRoute,
+} as any)
 const AuthenticatedRevisarRoute = AuthenticatedRevisarRouteImport.update({
   id: '/revisar',
   path: '/revisar',
@@ -70,12 +81,33 @@ const AuthenticatedProdutividadeRoute =
     path: '/produtividade',
     getParentRoute: () => AuthenticatedRouteRoute,
   } as any)
+const AuthenticatedPlanoRoute = AuthenticatedPlanoRouteImport.update({
+  id: '/plano',
+  path: '/plano',
+  getParentRoute: () => AuthenticatedRouteRoute,
+} as any)
+const AuthenticatedPalavrasChaveRoute =
+  AuthenticatedPalavrasChaveRouteImport.update({
+    id: '/palavras-chave',
+    path: '/palavras-chave',
+    getParentRoute: () => AuthenticatedRouteRoute,
+  } as any)
 const AuthenticatedNecessariosRoute =
   AuthenticatedNecessariosRouteImport.update({
     id: '/necessarios',
     path: '/necessarios',
     getParentRoute: () => AuthenticatedRouteRoute,
   } as any)
+const AuthenticatedLeitorRoute = AuthenticatedLeitorRouteImport.update({
+  id: '/leitor',
+  path: '/leitor',
+  getParentRoute: () => AuthenticatedRouteRoute,
+} as any)
+const AuthenticatedIdiomasRoute = AuthenticatedIdiomasRouteImport.update({
+  id: '/idiomas',
+  path: '/idiomas',
+  getParentRoute: () => AuthenticatedRouteRoute,
+} as any)
 const AuthenticatedHomeRoute = AuthenticatedHomeRouteImport.update({
   id: '/home',
   path: '/home',
@@ -94,6 +126,11 @@ const AuthenticatedEstudarRoute = AuthenticatedEstudarRouteImport.update({
 const AuthenticatedEscritaRoute = AuthenticatedEscritaRouteImport.update({
   id: '/escrita',
   path: '/escrita',
+  getParentRoute: () => AuthenticatedRouteRoute,
+} as any)
+const AuthenticatedErrosRoute = AuthenticatedErrosRouteImport.update({
+  id: '/erros',
+  path: '/erros',
   getParentRoute: () => AuthenticatedRouteRoute,
 } as any)
 const AuthenticatedDuvidasRoute = AuthenticatedDuvidasRouteImport.update({
@@ -171,14 +208,20 @@ export interface FileRoutesByFullPath {
   '/cronograma': typeof AuthenticatedCronogramaRoute
   '/desafios': typeof AuthenticatedDesafiosRoute
   '/duvidas': typeof AuthenticatedDuvidasRoute
+  '/erros': typeof AuthenticatedErrosRoute
   '/escrita': typeof AuthenticatedEscritaRoute
   '/estudar': typeof AuthenticatedEstudarRoute
   '/flashcards': typeof AuthenticatedFlashcardsRoute
   '/home': typeof AuthenticatedHomeRoute
+  '/idiomas': typeof AuthenticatedIdiomasRoute
+  '/leitor': typeof AuthenticatedLeitorRoute
   '/necessarios': typeof AuthenticatedNecessariosRoute
+  '/palavras-chave': typeof AuthenticatedPalavrasChaveRoute
+  '/plano': typeof AuthenticatedPlanoRoute
   '/produtividade': typeof AuthenticatedProdutividadeRoute
   '/recompensas': typeof AuthenticatedRecompensasRoute
   '/revisar': typeof AuthenticatedRevisarRoute
+  '/tecnicas': typeof AuthenticatedTecnicasRoute
   '/trilhas': typeof AuthenticatedTrilhasRoute
   '/atrasado/$lateId': typeof AuthenticatedAtrasadoLateIdRoute
   '/material/$id': typeof AuthenticatedMaterialIdRoute
@@ -196,14 +239,20 @@ export interface FileRoutesByTo {
   '/cronograma': typeof AuthenticatedCronogramaRoute
   '/desafios': typeof AuthenticatedDesafiosRoute
   '/duvidas': typeof AuthenticatedDuvidasRoute
+  '/erros': typeof AuthenticatedErrosRoute
   '/escrita': typeof AuthenticatedEscritaRoute
   '/estudar': typeof AuthenticatedEstudarRoute
   '/flashcards': typeof AuthenticatedFlashcardsRoute
   '/home': typeof AuthenticatedHomeRoute
+  '/idiomas': typeof AuthenticatedIdiomasRoute
+  '/leitor': typeof AuthenticatedLeitorRoute
   '/necessarios': typeof AuthenticatedNecessariosRoute
+  '/palavras-chave': typeof AuthenticatedPalavrasChaveRoute
+  '/plano': typeof AuthenticatedPlanoRoute
   '/produtividade': typeof AuthenticatedProdutividadeRoute
   '/recompensas': typeof AuthenticatedRecompensasRoute
   '/revisar': typeof AuthenticatedRevisarRoute
+  '/tecnicas': typeof AuthenticatedTecnicasRoute
   '/trilhas': typeof AuthenticatedTrilhasRoute
   '/atrasado/$lateId': typeof AuthenticatedAtrasadoLateIdRoute
   '/material/$id': typeof AuthenticatedMaterialIdRoute
@@ -223,14 +272,20 @@ export interface FileRoutesById {
   '/_authenticated/cronograma': typeof AuthenticatedCronogramaRoute
   '/_authenticated/desafios': typeof AuthenticatedDesafiosRoute
   '/_authenticated/duvidas': typeof AuthenticatedDuvidasRoute
+  '/_authenticated/erros': typeof AuthenticatedErrosRoute
   '/_authenticated/escrita': typeof AuthenticatedEscritaRoute
   '/_authenticated/estudar': typeof AuthenticatedEstudarRoute
   '/_authenticated/flashcards': typeof AuthenticatedFlashcardsRoute
   '/_authenticated/home': typeof AuthenticatedHomeRoute
+  '/_authenticated/idiomas': typeof AuthenticatedIdiomasRoute
+  '/_authenticated/leitor': typeof AuthenticatedLeitorRoute
   '/_authenticated/necessarios': typeof AuthenticatedNecessariosRoute
+  '/_authenticated/palavras-chave': typeof AuthenticatedPalavrasChaveRoute
+  '/_authenticated/plano': typeof AuthenticatedPlanoRoute
   '/_authenticated/produtividade': typeof AuthenticatedProdutividadeRoute
   '/_authenticated/recompensas': typeof AuthenticatedRecompensasRoute
   '/_authenticated/revisar': typeof AuthenticatedRevisarRoute
+  '/_authenticated/tecnicas': typeof AuthenticatedTecnicasRoute
   '/_authenticated/trilhas': typeof AuthenticatedTrilhasRoute
   '/_authenticated/atrasado/$lateId': typeof AuthenticatedAtrasadoLateIdRoute
   '/_authenticated/material/$id': typeof AuthenticatedMaterialIdRoute
@@ -250,14 +305,20 @@ export interface FileRouteTypes {
     | '/cronograma'
     | '/desafios'
     | '/duvidas'
+    | '/erros'
     | '/escrita'
     | '/estudar'
     | '/flashcards'
     | '/home'
+    | '/idiomas'
+    | '/leitor'
     | '/necessarios'
+    | '/palavras-chave'
+    | '/plano'
     | '/produtividade'
     | '/recompensas'
     | '/revisar'
+    | '/tecnicas'
     | '/trilhas'
     | '/atrasado/$lateId'
     | '/material/$id'
@@ -275,14 +336,20 @@ export interface FileRouteTypes {
     | '/cronograma'
     | '/desafios'
     | '/duvidas'
+    | '/erros'
     | '/escrita'
     | '/estudar'
     | '/flashcards'
     | '/home'
+    | '/idiomas'
+    | '/leitor'
     | '/necessarios'
+    | '/palavras-chave'
+    | '/plano'
     | '/produtividade'
     | '/recompensas'
     | '/revisar'
+    | '/tecnicas'
     | '/trilhas'
     | '/atrasado/$lateId'
     | '/material/$id'
@@ -301,14 +368,20 @@ export interface FileRouteTypes {
     | '/_authenticated/cronograma'
     | '/_authenticated/desafios'
     | '/_authenticated/duvidas'
+    | '/_authenticated/erros'
     | '/_authenticated/escrita'
     | '/_authenticated/estudar'
     | '/_authenticated/flashcards'
     | '/_authenticated/home'
+    | '/_authenticated/idiomas'
+    | '/_authenticated/leitor'
     | '/_authenticated/necessarios'
+    | '/_authenticated/palavras-chave'
+    | '/_authenticated/plano'
     | '/_authenticated/produtividade'
     | '/_authenticated/recompensas'
     | '/_authenticated/revisar'
+    | '/_authenticated/tecnicas'
     | '/_authenticated/trilhas'
     | '/_authenticated/atrasado/$lateId'
     | '/_authenticated/material/$id'
@@ -351,6 +424,13 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof AuthenticatedTrilhasRouteImport
       parentRoute: typeof AuthenticatedRouteRoute
     }
+    '/_authenticated/tecnicas': {
+      id: '/_authenticated/tecnicas'
+      path: '/tecnicas'
+      fullPath: '/tecnicas'
+      preLoaderRoute: typeof AuthenticatedTecnicasRouteImport
+      parentRoute: typeof AuthenticatedRouteRoute
+    }
     '/_authenticated/revisar': {
       id: '/_authenticated/revisar'
       path: '/revisar'
@@ -372,11 +452,39 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof AuthenticatedProdutividadeRouteImport
       parentRoute: typeof AuthenticatedRouteRoute
     }
+    '/_authenticated/plano': {
+      id: '/_authenticated/plano'
+      path: '/plano'
+      fullPath: '/plano'
+      preLoaderRoute: typeof AuthenticatedPlanoRouteImport
+      parentRoute: typeof AuthenticatedRouteRoute
+    }
+    '/_authenticated/palavras-chave': {
+      id: '/_authenticated/palavras-chave'
+      path: '/palavras-chave'
+      fullPath: '/palavras-chave'
+      preLoaderRoute: typeof AuthenticatedPalavrasChaveRouteImport
+      parentRoute: typeof AuthenticatedRouteRoute
+    }
     '/_authenticated/necessarios': {
       id: '/_authenticated/necessarios'
       path: '/necessarios'
       fullPath: '/necessarios'
       preLoaderRoute: typeof AuthenticatedNecessariosRouteImport
+      parentRoute: typeof AuthenticatedRouteRoute
+    }
+    '/_authenticated/leitor': {
+      id: '/_authenticated/leitor'
+      path: '/leitor'
+      fullPath: '/leitor'
+      preLoaderRoute: typeof AuthenticatedLeitorRouteImport
+      parentRoute: typeof AuthenticatedRouteRoute
+    }
+    '/_authenticated/idiomas': {
+      id: '/_authenticated/idiomas'
+      path: '/idiomas'
+      fullPath: '/idiomas'
+      preLoaderRoute: typeof AuthenticatedIdiomasRouteImport
       parentRoute: typeof AuthenticatedRouteRoute
     }
     '/_authenticated/home': {
@@ -405,6 +513,13 @@ declare module '@tanstack/react-router' {
       path: '/escrita'
       fullPath: '/escrita'
       preLoaderRoute: typeof AuthenticatedEscritaRouteImport
+      parentRoute: typeof AuthenticatedRouteRoute
+    }
+    '/_authenticated/erros': {
+      id: '/_authenticated/erros'
+      path: '/erros'
+      fullPath: '/erros'
+      preLoaderRoute: typeof AuthenticatedErrosRouteImport
       parentRoute: typeof AuthenticatedRouteRoute
     }
     '/_authenticated/duvidas': {
@@ -517,14 +632,20 @@ interface AuthenticatedRouteRouteChildren {
   AuthenticatedCronogramaRoute: typeof AuthenticatedCronogramaRoute
   AuthenticatedDesafiosRoute: typeof AuthenticatedDesafiosRoute
   AuthenticatedDuvidasRoute: typeof AuthenticatedDuvidasRoute
+  AuthenticatedErrosRoute: typeof AuthenticatedErrosRoute
   AuthenticatedEscritaRoute: typeof AuthenticatedEscritaRoute
   AuthenticatedEstudarRoute: typeof AuthenticatedEstudarRoute
   AuthenticatedFlashcardsRoute: typeof AuthenticatedFlashcardsRoute
   AuthenticatedHomeRoute: typeof AuthenticatedHomeRoute
+  AuthenticatedIdiomasRoute: typeof AuthenticatedIdiomasRoute
+  AuthenticatedLeitorRoute: typeof AuthenticatedLeitorRoute
   AuthenticatedNecessariosRoute: typeof AuthenticatedNecessariosRoute
+  AuthenticatedPalavrasChaveRoute: typeof AuthenticatedPalavrasChaveRoute
+  AuthenticatedPlanoRoute: typeof AuthenticatedPlanoRoute
   AuthenticatedProdutividadeRoute: typeof AuthenticatedProdutividadeRoute
   AuthenticatedRecompensasRoute: typeof AuthenticatedRecompensasRoute
   AuthenticatedRevisarRoute: typeof AuthenticatedRevisarRoute
+  AuthenticatedTecnicasRoute: typeof AuthenticatedTecnicasRoute
   AuthenticatedTrilhasRoute: typeof AuthenticatedTrilhasRoute
   AuthenticatedMaterialIdRoute: typeof AuthenticatedMaterialIdRoute
   AuthenticatedTrilhaContentIdRoute: typeof AuthenticatedTrilhaContentIdRoute
@@ -540,14 +661,20 @@ const AuthenticatedRouteRouteChildren: AuthenticatedRouteRouteChildren = {
   AuthenticatedCronogramaRoute: AuthenticatedCronogramaRoute,
   AuthenticatedDesafiosRoute: AuthenticatedDesafiosRoute,
   AuthenticatedDuvidasRoute: AuthenticatedDuvidasRoute,
+  AuthenticatedErrosRoute: AuthenticatedErrosRoute,
   AuthenticatedEscritaRoute: AuthenticatedEscritaRoute,
   AuthenticatedEstudarRoute: AuthenticatedEstudarRoute,
   AuthenticatedFlashcardsRoute: AuthenticatedFlashcardsRoute,
   AuthenticatedHomeRoute: AuthenticatedHomeRoute,
+  AuthenticatedIdiomasRoute: AuthenticatedIdiomasRoute,
+  AuthenticatedLeitorRoute: AuthenticatedLeitorRoute,
   AuthenticatedNecessariosRoute: AuthenticatedNecessariosRoute,
+  AuthenticatedPalavrasChaveRoute: AuthenticatedPalavrasChaveRoute,
+  AuthenticatedPlanoRoute: AuthenticatedPlanoRoute,
   AuthenticatedProdutividadeRoute: AuthenticatedProdutividadeRoute,
   AuthenticatedRecompensasRoute: AuthenticatedRecompensasRoute,
   AuthenticatedRevisarRoute: AuthenticatedRevisarRoute,
+  AuthenticatedTecnicasRoute: AuthenticatedTecnicasRoute,
   AuthenticatedTrilhasRoute: AuthenticatedTrilhasRoute,
   AuthenticatedMaterialIdRoute: AuthenticatedMaterialIdRoute,
   AuthenticatedTrilhaContentIdRoute: AuthenticatedTrilhaContentIdRoute,
