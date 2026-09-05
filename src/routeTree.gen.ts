@@ -13,6 +13,7 @@ import { Route as AuthRouteImport } from './routes/auth'
 import { Route as AuthenticatedRouteRouteImport } from './routes/_authenticated/route'
 import { Route as IndexRouteImport } from './routes/index'
 import { Route as AuthenticatedTrilhasRouteImport } from './routes/_authenticated/trilhas'
+import { Route as AuthenticatedTecnicasRouteImport } from './routes/_authenticated/tecnicas'
 import { Route as AuthenticatedRevisarRouteImport } from './routes/_authenticated/revisar'
 import { Route as AuthenticatedRecompensasRouteImport } from './routes/_authenticated/recompensas'
 import { Route as AuthenticatedProdutividadeRouteImport } from './routes/_authenticated/produtividade'
@@ -55,6 +56,11 @@ const IndexRoute = IndexRouteImport.update({
 const AuthenticatedTrilhasRoute = AuthenticatedTrilhasRouteImport.update({
   id: '/trilhas',
   path: '/trilhas',
+  getParentRoute: () => AuthenticatedRouteRoute,
+} as any)
+const AuthenticatedTecnicasRoute = AuthenticatedTecnicasRouteImport.update({
+  id: '/tecnicas',
+  path: '/tecnicas',
   getParentRoute: () => AuthenticatedRouteRoute,
 } as any)
 const AuthenticatedRevisarRoute = AuthenticatedRevisarRouteImport.update({
@@ -208,6 +214,7 @@ export interface FileRoutesByFullPath {
   '/produtividade': typeof AuthenticatedProdutividadeRoute
   '/recompensas': typeof AuthenticatedRecompensasRoute
   '/revisar': typeof AuthenticatedRevisarRoute
+  '/tecnicas': typeof AuthenticatedTecnicasRoute
   '/trilhas': typeof AuthenticatedTrilhasRoute
   '/atrasado/$lateId': typeof AuthenticatedAtrasadoLateIdRoute
   '/material/$id': typeof AuthenticatedMaterialIdRoute
@@ -237,6 +244,7 @@ export interface FileRoutesByTo {
   '/produtividade': typeof AuthenticatedProdutividadeRoute
   '/recompensas': typeof AuthenticatedRecompensasRoute
   '/revisar': typeof AuthenticatedRevisarRoute
+  '/tecnicas': typeof AuthenticatedTecnicasRoute
   '/trilhas': typeof AuthenticatedTrilhasRoute
   '/atrasado/$lateId': typeof AuthenticatedAtrasadoLateIdRoute
   '/material/$id': typeof AuthenticatedMaterialIdRoute
@@ -268,6 +276,7 @@ export interface FileRoutesById {
   '/_authenticated/produtividade': typeof AuthenticatedProdutividadeRoute
   '/_authenticated/recompensas': typeof AuthenticatedRecompensasRoute
   '/_authenticated/revisar': typeof AuthenticatedRevisarRoute
+  '/_authenticated/tecnicas': typeof AuthenticatedTecnicasRoute
   '/_authenticated/trilhas': typeof AuthenticatedTrilhasRoute
   '/_authenticated/atrasado/$lateId': typeof AuthenticatedAtrasadoLateIdRoute
   '/_authenticated/material/$id': typeof AuthenticatedMaterialIdRoute
@@ -299,6 +308,7 @@ export interface FileRouteTypes {
     | '/produtividade'
     | '/recompensas'
     | '/revisar'
+    | '/tecnicas'
     | '/trilhas'
     | '/atrasado/$lateId'
     | '/material/$id'
@@ -328,6 +338,7 @@ export interface FileRouteTypes {
     | '/produtividade'
     | '/recompensas'
     | '/revisar'
+    | '/tecnicas'
     | '/trilhas'
     | '/atrasado/$lateId'
     | '/material/$id'
@@ -358,6 +369,7 @@ export interface FileRouteTypes {
     | '/_authenticated/produtividade'
     | '/_authenticated/recompensas'
     | '/_authenticated/revisar'
+    | '/_authenticated/tecnicas'
     | '/_authenticated/trilhas'
     | '/_authenticated/atrasado/$lateId'
     | '/_authenticated/material/$id'
@@ -398,6 +410,13 @@ declare module '@tanstack/react-router' {
       path: '/trilhas'
       fullPath: '/trilhas'
       preLoaderRoute: typeof AuthenticatedTrilhasRouteImport
+      parentRoute: typeof AuthenticatedRouteRoute
+    }
+    '/_authenticated/tecnicas': {
+      id: '/_authenticated/tecnicas'
+      path: '/tecnicas'
+      fullPath: '/tecnicas'
+      preLoaderRoute: typeof AuthenticatedTecnicasRouteImport
       parentRoute: typeof AuthenticatedRouteRoute
     }
     '/_authenticated/revisar': {
@@ -606,6 +625,7 @@ interface AuthenticatedRouteRouteChildren {
   AuthenticatedProdutividadeRoute: typeof AuthenticatedProdutividadeRoute
   AuthenticatedRecompensasRoute: typeof AuthenticatedRecompensasRoute
   AuthenticatedRevisarRoute: typeof AuthenticatedRevisarRoute
+  AuthenticatedTecnicasRoute: typeof AuthenticatedTecnicasRoute
   AuthenticatedTrilhasRoute: typeof AuthenticatedTrilhasRoute
   AuthenticatedMaterialIdRoute: typeof AuthenticatedMaterialIdRoute
   AuthenticatedTrilhaContentIdRoute: typeof AuthenticatedTrilhaContentIdRoute
@@ -633,6 +653,7 @@ const AuthenticatedRouteRouteChildren: AuthenticatedRouteRouteChildren = {
   AuthenticatedProdutividadeRoute: AuthenticatedProdutividadeRoute,
   AuthenticatedRecompensasRoute: AuthenticatedRecompensasRoute,
   AuthenticatedRevisarRoute: AuthenticatedRevisarRoute,
+  AuthenticatedTecnicasRoute: AuthenticatedTecnicasRoute,
   AuthenticatedTrilhasRoute: AuthenticatedTrilhasRoute,
   AuthenticatedMaterialIdRoute: AuthenticatedMaterialIdRoute,
   AuthenticatedTrilhaContentIdRoute: AuthenticatedTrilhaContentIdRoute,
