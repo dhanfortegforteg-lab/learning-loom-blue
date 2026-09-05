@@ -3,6 +3,7 @@ import { type ReactNode, useEffect, useState } from "react";
 import {
   Home, BookOpen, Library, Timer, Trophy, Calendar, PenSquare,
   HelpCircle, NotebookPen, Award, LogOut, Search, Moon, Sun, User, Sparkles, Route as RouteIcon, ClipboardCheck, Gift, Layers, History, Network,
+  Wand2, AlertTriangle, Languages, KeyRound, Presentation, FileText,
 } from "lucide-react";
 import { supabase } from "@/integrations/supabase/client";
 import { AnimatedBlobs } from "./AnimatedBlobs";
@@ -14,11 +15,16 @@ import { TimerBadge } from "./TimerBadge";
 const nav = [
   { to: "/home", label: "Home", icon: Home },
   { to: "/estudar", label: "Estudar", icon: BookOpen },
+  { to: "/plano", label: "Plano Próprio", icon: Wand2 },
   { to: "/trilhas", label: "Estudo Automático", icon: RouteIcon },
   { to: "/atrasado", label: "Estudo Atrasado", icon: History },
   { to: "/necessarios", label: "Conteúdos Necessários", icon: Network },
   { to: "/avaliacao", label: "Avaliação", icon: ClipboardCheck },
-
+  { to: "/erros", label: "Consolidação dos Erros", icon: AlertTriangle },
+  { to: "/idiomas", label: "Idiomas", icon: Languages },
+  { to: "/palavras-chave", label: "Palavras-chave", icon: KeyRound },
+  { to: "/tecnicas", label: "Técnicas de Apresentação", icon: Presentation },
+  { to: "/leitor", label: "Leitor de PDF", icon: FileText },
   { to: "/flashcards", label: "Flashcards", icon: Layers },
   { to: "/biblioteca", label: "Biblioteca", icon: Library },
   { to: "/cronograma", label: "Cronograma", icon: Timer },
@@ -30,6 +36,7 @@ const nav = [
   { to: "/anotacoes", label: "Anotações", icon: NotebookPen },
   { to: "/brasoes", label: "Brasões", icon: Award },
   { to: "/recompensas", label: "Recompensas", icon: Gift },
+
 ] as const;
 
 export function AppShell({ children }: { children: ReactNode }) {
