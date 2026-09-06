@@ -115,12 +115,15 @@ function supportText(bank: Bank, i: number, lines: number) {
   return trimTo(take.join(" "), lines * 90);
 }
 
-export function buildQuestions(bank: Bank, n: number, withText: boolean): Q[] {
-  const r = rng(bank.title + n);
+export function buildQuestions(bank: Bank, n: number, withText: boolean, difficulty = 0.5): Q[] {
+  const r = rng(bank.title + n + Math.round(difficulty * 10));
   const out: Q[] = [];
+  // Fácil: mais lacunas (reconhecimento). Difícil: mais análise de afirmações.
+  const clozeEvery = difficulty < 0.35 ? 1 : difficulty < 0.7 ? 2 : 3;
   for (let i = 0; i < n; i++) {
-    const q = (i % 2 === 0 ? clozeQuestion(bank, i, r) : null) ?? statementQuestion(bank, i, r);
-    if (withText) q.text = supportText(bank, i, 3);
+    const q = (i % clozeEvery === 0 ? clozeQuestion(bank, i, r) : null) ?? statementQuestion(bank, i, r);
+    // Texto-guia mais curto quanto maior a dificuldade (menos ajuda).
+    if (withText) q.text = supportText(bank, i, difficulty > 0.7 ? 2 : 3);
     out.push(q);
   }
   return out;
@@ -180,7 +183,7 @@ export function buildCurriculum(yearLevel: string) {
 
 /* ------------------------------------------------- preenchimento genérico */
 
-type Ctx = { bank: Bank; prompt: string; counter: { n: number } };
+type Ctx = { bank: Bank; prompt: string; counter: { n: number }; intent?: Intent };
 
 function next(ctx: Ctx) {
   return ctx.counter.n++;
@@ -219,10 +222,16 @@ const DEFAULT_N: Record<string, number> = {
   analogies: 3, strengths: 3, improvements: 3, keyTerms: 5, days: 7, flashcards: 5, miniSimulado: 4,
 };
 
+/** Multiplicador de extensão conforme o tamanho pedido pelo aluno. */
+function sizeFactor(ctx: Ctx) {
+  return 0.7 + (ctx.intent?.size ?? 0.5) * 0.9;
+}
+
 function paragraph(ctx: Ctx, i: number, count = 1) {
   const b = ctx.bank;
+  const total = Math.max(1, Math.round(count * sizeFactor(ctx)));
   const parts: string[] = [];
-  for (let k = 0; k < count; k++) parts.push(pick(b.paragraphs, i + k));
+  for (let k = 0; k < total; k++) parts.push(pick(b.paragraphs, i + k));
   return parts.join("\n\n");
 }
 
@@ -241,7 +250,7 @@ function sectionBody(ctx: Ctx, i: number, paras = 2) {
   const b = ctx.bank;
   if (b.sections.length) {
     const s = pick(b.sections, i);
-    if (s.paragraphs.length) return s.paragraphs.slice(0, paras).join("\n\n");
+    if (s.paragraphs.length) return s.paragraphs.slice(0, Math.max(1, Math.round(paras * sizeFactor(ctx)))).join("\n\n");
   }
   return paragraph(ctx, i, paras);
 }
@@ -306,9 +315,10 @@ function fill(schema: any, key: string, ctx: Ctx): any {
   if (type === "object") {
     if (isQuestionSchema(schema)) {
       const withText = !!schema.properties.text;
-      const q = buildQuestions(ctx.bank, 1, withText)[0];
+      const diff = ctx.intent?.difficulty ?? 0.5;
+      const q = buildQuestions(ctx.bank, 1, withText, diff)[0];
       const idx = next(ctx);
-      const qs = buildQuestions(ctx.bank, idx + 1, withText);
+      const qs = buildQuestions(ctx.bank, idx + 1, withText, diff);
       return qs[idx] ?? q;
     }
     // Flashcard: frente e verso precisam falar do MESMO conceito
@@ -332,7 +342,7 @@ function fill(schema: any, key: string, ctx: Ctx): any {
   if (type === "array") {
     const n = schema.minItems ?? promptCount(ctx.prompt, key) ?? DEFAULT_N[key] ?? 4;
     const items = schema.items ?? { type: "string" };
-    if (isQuestionSchema(items)) return buildQuestions(ctx.bank, n, !!items.properties.text);
+    if (isQuestionSchema(items)) return buildQuestions(ctx.bank, n, !!items.properties.text, ctx.intent?.difficulty ?? 0.5);
     const out: any[] = [];
     for (let i = 0; i < n; i++) {
       if ((items.type ?? "string") === "string") out.push(stringItem(key, ctx, i));
@@ -398,6 +408,55 @@ function gradeEssay(text: string, bank: Bank, max: number) {
   };
 }
 
+
+/* --------------------------------------------------------------- intenção */
+
+export type Intent = {
+  subject: string;
+  discipline?: string;
+  stage?: string;
+  /** 0 = introdutório, 1 = aprofundado */
+  difficulty: number;
+  /** 0 = curto, 1 = completo */
+  size: number;
+};
+
+function grab(prompt: string, labels: string[]): string | undefined {
+  for (const l of labels) {
+    const m = prompt.match(new RegExp(`${l}\\s*[:=]\\s*"?([^"|\\n]+)"?`, "i"));
+    const v = m?.[1]?.trim().replace(/[.,;]$/, "");
+    if (v && !/^(n[ãa]o informad|indefinid|-|nenhum)/i.test(v)) return v;
+  }
+  return undefined;
+}
+
+function scale(value: string | undefined, words: Array<[RegExp, number]>, fallback: number) {
+  if (!value) return fallback;
+  const numeric = value.match(/(\d+)\s*(?:\/|de\s*)?(\d+)?/);
+  if (numeric && /n[íi]vel|^\d+$/.test(value)) {
+    const n = parseInt(numeric[1], 10);
+    const max = numeric[2] ? parseInt(numeric[2], 10) : 15;
+    if (n > 0 && max > 1) return Math.min(1, Math.max(0, (n - 1) / (max - 1)));
+  }
+  for (const [re, v] of words) if (re.test(value)) return v;
+  return fallback;
+}
+
+/** Lê o pedido do aluno (assunto, disciplina, etapa, dificuldade e tamanho). */
+export function parseIntent(prompt: string): Intent {
+  const discipline = grab(prompt, ["disciplina", "mat[ée]ria"]);
+  const stage = grab(prompt, ["etapa", "ano letivo", "n[íi]vel de ensino", "s[ée]rie"]);
+  const difficultyRaw = grab(prompt, ["dificuldade"]);
+  const sizeRaw = grab(prompt, ["tamanho( do texto)?", "extens[ãa]o"]);
+  return {
+    subject: extractSubject(prompt),
+    discipline,
+    stage,
+    difficulty: scale(difficultyRaw, [[/f[áa]cil|introdut/i, 0.15], [/m[ée]di|intermedi/i, 0.5], [/dif[íi]cil|aprofund|avan[çc]ad/i, 0.9]], 0.5),
+    size: scale(sizeRaw, [[/pequen|curt/i, 0.2], [/m[ée]di|equilibr/i, 0.5], [/grande|complet|long/i, 0.9]], 0.5),
+  };
+}
+
 /* -------------------------------------------------------------- entrada */
 
 function extractSubject(prompt: string): string {
@@ -411,9 +470,21 @@ function extractSubject(prompt: string): string {
   ];
   for (const re of patterns) {
     const m = prompt.match(re);
-    if (m?.[1]?.trim()) return m[1].trim();
+    const raw = m?.[1]?.trim();
+    if (raw) return cleanSubject(raw);
   }
   return "Estudo";
+}
+
+/** Limpa o que o aluno digitou: tira "Ex:", artigos iniciais e pontuação. */
+function cleanSubject(raw: string): string {
+  let s = raw
+    .replace(/^\s*(ex\.?|exemplo|assunto|tema|sobre|estudar|quero estudar|preciso de|me ensina)\s*[:\-]?\s*/i, "")
+    .replace(/[\s"'.,;:!?]+$/g, "")
+    .replace(/\s+/g, " ")
+    .trim();
+  s = s.replace(/^(o|a|os|as|um|uma)\s+/i, "");
+  return s.length >= 2 ? s : raw.trim();
 }
 
 function extractYearLevel(prompt: string) {
@@ -429,8 +500,8 @@ export async function generate(messages: any[], schema?: any): Promise<any> {
   // Grade curricular
   if (props.subjects?.items?.properties?.contents) return buildCurriculum(extractYearLevel(prompt));
 
-  const subject = extractSubject(prompt);
-  const bank = await getBank(subject);
+  const intent = parseIntent(prompt);
+  const bank = await getBank(intent.subject, [intent.discipline, intent.stage].filter(Boolean).join(" "));
 
   // Correção de redação
   if (props.score && props.feedback) {
@@ -454,6 +525,6 @@ export async function generate(messages: any[], schema?: any): Promise<any> {
     return { text: `${bank.title}\n\n${bank.paragraphs.slice(0, 4).join("\n\n")}` };
   }
 
-  const ctx: Ctx = { bank, prompt, counter: { n: 0 } };
+  const ctx: Ctx = { bank, prompt, counter: { n: 0 }, intent };
   return fill(schema, "root", ctx);
 }
