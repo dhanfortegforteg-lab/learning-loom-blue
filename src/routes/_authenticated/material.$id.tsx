@@ -4,6 +4,7 @@ import { supabase } from "@/integrations/supabase/client";
 import { MaterialViewer } from "@/components/materials/MaterialViewer";
 import { DeleteItemButton } from "@/components/DeleteControls";
 import { NeededContentsButton } from "@/components/NeededContentsButton";
+import { StudyTools } from "@/components/StudyTools";
 import { ArrowLeft } from "lucide-react";
 import { toast } from "sonner";
 
@@ -11,6 +12,18 @@ export const Route = createFileRoute("/_authenticated/material/$id")({
   head: () => ({ meta: [{ title: "Material — Foxstudy" }, { name: "description", content: "Visualização do material de estudo." }] }),
   component: MaterialPage,
 });
+
+/** Junta todo o texto legível do material para o narrador. */
+function readableText(content: unknown): string {
+  const out: string[] = [];
+  const walk = (v: any) => {
+    if (typeof v === "string") out.push(v);
+    else if (Array.isArray(v)) v.forEach(walk);
+    else if (v && typeof v === "object") Object.values(v).forEach(walk);
+  };
+  walk(content);
+  return out.join(". ");
+}
 
 function MaterialPage() {
   const { id } = Route.useParams();
@@ -48,7 +61,8 @@ function MaterialPage() {
             </div>
           )}
         </div>
-        <div className="flex shrink-0 items-center gap-2">
+        <div className="flex shrink-0 flex-wrap items-center gap-2">
+          <StudyTools subject={data.subject} getText={() => readableText(data.content)} />
           <NeededContentsButton topic={data.subject} subject={data.discipline} />
           <DeleteItemButton label="este material" onConfirm={remove} />
         </div>
