@@ -99,7 +99,7 @@ function LeitorPage() {
     toast.success("Destaque salvo");
   };
 
-  const highlights = ((open?.highlights ?? []) as Highlight[]) ?? [];
+  const highlights = (open?.highlights ?? []) as Highlight[];
 
   return (
     <div className="mx-auto max-w-6xl space-y-6">
