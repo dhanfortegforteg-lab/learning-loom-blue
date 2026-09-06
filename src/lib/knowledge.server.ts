@@ -91,10 +91,57 @@ async function j(url: string) {
   return res.json() as Promise<any>;
 }
 
-async function findTitle(subject: string): Promise<string | null> {
-  const url = `${API}?action=query&list=search&srsearch=${encodeURIComponent(subject)}&srlimit=1&format=json&utf8=1`;
-  const data = await j(url);
-  return data?.query?.search?.[0]?.title ?? null;
+function norm(s: string) {
+  return s
+    .toLowerCase()
+    .normalize("NFD")
+    .replace(/[\u0300-\u036f]/g, "")
+    .replace(/[^a-z0-9 ]/g, " ")
+    .replace(/\s+/g, " ")
+    .trim();
+}
+
+/** Termos significativos do assunto pedido pelo aluno. */
+function terms(subject: string) {
+  return norm(subject)
+    .split(" ")
+    .filter((w) => w.length >= 3 && !STOP.has(w));
+}
+
+/**
+ * Busca vários candidatos e escolhe o melhor: prioriza títulos que cobrem os
+ * termos pedidos, descarta desambiguações/listas e prefere artigos maiores.
+ */
+async function findTitles(subject: string, hint?: string): Promise<string[]> {
+  const queries = [hint ? `${subject} ${hint}` : subject, subject].filter(
+    (q, i, a) => a.indexOf(q) === i,
+  );
+  const wanted = terms(subject);
+  const scored = new Map<string, number>();
+
+  for (const q of queries) {
+    const url = `${API}?action=query&list=search&srsearch=${encodeURIComponent(q)}&srlimit=6&format=json&utf8=1`;
+    let data: any;
+    try {
+      data = await j(url);
+    } catch {
+      continue;
+    }
+    const results: any[] = data?.query?.search ?? [];
+    results.forEach((res, rank) => {
+      const title: string = res.title;
+      const nt = norm(title);
+      if (/desambiguacao|lista de|anexo/.test(nt)) return;
+      const covered = wanted.filter((w) => nt.includes(w)).length;
+      const score =
+        covered * 10 +
+        (nt === norm(subject) ? 25 : 0) +
+        Math.min(8, (res.wordcount ?? 0) / 800) -
+        rank;
+      scored.set(title, Math.max(scored.get(title) ?? -99, score));
+    });
+  }
+  return [...scored.entries()].sort((a, b) => b[1] - a[1]).map(([t]) => t).slice(0, 3);
 }
 
 async function fetchExtract(title: string): Promise<string | null> {
@@ -140,18 +187,29 @@ function parseArticle(subject: string, title: string, extract: string): Bank {
   };
 }
 
-/** Monta (com cache) o banco de conteúdo de um assunto. Nunca lança erro. */
-export async function getBank(subject: string): Promise<Bank> {
-  const key = subject.trim().toLowerCase();
-  if (!key) return fallbackBank("Estudo");
+/**
+ * Monta (com cache) o banco de conteúdo de um assunto. Nunca lança erro.
+ * `hint` (disciplina/etapa) melhora a escolha do artigo certo.
+ */
+export async function getBank(subject: string, hint?: string): Promise<Bank> {
+  const key = (subject.trim() + "|" + (hint ?? "")).toLowerCase();
+  if (!subject.trim()) return fallbackBank("Estudo");
   const hit = cache.get(key);
   if (hit) return hit;
 
-  let bank: Bank;
+  let bank: Bank = fallbackBank(subject);
   try {
-    const title = await findTitle(subject);
-    const extract = title ? await fetchExtract(title) : null;
-    bank = extract ? parseArticle(subject, title!, extract) : fallbackBank(subject);
+    const titles = await findTitles(subject, hint);
+    for (const title of titles) {
+      const extract = await fetchExtract(title);
+      if (!extract || extract.length < 400) continue;
+      const candidate = parseArticle(subject, title, extract);
+      if (candidate.sourced && candidate.sentences.length >= 8) {
+        bank = candidate;
+        break;
+      }
+      if (candidate.sourced && !bank.sourced) bank = candidate;
+    }
   } catch {
     bank = fallbackBank(subject);
   }
