@@ -42,11 +42,13 @@ const nav = [
 export function AppShell({ children }: { children: ReactNode }) {
   const pathname = useRouterState({ select: (r) => r.location.pathname });
   const navigate = useNavigate();
-  const [dark, setDark] = useState(true);
+  const [dark, setDark] = useState(false);
 
   useEffect(() => {
-    const isDark = document.documentElement.classList.contains("dark");
+    const saved = localStorage.getItem("foxstudy-theme");
+    const isDark = saved === "dark";
     setDark(isDark);
+    document.documentElement.classList.toggle("dark", isDark);
   }, []);
 
   const toggleTheme = () => {
