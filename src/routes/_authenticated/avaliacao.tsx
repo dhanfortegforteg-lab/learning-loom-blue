@@ -11,7 +11,7 @@ import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
 import { FoxMascot } from "@/components/FoxMascot";
-import { ClipboardCheck, Check, X, Trophy, GraduationCap, BarChart3, RotateCcw } from "lucide-react";
+import { ClipboardCheck, Check, X, Trophy, GraduationCap, BarChart3, RotateCcw, Lightbulb, PartyPopper } from "lucide-react";
 import { toast } from "sonner";
 import { DeleteAllButton, DeleteItemButton } from "@/components/DeleteControls";
 
@@ -174,7 +174,7 @@ function AvaliacaoPage() {
             </p>
             <p className="mt-2 text-sm">
               {exam.result.score >= 6
-                ? "Você está aprendendo bem esse assunto 🎉"
+                ? <>Você está aprendendo bem esse assunto <PartyPopper className="ml-1 inline h-4 w-4 text-primary" /></>
                 : "Revise o conteúdo — os erros foram salvos em Falhas na Revisão."}
             </p>
           </Card>
@@ -219,7 +219,7 @@ function AvaliacaoPage() {
                 })}
               </div>
               {exam.result && q.explanation && (
-                <div className="mt-3 rounded-lg bg-muted/50 p-3 text-sm">💡 {q.explanation}</div>
+                <div className="mt-3 rounded-lg bg-muted/50 p-3 text-sm"><Lightbulb className="mr-1 inline h-4 w-4 text-primary" />{q.explanation}</div>
               )}
             </Card>
           </div>

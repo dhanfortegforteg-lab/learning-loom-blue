@@ -10,7 +10,7 @@ import { NeededContentsButton } from "@/components/NeededContentsButton";
 import { Card } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
 import { FoxMascot } from "@/components/FoxMascot";
-import { BookOpen, Lightbulb, ClipboardCheck, ScrollText, Check, X, ArrowLeft, Trophy } from "lucide-react";
+import { BookOpen, Lightbulb, ClipboardCheck, ScrollText, Check, X, ArrowLeft, Trophy, Sparkles, PartyPopper } from "lucide-react";
 import { toast } from "sonner";
 
 export const Route = createFileRoute("/_authenticated/trilha/$contentId")({
@@ -147,7 +147,7 @@ function TrilhaContentPage() {
             <div key={i} className="rounded-2xl border border-primary/20 bg-primary/5 p-4">
               <h3 className="mb-2 font-semibold text-primary">{b.title}</h3>
               <p className="whitespace-pre-wrap text-sm leading-relaxed">{b.body}</p>
-              {b.highlight && <div className="mt-3 rounded-lg bg-muted/50 p-3 text-sm">✨ {b.highlight}</div>}
+              {b.highlight && <div className="mt-3 rounded-lg bg-muted/50 p-3 text-sm"><Sparkles className="mr-1 inline h-4 w-4 text-primary" />{b.highlight}</div>}
             </div>
           ))}
           <Button size="lg" className="w-full" onClick={() => setStep(1)}>Ir para a explicação</Button>
@@ -200,7 +200,7 @@ function TrilhaContentPage() {
               <div className="font-display text-3xl font-bold">{finished.score.toFixed(1)}</div>
               <p className="text-sm text-muted-foreground">
                 {finished.unlocked
-                  ? "Meta atingida! Próximo conteúdo desbloqueado 🎉"
+                  ? <>Meta atingida! Próximo conteúdo desbloqueado <PartyPopper className="ml-1 inline h-4 w-4 text-primary" /></>
                   : `Ainda falta atingir a meta: ${goalLabel(content)} (${finished.attempts} tentativa(s)).`}
               </p>
               <Button className="mt-4" onClick={() => navigate({ to: "/trilhas" })}>Voltar às trilhas</Button>
@@ -252,7 +252,7 @@ function QuestionCard({ q, index, selected, revealed, onSelect }: { q: any; inde
           );
         })}
       </div>
-      {revealed && q.explanation && <div className="mt-3 rounded-lg bg-muted/50 p-3 text-sm">💡 {q.explanation}</div>}
+      {revealed && q.explanation && <div className="mt-3 rounded-lg bg-muted/50 p-3 text-sm"><Lightbulb className="mr-1 inline h-4 w-4 text-primary" />{q.explanation}</div>}
     </Card>
   );
 }

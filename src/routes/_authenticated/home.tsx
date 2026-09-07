@@ -4,7 +4,7 @@ import { supabase } from "@/integrations/supabase/client";
 import { Card } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
 import { FoxMascot } from "@/components/FoxMascot";
-import { BookOpen, Target, Zap, Flame, Trophy, PenSquare, GraduationCap } from "lucide-react";
+import { BookOpen, Target, Zap, Flame, Trophy, PenSquare, GraduationCap, Award, Rocket, Hand } from "lucide-react";
 
 export const Route = createFileRoute("/_authenticated/home")({
   head: () => ({ meta: [{ title: "Home — Foxstudy" }, { name: "description", content: "Painel do aluno com XP, ofensiva, materiais e desempenho." }] }),
@@ -51,8 +51,8 @@ function HomePage() {
         <div className="flex items-center gap-4">
           <FoxMascot className="h-14 w-14" />
           <div>
-            <h1 className="font-display text-3xl font-bold text-gradient">Olá, {profile.display_name} 👋</h1>
-            <p className="text-muted-foreground">Vamos estudar hoje? 🚀</p>
+            <h1 className="font-display text-3xl font-bold text-gradient">Olá, {profile.display_name} <Hand className="ml-1 inline h-7 w-7 text-primary" /></h1>
+            <p className="text-muted-foreground">Vamos estudar hoje? <Rocket className="ml-1 inline h-4 w-4 text-primary" /></p>
           </div>
         </div>
         <Button asChild size="lg" className="glow-pulse"><Link to="/estudar"><BookOpen className="mr-2 h-4 w-4" />Começar</Link></Button>
@@ -66,14 +66,14 @@ function HomePage() {
             <div className="h-2 rounded-full bg-gradient-to-r from-primary to-[var(--primary-glow)]" style={{ width: `${lvl.progress * 100}%` }} />
           </div>
           <div className="mt-2 flex justify-between text-xs text-muted-foreground">
-            <span className="rounded-full bg-muted px-2 py-0.5">🏅 {lvl.brasao}</span>
+            <span className="rounded-full bg-muted px-2 py-0.5"><Award className="mr-1 inline h-3.5 w-3.5 text-primary" />{lvl.brasao}</span>
             <span>Próximo: {lvl.next} XP</span>
           </div>
         </Card>
         <Card className="p-5">
           <div className="mb-2 flex items-center gap-2 text-sm font-semibold"><Flame className="h-4 w-4 text-orange-400" /> Ofensiva</div>
           <div className="text-3xl font-bold">{profile.streak_days ?? 0} <span className="text-sm text-muted-foreground">dias</span></div>
-          <p className="mt-2 text-xs text-muted-foreground">{(profile.streak_days ?? 0) > 0 ? "Continue assim! 🔥" : "Estude hoje para começar!"}</p>
+          <p className="mt-2 text-xs text-muted-foreground">{(profile.streak_days ?? 0) > 0 ? <>Continue assim! <Flame className="ml-1 inline h-3.5 w-3.5 text-orange-400" /></> : "Estude hoje para começar!"}</p>
         </Card>
       </div>
 

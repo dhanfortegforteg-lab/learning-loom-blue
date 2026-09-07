@@ -1,7 +1,7 @@
 import { useState } from "react";
 import { Card } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
-import { Check, X, ChevronRight } from "lucide-react";
+import { Check, X, ChevronRight, PartyPopper, Lightbulb } from "lucide-react";
 import { supabase } from "@/integrations/supabase/client";
 
 export function Pratica({ c, materialId }: { c: any; materialId: string }) {
@@ -48,7 +48,7 @@ export function Pratica({ c, materialId }: { c: any; materialId: string }) {
 
       {phase === "done" && (
         <Card className="glow-pulse p-8 text-center">
-          <h2 className="font-display text-3xl font-bold">Prática concluída! 🎉</h2>
+          <h2 className="font-display text-3xl font-bold flex items-center justify-center gap-2"><PartyPopper className="h-7 w-7 text-primary" /> Prática concluída!</h2>
           <p className="mt-2 text-muted-foreground">Você completou as {sections.length} seções.</p>
         </Card>
       )}
@@ -89,7 +89,7 @@ export function Pratica({ c, materialId }: { c: any; materialId: string }) {
                     );
                   })}
                 </div>
-                {submitted && q.explanation && <div className="mt-3 rounded-lg bg-muted/50 p-3 text-sm">💡 {q.explanation}</div>}
+                {submitted && q.explanation && <div className="mt-3 rounded-lg bg-muted/50 p-3 text-sm"><Lightbulb className="mr-1 inline h-4 w-4 text-primary" />{q.explanation}</div>}
                 {!submitted && answers[qi] !== undefined && (
                   <Button size="sm" className="mt-3" onClick={() => submitQ(qi)}>Confirmar</Button>
                 )}

@@ -77,7 +77,7 @@ function EstudarPage() {
     }
     setBulk(null);
     if (fails === total) toast.error("Não foi possível gerar os materiais");
-    else toast.success(`${total - fails} de ${total} materiais gerados! Veja na Biblioteca 📚`);
+    else toast.success(`${total - fails} de ${total} materiais gerados! Veja na Biblioteca`);
     if (fails < total) navigate({ to: "/biblioteca" });
   };
 
@@ -85,8 +85,8 @@ function EstudarPage() {
   return (
     <div className="mx-auto max-w-6xl space-y-6">
       <div>
-        <h1 className="font-display text-3xl font-bold text-gradient flex items-center gap-2">📖 Central de Estudos</h1>
-        <p className="text-muted-foreground">Digite o assunto e gere materiais ilimitados com IA ⚡</p>
+        <h1 className="font-display text-3xl font-bold text-gradient flex items-center gap-2"><BookOpen className="h-7 w-7 text-primary" /> Central de Estudos</h1>
+        <p className="text-muted-foreground">Digite o assunto e gere materiais ilimitados com IA <Zap className="ml-1 inline h-4 w-4 text-primary" /></p>
       </div>
 
       <Card className="p-5">
@@ -136,7 +136,7 @@ function EstudarPage() {
             </p>
           </div>
           <Button size="lg" onClick={generateAll} disabled={!!bulk || !!loadingKind} className="shadow-[var(--shadow-glow)]">
-            {bulk ? `Gerando ${bulk.done}/${bulk.total}...` : "Gerar tudo ⚡"}
+            {bulk ? `Gerando ${bulk.done}/${bulk.total}...` : <>Gerar tudo <Zap className="ml-1 inline h-4 w-4" /></>}
           </Button>
         </div>
         {bulk && (
@@ -150,7 +150,7 @@ function EstudarPage() {
       </Card>
 
       <div>
-        <h2 className="mb-3 font-display text-xl font-bold">Gerar Material ✨</h2>
+        <h2 className="mb-3 font-display text-xl font-bold flex items-center gap-2"><Sparkles className="h-5 w-5 text-primary" /> Gerar Material</h2>
         <div className="grid grid-cols-2 gap-3 sm:grid-cols-3 lg:grid-cols-4">
 
           {MATERIALS.map((m) => {

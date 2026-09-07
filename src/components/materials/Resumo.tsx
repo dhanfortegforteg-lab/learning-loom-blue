@@ -1,3 +1,4 @@
+import { Star } from "lucide-react";
 import { Card } from "@/components/ui/card";
 
 export function Resumo({ c }: { c: any }) {
@@ -9,7 +10,7 @@ export function Resumo({ c }: { c: any }) {
           <p className="text-sm leading-relaxed">{s.body}</p>
           {s.example && (
             <div className="mt-3 rounded-lg bg-primary/10 p-3 text-sm">
-              🌟 <span className="font-medium">Exemplo:</span> {s.example}
+              <Star className="mr-1 inline h-4 w-4 text-primary" /><span className="font-medium">Exemplo:</span> {s.example}
             </div>
           )}
         </Card>
