@@ -1,3 +1,4 @@
+import { Lightbulb } from "lucide-react";
 import { Card } from "@/components/ui/card";
 
 export function Apostila({ c }: { c: any }) {
@@ -13,7 +14,7 @@ export function Apostila({ c }: { c: any }) {
           <div className="whitespace-pre-wrap text-sm leading-relaxed text-foreground/90">{b.body}</div>
           {b.highlight && (
             <div className="mt-3 rounded-lg border-l-4 border-primary bg-primary/10 p-3 text-sm">
-              💡 <span className="font-medium">{b.highlight}</span>
+              <Lightbulb className="mr-1 inline h-4 w-4 text-primary" /><span className="font-medium">{b.highlight}</span>
             </div>
           )}
         </Card>
