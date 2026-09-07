@@ -56,7 +56,7 @@ function RecompensasPage() {
     <div className="mx-auto max-w-6xl space-y-8">
       <div className="flex items-center gap-3">
         <Gift className="h-7 w-7 text-primary" />
-        <h1 className="font-display text-3xl font-bold">Recompensas</h1>
+        <h1 className="font-display text-3xl font-bold text-gradient">Recompensas</h1>
       </div>
 
       <div className="grid gap-4 md:grid-cols-3">

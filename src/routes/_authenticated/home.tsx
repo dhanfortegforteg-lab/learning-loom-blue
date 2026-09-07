@@ -51,7 +51,7 @@ function HomePage() {
         <div className="flex items-center gap-4">
           <FoxMascot className="h-14 w-14" />
           <div>
-            <h1 className="font-display text-3xl font-bold">Olá, {profile.display_name} 👋</h1>
+            <h1 className="font-display text-3xl font-bold text-gradient">Olá, {profile.display_name} 👋</h1>
             <p className="text-muted-foreground">Vamos estudar hoje? 🚀</p>
           </div>
         </div>

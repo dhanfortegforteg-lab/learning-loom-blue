@@ -53,7 +53,7 @@ function MaterialPage() {
       <div className="flex items-start justify-between gap-3">
         <div>
           <div className="text-[10px] uppercase tracking-widest text-primary">{data.kind.replace("_", " ")}</div>
-          <h1 className="font-display text-3xl font-bold">{data.subject}</h1>
+          <h1 className="font-display text-3xl font-bold text-gradient">{data.subject}</h1>
           {(data.discipline || data.stage) && (
             <div className="mt-1 flex gap-2 text-xs text-muted-foreground">
               {data.discipline && <span className="rounded-full bg-muted px-2 py-0.5">{data.discipline}</span>}

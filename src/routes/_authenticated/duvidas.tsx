@@ -37,7 +37,7 @@ function DuvidasPage() {
 
   return (
     <div className="mx-auto max-w-3xl space-y-4">
-      <h1 className="font-display text-3xl font-bold flex items-center gap-2"><HelpCircle className="h-7 w-7 text-primary" /> Tirar Dúvidas</h1>
+      <h1 className="font-display text-3xl font-bold text-gradient flex items-center gap-2"><HelpCircle className="h-7 w-7 text-primary" /> Tirar Dúvidas</h1>
       <Card className="min-h-[400px] space-y-3 p-4">
         {chat.length === 0 && (
           <div className="flex flex-col items-center py-12 text-center text-muted-foreground">

@@ -64,7 +64,7 @@ function PlanoPage() {
   return (
     <div className="mx-auto max-w-5xl space-y-6">
       <div>
-        <h1 className="font-display text-3xl font-bold">Plano de estudos próprio</h1>
+        <h1 className="font-display text-3xl font-bold text-gradient">Plano de estudos próprio</h1>
         <p className="text-muted-foreground">Peça do seu jeito — o material é montado na hora e salvo no histórico.</p>
       </div>
 

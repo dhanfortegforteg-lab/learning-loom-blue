@@ -96,7 +96,7 @@ function ErrosPage() {
   return (
     <div className="mx-auto max-w-5xl space-y-6">
       <div>
-        <h1 className="font-display text-3xl font-bold">Consolidação dos erros</h1>
+        <h1 className="font-display text-3xl font-bold text-gradient">Consolidação dos erros</h1>
         <p className="text-muted-foreground">Seus erros de questões, provas, simulados e trilhas reunidos em um só lugar.</p>
       </div>
 

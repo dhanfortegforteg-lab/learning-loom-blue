@@ -104,7 +104,7 @@ function LeitorPage() {
   return (
     <div className="mx-auto max-w-6xl space-y-6">
       <div>
-        <h1 className="font-display text-3xl font-bold">Leitor de PDF</h1>
+        <h1 className="font-display text-3xl font-bold text-gradient">Leitor de PDF</h1>
         <p className="text-muted-foreground">Envie seus materiais, continue de onde parou e guarde os trechos importantes.</p>
       </div>
 

@@ -32,7 +32,7 @@ function BrasoesPage() {
   const xp = profile?.xp ?? 0;
   return (
     <div className="mx-auto max-w-5xl space-y-6">
-      <h1 className="font-display text-3xl font-bold flex items-center gap-2"><Award className="h-7 w-7 text-primary" /> Brasões & Troféus</h1>
+      <h1 className="font-display text-3xl font-bold text-gradient flex items-center gap-2"><Award className="h-7 w-7 text-primary" /> Brasões & Troféus</h1>
       <p className="text-muted-foreground">Você tem {xp} XP.</p>
       <div className="grid gap-4 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4">
         {BRASOES.map((b) => {

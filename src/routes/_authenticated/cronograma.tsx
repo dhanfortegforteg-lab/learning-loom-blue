@@ -53,7 +53,7 @@ function CronogramaPage() {
   return (
     <div className="mx-auto max-w-3xl space-y-6">
       <div>
-        <h1 className="font-display text-3xl font-bold flex items-center gap-2">⏱ Cronograma de Estudos</h1>
+        <h1 className="font-display text-3xl font-bold text-gradient flex items-center gap-2">⏱ Cronograma de Estudos</h1>
         <p className="text-muted-foreground">O cronômetro continua rodando mesmo se você trocar de aba.</p>
       </div>
 
