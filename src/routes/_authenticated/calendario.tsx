@@ -50,7 +50,7 @@ function CalendarioPage() {
   return (
     <div className="mx-auto max-w-5xl space-y-6">
       <div className="flex flex-wrap items-center justify-between gap-3">
-        <h1 className="font-display text-3xl font-bold flex items-center gap-2"><Calendar className="h-7 w-7 text-primary" /> Calendário</h1>
+        <h1 className="font-display text-3xl font-bold text-gradient flex items-center gap-2"><Calendar className="h-7 w-7 text-primary" /> Calendário</h1>
         <DeleteAllButton label="eventos" count={data?.length ?? 0} onConfirm={delAll} />
       </div>
       <Card className="p-5">

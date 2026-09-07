@@ -41,7 +41,7 @@ function DesafiosPage() {
   return (
     <div className="mx-auto max-w-5xl space-y-6">
       <div>
-        <h1 className="font-display text-3xl font-bold flex items-center gap-2"><Trophy className="h-7 w-7 text-primary" /> Desafios Diários</h1>
+        <h1 className="font-display text-3xl font-bold text-gradient flex items-center gap-2"><Trophy className="h-7 w-7 text-primary" /> Desafios Diários</h1>
         <p className="text-muted-foreground">Complete os 4 desafios do dia para ganhar XP!</p>
       </div>
       <Card className="p-5">

@@ -164,7 +164,7 @@ function ProdutividadePage() {
   return (
     <div className="mx-auto max-w-5xl space-y-6">
       <div>
-        <h1 className="font-display text-4xl font-bold flex items-center gap-3">
+        <h1 className="font-display text-4xl font-bold text-gradient flex items-center gap-3">
           <span className="rounded-2xl bg-gradient-primary p-2 shadow-glow"><Sparkles className="h-7 w-7 text-primary-foreground" /></span>
           <span className="text-gradient">Fox Productivity</span>
         </h1>

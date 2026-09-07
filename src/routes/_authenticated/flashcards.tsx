@@ -47,7 +47,7 @@ function GlobalReview({ onBack }: { onBack: () => void }) {
       <div className="flex items-center gap-3">
         <Button variant="ghost" size="icon" onClick={onBack} aria-label="Voltar"><ArrowLeft className="h-4 w-4" /></Button>
         <div>
-          <h1 className="font-display text-2xl font-bold">Revisão do dia</h1>
+          <h1 className="font-display text-2xl font-bold text-gradient">Revisão do dia</h1>
           <p className="text-xs text-muted-foreground">{cards?.length ?? 0} cartões vencidos em todos os baralhos</p>
         </div>
       </div>
@@ -237,7 +237,7 @@ function DeckView({ id, onBack }: { id: string; onBack: () => void }) {
         <div className="flex items-center gap-3">
           <Button variant="ghost" size="icon" onClick={onBack} aria-label="Voltar"><ArrowLeft className="h-4 w-4" /></Button>
           <div>
-            <h1 className="font-display text-2xl font-bold">{deck?.title ?? "Baralho"}</h1>
+            <h1 className="font-display text-2xl font-bold text-gradient">{deck?.title ?? "Baralho"}</h1>
             <p className="text-xs text-muted-foreground">{cards?.length ?? 0} cartões {deck?.subject ? `• ${deck.subject}` : ""}</p>
           </div>
         </div>

@@ -63,7 +63,7 @@ function KeywordsPage() {
   return (
     <div className="mx-auto max-w-5xl space-y-6">
       <div>
-        <h1 className="font-display text-3xl font-bold">Palavras-chave</h1>
+        <h1 className="font-display text-3xl font-bold text-gradient">Palavras-chave</h1>
         <p className="text-muted-foreground">Os termos que mais caem em cada assunto, com o significado de cada um.</p>
       </div>
 

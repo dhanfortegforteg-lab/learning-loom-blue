@@ -69,7 +69,7 @@ function IdiomasPage() {
   return (
     <div className="mx-auto max-w-5xl space-y-6">
       <div>
-        <h1 className="font-display text-3xl font-bold">Aprendizagem estrangeira</h1>
+        <h1 className="font-display text-3xl font-bold text-gradient">Aprendizagem estrangeira</h1>
         <p className="text-muted-foreground">Idioma, etapa e tema — a aula é montada na hora, com vocabulário e prática.</p>
       </div>
 

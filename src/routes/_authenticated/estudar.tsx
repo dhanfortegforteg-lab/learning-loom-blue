@@ -85,7 +85,7 @@ function EstudarPage() {
   return (
     <div className="mx-auto max-w-6xl space-y-6">
       <div>
-        <h1 className="font-display text-3xl font-bold flex items-center gap-2">📖 Central de Estudos</h1>
+        <h1 className="font-display text-3xl font-bold text-gradient flex items-center gap-2">📖 Central de Estudos</h1>
         <p className="text-muted-foreground">Digite o assunto e gere materiais ilimitados com IA ⚡</p>
       </div>
 

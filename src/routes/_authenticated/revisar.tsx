@@ -38,7 +38,7 @@ function RevisarPage() {
   return (
     <div className="mx-auto max-w-4xl space-y-6">
       <div>
-        <h1 className="font-display text-3xl font-bold flex items-center gap-2"><RotateCcw className="h-7 w-7 text-primary" /> Falhas na Revisão</h1>
+        <h1 className="font-display text-3xl font-bold text-gradient flex items-center gap-2"><RotateCcw className="h-7 w-7 text-primary" /> Falhas na Revisão</h1>
         <p className="text-muted-foreground">Volte nos seus erros e aprenda com eles.</p>
       </div>
 

@@ -46,7 +46,7 @@ function BibliotecaPage() {
   return (
     <div className="mx-auto max-w-6xl space-y-4">
       <div className="flex flex-wrap items-center justify-between gap-4">
-        <h1 className="font-display text-3xl font-bold flex items-center gap-2"><Library className="h-7 w-7 text-primary" /> Biblioteca</h1>
+        <h1 className="font-display text-3xl font-bold text-gradient flex items-center gap-2"><Library className="h-7 w-7 text-primary" /> Biblioteca</h1>
         <div className="flex items-center gap-2">
           <Input value={q} onChange={(e) => setQ(e.target.value)} placeholder="Buscar por assunto, tipo, disciplina..." className="max-w-sm" />
           <DeleteAllButton label="materiais salvos" count={data?.length ?? 0} onConfirm={removeAll} />

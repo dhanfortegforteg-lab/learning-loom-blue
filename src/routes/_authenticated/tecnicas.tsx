@@ -60,7 +60,7 @@ function TecnicasPage() {
   return (
     <div className="mx-auto max-w-5xl space-y-6">
       <div>
-        <h1 className="font-display text-3xl font-bold">Técnicas de apresentação</h1>
+        <h1 className="font-display text-3xl font-bold text-gradient">Técnicas de apresentação</h1>
         <p className="text-muted-foreground">Monte o roteiro, ensaie no tempo certo e ouça a sua fala antes do dia.</p>
       </div>
 
