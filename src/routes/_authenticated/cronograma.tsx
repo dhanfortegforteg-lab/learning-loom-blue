@@ -5,7 +5,7 @@ import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
-import { Play, Pause, RotateCcw, Check } from "lucide-react";
+import { Play, Pause, RotateCcw, Check, Timer } from "lucide-react";
 import { timerStore, useTimer, elapsedSeconds } from "@/lib/timer-store";
 import { supabase } from "@/integrations/supabase/client";
 import { toast } from "sonner";
@@ -47,13 +47,13 @@ function CronogramaPage() {
       last_study_date: today,
     }).eq("id", uid);
     timerStore.reset();
-    toast.success(`+${xpGain} XP! Estudou ${min} min 🎉`);
+    toast.success(`+${xpGain} XP! Estudou ${min} min`);
   };
 
   return (
     <div className="mx-auto max-w-3xl space-y-6">
       <div>
-        <h1 className="font-display text-3xl font-bold text-gradient flex items-center gap-2">⏱ Cronograma de Estudos</h1>
+        <h1 className="font-display text-3xl font-bold text-gradient flex items-center gap-2"><Timer className="h-7 w-7 text-primary" /> Cronograma de Estudos</h1>
         <p className="text-muted-foreground">O cronômetro continua rodando mesmo se você trocar de aba.</p>
       </div>
 
