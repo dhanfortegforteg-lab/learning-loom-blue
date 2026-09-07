@@ -2,7 +2,7 @@ import { useState } from "react";
 import { Card } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
 import { supabase } from "@/integrations/supabase/client";
-import { Check, X, Trophy } from "lucide-react";
+import { Check, X, Trophy, Lightbulb } from "lucide-react";
 
 export function QuestionsRunner({ c, kind, materialId }: { c: any; kind: string; materialId: string }) {
   const questions = c.questions ?? [];
@@ -81,7 +81,7 @@ export function QuestionsRunner({ c, kind, materialId }: { c: any; kind: string;
             })}
           </div>
           {submitted && q.explanation && (
-            <div className="mt-3 rounded-lg bg-muted/50 p-3 text-sm">💡 {q.explanation}</div>
+            <div className="mt-3 rounded-lg bg-muted/50 p-3 text-sm"><Lightbulb className="mr-1 inline h-4 w-4 text-primary" />{q.explanation}</div>
           )}
         </Card>
       ))}
