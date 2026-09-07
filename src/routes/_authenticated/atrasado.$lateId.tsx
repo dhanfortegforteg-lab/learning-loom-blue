@@ -9,7 +9,7 @@ import { Button } from "@/components/ui/button";
 import { Textarea } from "@/components/ui/textarea";
 import { Progress } from "@/components/ui/progress";
 import { FoxMascot } from "@/components/FoxMascot";
-import { ArrowLeft, BookOpen, Check, ClipboardCheck, FileText, Lightbulb, PenSquare, ScrollText, Sparkles, Trophy, X } from "lucide-react";
+import { ArrowLeft, BookOpen, Check, ClipboardCheck, FileText, Lightbulb, PenSquare, ScrollText, Sparkles, Star, PartyPopper, Trophy, X } from "lucide-react";
 import { NeededContentsButton } from "@/components/NeededContentsButton";
 import { toast } from "sonner";
 
@@ -158,7 +158,7 @@ function LateRunnerPage() {
       const rev = { ...revealed, pratica: true, questoes: true, prova: true };
       setRevealed(rev);
       await persist({ score, percent: 100, completed: score >= 7 }, step, answers, rev);
-      toast.success(`Nota final: ${score.toFixed(1)} ${score >= 7 ? "— média atingida! 🎉" : "— abaixo de 7.0, use a revisão"}`);
+      toast.success(`Nota final: ${score.toFixed(1)} ${score >= 7 ? "— média atingida!" : "— abaixo de 7.0, use a revisão"}`);
 
       const { data: sess } = await supabase.auth.getSession();
       const uid = sess.session?.user.id;
@@ -247,7 +247,7 @@ function LateRunnerPage() {
               </div>
               <div className="whitespace-pre-wrap text-sm leading-relaxed text-foreground/90">{b.body}</div>
               {b.highlight && (
-                <div className="mt-3 rounded-lg border-l-4 border-primary bg-primary/10 p-3 text-sm">💡 <span className="font-medium">{b.highlight}</span></div>
+                <div className="mt-3 rounded-lg border-l-4 border-primary bg-primary/10 p-3 text-sm"><Lightbulb className="mr-1 inline h-4 w-4 text-primary" /> <span className="font-medium">{b.highlight}</span></div>
               )}
             </Card>
           ))}
@@ -273,7 +273,7 @@ function LateRunnerPage() {
             <Card key={i} className="p-5">
               <h3 className="mb-2 font-display text-xl font-bold text-primary">{s.heading}</h3>
               <p className="whitespace-pre-wrap text-sm leading-relaxed">{s.body}</p>
-              {s.example && <div className="mt-3 rounded-lg bg-primary/10 p-3 text-sm">🌟 <span className="font-medium">Exemplo:</span> {s.example}</div>}
+              {s.example && <div className="mt-3 rounded-lg bg-primary/10 p-3 text-sm"><Star className="mr-1 inline h-4 w-4 text-primary" /> <span className="font-medium">Exemplo:</span> {s.example}</div>}
             </Card>
           ))}
           <Button size="lg" className="w-full" onClick={() => go(2)}>Ir para a prática</Button>
@@ -397,7 +397,7 @@ function LateRunnerPage() {
                 <Trophy className="mx-auto mb-2 h-10 w-10 text-primary" />
                 <div className="font-display text-3xl font-bold">{totalScore.toFixed(1)}</div>
                 <p className="text-sm text-muted-foreground">
-                  {totalScore >= 7 ? "Média mínima atingida! 🎉" : "Abaixo de 7.0 — crie uma revisão para melhorar."}
+                  {totalScore >= 7 ? <>Média mínima atingida! <PartyPopper className="ml-1 inline h-4 w-4 text-primary" /></> : "Abaixo de 7.0 — crie uma revisão para melhorar."}
                 </p>
               </div>
             )}
@@ -540,7 +540,7 @@ function QuestionCard({ q, index, selected, revealed, onSelect }: { q: any; inde
           );
         })}
       </div>
-      {revealed && q.explanation && <div className="mt-3 rounded-lg bg-muted/50 p-3 text-sm">💡 {q.explanation}</div>}
+      {revealed && q.explanation && <div className="mt-3 rounded-lg bg-muted/50 p-3 text-sm"><Lightbulb className="mr-1 inline h-4 w-4 text-primary" />{q.explanation}</div>}
     </Card>
   );
 }
