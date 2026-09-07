@@ -72,7 +72,7 @@ function TrilhasPage() {
   return (
     <div className="mx-auto max-w-6xl space-y-6">
       <div>
-        <h1 className="font-display text-3xl font-bold flex items-center gap-2">
+        <h1 className="font-display text-3xl font-bold text-gradient flex items-center gap-2">
           <RouteIcon className="h-7 w-7 text-primary" /> Estudo Automático
         </h1>
         <p className="mt-1 text-sm text-muted-foreground">
