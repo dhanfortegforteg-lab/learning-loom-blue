@@ -237,7 +237,72 @@ function paragraph(ctx: Ctx, i: number, count = 1) {
 
 function sentence(ctx: Ctx, i: number) {
   const b = ctx.bank;
-  return b.sentences.length ? pick(b.sentences, i) : pick(b.paragraphs, i);
+  const pool = b.teaching?.length ? b.teaching : b.sentences;
+  return pool.length ? pick(pool, i) : pick(b.paragraphs, i);
+}
+
+/* -------------------------------------------------------- didática */
+
+/** Termo central estudado na posição i (com a frase que o define). */
+function conceptAt(ctx: Ctx, i: number) {
+  const b = ctx.bank;
+  if (b.definitions?.length) {
+    const d = pick(b.definitions, i);
+    return { term: cap(d.term), text: d.text };
+  }
+  const term = cap(pick(b.keywords, i) ?? b.title);
+  return { term, text: sentence(ctx, i) };
+}
+
+/** Explica o conceito com as próprias palavras, em linguagem de professor. */
+function explainConcept(ctx: Ctx, i: number) {
+  const b = ctx.bank;
+  const { term, text } = conceptAt(ctx, i);
+  const why = trimTo(sentence(ctx, i + 3), 220);
+  return [
+    `**O que é:** ${trimTo(text, 280)}`,
+    `**Em palavras simples:** entender ${term.toLowerCase()} é entender o que acontece, por que acontece e em que situação isso aparece dentro de ${b.title}.`,
+    `**Por que importa:** ${why}`,
+  ].join("\n\n");
+}
+
+/** Passo a passo de raciocínio para usar o conceito. */
+function howToSteps(ctx: Ctx, i: number) {
+  const { term } = conceptAt(ctx, i);
+  const t = term.toLowerCase();
+  return [
+    `1. Leia o enunciado e identifique se o assunto envolve ${t}.`,
+    `2. Escreva a definição de ${t} com as suas palavras antes de responder.`,
+    `3. Relacione ${t} com os outros elementos de ${ctx.bank.title} que aparecem no enunciado.`,
+    `4. Aplique o conceito no caso apresentado e confira se a resposta responde exatamente ao que foi pedido.`,
+  ].join("\n");
+}
+
+function workedExample(ctx: Ctx, i: number) {
+  const { term } = conceptAt(ctx, i);
+  const evidence = trimTo(sentence(ctx, i + 1), 200);
+  return `Imagine uma situação em que ${term.toLowerCase()} precisa ser reconhecido em ${ctx.bank.title}. Ponto de partida: ${evidence} A partir daí, você identifica o conceito, explica o motivo e chega à conclusão.`;
+}
+
+function commonMistakes(ctx: Ctx, i: number) {
+  const { term } = conceptAt(ctx, i);
+  return [
+    `Decorar a definição de ${term.toLowerCase()} sem saber aplicá-la.`,
+    `Confundir ${term.toLowerCase()} com outro conceito parecido de ${ctx.bank.title}.`,
+    `Responder pelo "achismo" sem voltar ao enunciado.`,
+  ].join("\n");
+}
+
+/** Bloco de estudo completo: entender → aplicar → praticar. */
+function didacticBody(ctx: Ctx, i: number) {
+  const base = sectionBody(ctx, i, 2);
+  return [
+    explainConcept(ctx, i),
+    `**Como funciona, passo a passo:**\n${howToSteps(ctx, i)}`,
+    `**Exemplo comentado:** ${workedExample(ctx, i)}`,
+    `**No conteúdo:** ${trimTo(base, 700)}`,
+    `**Erros comuns:**\n${commonMistakes(ctx, i)}`,
+  ].join("\n\n");
 }
 
 function heading(ctx: Ctx, i: number) {
