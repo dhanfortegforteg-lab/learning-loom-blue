@@ -46,7 +46,9 @@ function trimTo(s: string, max: number) {
 type Q = { text?: string; question: string; options: string[]; answer: number; explanation: string };
 
 function usableSentences(bank: Bank) {
-  return bank.sentences.filter((s) => s.split(" ").length >= 8);
+  const teach = (bank.teaching ?? []).filter((s) => s.split(" ").length >= 8);
+  if (teach.length >= 6) return teach;
+  return [...teach, ...bank.sentences.filter((s) => s.split(" ").length >= 8 && !teach.includes(s))];
 }
 
 function clozeQuestion(bank: Bank, i: number, r: () => number): Q | null {
