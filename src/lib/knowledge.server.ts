@@ -7,13 +7,30 @@
 
 const API = "https://pt.wikipedia.org/w/api.php";
 
+export type Section = { heading: string; paragraphs: string[]; kind: SectionKind };
+
+export type SectionKind =
+  | "conceito"
+  | "funcionamento"
+  | "tipos"
+  | "exemplo"
+  | "aplicacao"
+  | "historia"
+  | "outro";
+
+/** Frase que define/explica um termo — a matéria-prima do ensino. */
+export type Definition = { term: string; text: string };
+
 export type Bank = {
   subject: string;
   title: string;
   summary: string;
   paragraphs: string[];
-  sections: { heading: string; paragraphs: string[] }[];
+  sections: Section[];
   sentences: string[];
+  /** Frases explicativas (definição, causa, função, processo) — sem datas soltas. */
+  teaching: string[];
+  definitions: Definition[];
   keywords: string[];
   sourced: boolean;
 };
