@@ -332,32 +332,40 @@ function textFor(key: string, ctx: Ctx, i: number): string {
       return b.subject;
     case "label":
     case "term":
-      return cap(pick(b.keywords, i) ?? b.title);
+      return conceptAt(ctx, i).term;
     case "definition":
-    case "detail":
+      return trimTo(conceptAt(ctx, i).text, 260);
     case "example":
+      return workedExample(ctx, i);
+    case "detail":
     case "highlight":
     case "keyIdea":
     case "visual":
       if (key === "visual") return `${b.title} ${pick(b.keywords, i) ?? ""}`.trim();
       return trimTo(sentence(ctx, i + 2), 240);
     case "intro":
-    case "summary":
     case "overview":
+      return `${explainConcept(ctx, i)}\n\n${trimTo(paragraph(ctx, i, 1), 600)}`;
+    case "summary":
     case "review":
-      return paragraph(ctx, i, 2);
+      return [
+        `**Ideia central:** ${trimTo(conceptAt(ctx, i).text, 240)}`,
+        `**Para lembrar:** ${b.keywords.slice(0, 6).map(cap).join(" · ")}`,
+        `**Checagem rápida:** consigo explicar ${b.title} para outra pessoa em três frases, dar um exemplo e dizer onde isso é usado?`,
+      ].join("\n\n");
     case "body":
     case "theory":
     case "guide":
+      return didacticBody(ctx, i);
     case "miniText":
     case "answer":
-      return sectionBody(ctx, i, key === "body" ? 2 : 1);
+      return sectionBody(ctx, i, 1);
     case "text":
       return supportText(b, i, 3);
     case "front":
-      return `O que você entende por "${cap(pick(b.keywords, i) ?? b.title)}" em ${b.title}?`;
+      return `Explique com suas palavras: ${conceptAt(ctx, i).term} em ${b.title}.`;
     case "back":
-      return trimTo(sentence(ctx, i + 1), 260);
+      return trimTo(conceptAt(ctx, i).text, 300);
     case "essayPrompt":
     case "writingPrompt":
       return `Escreva um texto explicando ${b.title}, mostrando domínio do tema: apresente o conceito, um exemplo e a importância do assunto.`;
