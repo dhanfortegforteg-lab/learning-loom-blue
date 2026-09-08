@@ -2,7 +2,7 @@ import { createFileRoute, Link } from "@tanstack/react-router";
 import { useQuery } from "@tanstack/react-query";
 import { supabase } from "@/integrations/supabase/client";
 import { Card } from "@/components/ui/card";
-import { Trophy, Timer, PenSquare, ListChecks, BookOpen } from "lucide-react";
+import { Trophy, Timer, PenSquare, ListChecks, BookOpen, ClipboardList, CheckCircle2, Zap } from "lucide-react";
 
 export const Route = createFileRoute("/_authenticated/desafios")({
   head: () => ({ meta: [{ title: "Desafios — Foxstudy" }, { name: "description", content: "Complete os desafios diários e ganhe XP." }] }),
@@ -46,8 +46,8 @@ function DesafiosPage() {
       </div>
       <Card className="p-5">
         <div className="mb-4 flex items-center justify-between text-sm">
-          <span className="font-semibold">Desafios de Hoje 📋</span>
-          <span className="text-muted-foreground">{done}/4 ✅ · +{totalXp} XP ⚡</span>
+          <span className="font-semibold flex items-center gap-1"><ClipboardList className="h-4 w-4 text-primary" /> Desafios de Hoje</span>
+          <span className="text-muted-foreground inline-flex items-center gap-1">{done}/4 <CheckCircle2 className="h-3.5 w-3.5 text-primary" /> · +{totalXp} XP <Zap className="h-3.5 w-3.5 text-primary" /></span>
         </div>
         <div className="space-y-3">
           {items.map((i, idx) => {
@@ -61,7 +61,7 @@ function DesafiosPage() {
                   </div>
                   <div className="flex-1">
                     <div className="font-medium">{i.title}</div>
-                    <div className="text-xs text-muted-foreground">{i.progress}/{i.goal} · ⚡ +{i.xp} XP</div>
+                    <div className="text-xs text-muted-foreground inline-flex items-center gap-1">{i.progress}/{i.goal} · <Zap className="h-3 w-3 text-primary" /> +{i.xp} XP</div>
                     <div className="mt-2 h-1.5 rounded-full bg-muted">
                       <div className="h-1.5 rounded-full bg-gradient-to-r from-primary to-[var(--primary-glow)]" style={{ width: `${pct}%` }} />
                     </div>

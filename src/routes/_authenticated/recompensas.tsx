@@ -40,7 +40,7 @@ function RecompensasPage() {
     setBusy(r.id);
     try {
       const res: any = await claim({ data: { rewardId: r.id } });
-      toast.success(`${r.name} resgatado! +${res.xp} XP 🎉`);
+      toast.success(`${r.name} resgatado! +${res.xp} XP`);
       await qc.invalidateQueries();
     } catch (e: any) {
       toast.error(e?.message ?? "Não foi possível resgatar");

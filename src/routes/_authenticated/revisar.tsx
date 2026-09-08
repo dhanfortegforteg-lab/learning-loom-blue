@@ -6,7 +6,7 @@ import { generateMaterial } from "@/lib/ai.functions";
 import { supabase } from "@/integrations/supabase/client";
 import { Card } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
-import { RotateCcw, Sparkles } from "lucide-react";
+import { RotateCcw, Sparkles, CheckCircle2 } from "lucide-react";
 import { QuestionsRunner } from "@/components/materials/QuestionsRunner";
 import { toast } from "sonner";
 
@@ -61,7 +61,7 @@ function RevisarPage() {
             <p className="text-sm leading-relaxed">{content.review}</p>
             {content.tips?.length > 0 && (
               <ul className="mt-3 space-y-1 text-sm">
-                {content.tips.map((t: string, i: number) => <li key={i}>✅ {t}</li>)}
+                {content.tips.map((t: string, i: number) => <li key={i} className="flex items-start gap-1.5"><CheckCircle2 className="mt-0.5 h-4 w-4 shrink-0 text-primary" /> <span>{t}</span></li>)}
               </ul>
             )}
           </Card>
