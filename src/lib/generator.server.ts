@@ -96,7 +96,7 @@ function statementQuestion(bank: Bank, i: number, r: () => number): Q {
     question: `Sobre ${bank.title}, qual alternativa está correta?`,
     options: order.map((k) => opts[k]),
     answer: order.indexOf(0),
-    explanation: `Correta: "${correct}" — essa é a informação apresentada no estudo de ${bank.title}.`,
+    explanation: `Correta: "${correct}". Raciocínio: essa alternativa mantém a relação verdadeira entre os conceitos de ${bank.title}; as demais invertem, exageram ou trocam um termo pelo outro — sempre confira se a frase continua verdadeira quando você troca uma palavra-chave.`,
   };
 }
 
