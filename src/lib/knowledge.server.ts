@@ -78,6 +78,82 @@ function extractKeywords(text: string, limit = 40): string[] {
     .map(([w]) => w);
 }
 
+/* ------------------------------------------------- camada didática */
+
+const KIND_RULES: Array<[RegExp, SectionKind]> = [
+  [/defini|conceito|o que [ée]|introdu|vis[ãa]o geral|generalidades|descri[çc][ãa]o/i, "conceito"],
+  [/funcionamento|como funciona|mecanismo|processo|princ[íi]pio|f[óo]rmula|c[áa]lculo|estrutura|propriedades|caracter[íi]sticas/i, "funcionamento"],
+  [/tipos|classifica|categoria|divis[ãa]o|esp[ée]cies|formas/i, "tipos"],
+  [/exemplo|casos?|amostra|modelo/i, "exemplo"],
+  [/aplica|utiliza|uso|import[âa]ncia|no cotidiano|na pr[áa]tica|consequ[êe]ncia|efeito/i, "aplicacao"],
+  [/hist[óo]ri|etimolog|origem|antiguidade|cronolog|biografia|s[ée]culo|contexto hist/i, "historia"],
+];
+
+function classify(heading: string): SectionKind {
+  for (const [re, kind] of KIND_RULES) if (re.test(heading)) return kind;
+  return "outro";
+}
+
+/** Ordem de valor pedagógico: primeiro entender, depois exemplificar, por último história. */
+const KIND_ORDER: Record<SectionKind, number> = {
+  conceito: 0,
+  funcionamento: 1,
+  tipos: 2,
+  exemplo: 3,
+  aplicacao: 4,
+  outro: 5,
+  historia: 9,
+};
+
+const DATE_HEAVY = /\b(1[0-9]{3}|20[0-2][0-9])\b|\bs[ée]culo\b|\bd\.?C\.?\b|\ba\.?C\.?\b/i;
+const EXPLAINS =
+  /\b([ée]|s[ãa]o|consiste|define-se|chama-se|denomina|significa|corresponde|serve para|funciona|ocorre quando|acontece quando|resulta|permite|depende|representa|caracteriza|classifica|calcula|indica|provoca|deve-se|por isso|porque|ou seja|isto [ée])\b/i;
+
+/** Mantém frases que ensinam (definem, explicam causa, função ou processo). */
+function teachingSentences(sentences: string[]): string[] {
+  const scored = sentences
+    .map((s) => {
+      let score = 0;
+      if (EXPLAINS.test(s)) score += 3;
+      if (/\b(ou seja|isto [ée]|por exemplo|porque|portanto|assim)\b/i.test(s)) score += 2;
+      if (/\bconsiste|define-se|chama-se|significa|serve para|ocorre quando\b/i.test(s)) score += 3;
+      if (DATE_HEAVY.test(s)) score -= 4;
+      if (/\b(nasceu|morreu|foi eleito|assinado em|fundad[oa] em)\b/i.test(s)) score -= 4;
+      return { s, score };
+    })
+    .filter((x) => x.score > 0)
+    .sort((a, b) => b.score - a.score);
+  return scored.map((x) => x.s);
+}
+
+/** Frases do tipo "X é ...", que viram definição de termo. */
+function extractDefinitions(sentences: string[], keywords: string[]): Definition[] {
+  const out: Definition[] = [];
+  const seen = new Set<string>();
+  for (const s of sentences) {
+    const m = s.match(
+      /^([A-ZÁÉÍÓÚÂÊÔÃÕÇ][^.,;:]{2,60}?)\s+(?:[ée]|s[ãa]o|consiste em|refere-se a|define-se como|significa|corresponde a)\s+([^.]{25,260}\.?)/,
+    );
+    if (!m) continue;
+    const term = m[1].trim().replace(/^(o|a|os|as|um|uma)\s+/i, "");
+    const key = term.toLowerCase();
+    if (seen.has(key) || term.split(" ").length > 6) continue;
+    if (DATE_HEAVY.test(s)) continue;
+    seen.add(key);
+    out.push({ term, text: s.trim() });
+  }
+  // completa com termos frequentes que aparecem em frases explicativas
+  for (const k of keywords) {
+    if (out.length >= 14) break;
+    if (seen.has(k)) continue;
+    const src = sentences.find((s) => s.toLowerCase().includes(k) && EXPLAINS.test(s) && !DATE_HEAVY.test(s));
+    if (!src) continue;
+    seen.add(k);
+    out.push({ term: k, text: src.trim() });
+  }
+  return out;
+}
+
 function fallbackBank(subject: string): Bank {
   const s = subject.trim();
   const paragraphs = [
