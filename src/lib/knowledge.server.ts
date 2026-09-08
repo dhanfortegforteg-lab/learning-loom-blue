@@ -323,7 +323,13 @@ export async function getBank(subject: string, hint?: string): Promise<Bank> {
   }
   if (bank.sentences.length < 6) {
     const fb = fallbackBank(subject);
-    bank = { ...bank, sentences: [...bank.sentences, ...fb.sentences], paragraphs: [...bank.paragraphs, ...fb.paragraphs] };
+    bank = {
+      ...bank,
+      sentences: [...bank.sentences, ...fb.sentences],
+      teaching: [...bank.teaching, ...fb.teaching],
+      paragraphs: [...bank.paragraphs, ...fb.paragraphs],
+      definitions: bank.definitions.length ? bank.definitions : fb.definitions,
+    };
   }
   cache.set(key, bank);
   return bank;
