@@ -46,7 +46,9 @@ function trimTo(s: string, max: number) {
 type Q = { text?: string; question: string; options: string[]; answer: number; explanation: string };
 
 function usableSentences(bank: Bank) {
-  return bank.sentences.filter((s) => s.split(" ").length >= 8);
+  const teach = (bank.teaching ?? []).filter((s) => s.split(" ").length >= 8);
+  if (teach.length >= 6) return teach;
+  return [...teach, ...bank.sentences.filter((s) => s.split(" ").length >= 8 && !teach.includes(s))];
 }
 
 function clozeQuestion(bank: Bank, i: number, r: () => number): Q | null {
@@ -74,7 +76,7 @@ function clozeQuestion(bank: Bank, i: number, r: () => number): Q | null {
       question: `Complete a lacuna: "${trimTo(blanked.join(""), 260)}"`,
       options,
       answer: order.indexOf(0),
-      explanation: `A frase completa é: "${trimTo(s, 260)}"`,
+      explanation: `A palavra certa é "${cap(correct)}". A frase completa fica: "${trimTo(s, 240)}" — repare que o termo é o que dá sentido à ideia; as outras opções pertencem a outro ponto do conteúdo.`,
     };
   }
   return null;
@@ -94,7 +96,7 @@ function statementQuestion(bank: Bank, i: number, r: () => number): Q {
     question: `Sobre ${bank.title}, qual alternativa está correta?`,
     options: order.map((k) => opts[k]),
     answer: order.indexOf(0),
-    explanation: `Correta: "${correct}" — essa é a informação apresentada no estudo de ${bank.title}.`,
+    explanation: `Correta: "${correct}". Raciocínio: essa alternativa mantém a relação verdadeira entre os conceitos de ${bank.title}; as demais invertem, exageram ou trocam um termo pelo outro — sempre confira se a frase continua verdadeira quando você troca uma palavra-chave.`,
   };
 }
 
@@ -237,7 +239,72 @@ function paragraph(ctx: Ctx, i: number, count = 1) {
 
 function sentence(ctx: Ctx, i: number) {
   const b = ctx.bank;
-  return b.sentences.length ? pick(b.sentences, i) : pick(b.paragraphs, i);
+  const pool = b.teaching?.length ? b.teaching : b.sentences;
+  return pool.length ? pick(pool, i) : pick(b.paragraphs, i);
+}
+
+/* -------------------------------------------------------- didática */
+
+/** Termo central estudado na posição i (com a frase que o define). */
+function conceptAt(ctx: Ctx, i: number) {
+  const b = ctx.bank;
+  if (b.definitions?.length) {
+    const d = pick(b.definitions, i);
+    return { term: cap(d.term), text: d.text };
+  }
+  const term = cap(pick(b.keywords, i) ?? b.title);
+  return { term, text: sentence(ctx, i) };
+}
+
+/** Explica o conceito com as próprias palavras, em linguagem de professor. */
+function explainConcept(ctx: Ctx, i: number) {
+  const b = ctx.bank;
+  const { term, text } = conceptAt(ctx, i);
+  const why = trimTo(sentence(ctx, i + 3), 220);
+  return [
+    `**O que é:** ${trimTo(text, 280)}`,
+    `**Em palavras simples:** entender ${term.toLowerCase()} é entender o que acontece, por que acontece e em que situação isso aparece dentro de ${b.title}.`,
+    `**Por que importa:** ${why}`,
+  ].join("\n\n");
+}
+
+/** Passo a passo de raciocínio para usar o conceito. */
+function howToSteps(ctx: Ctx, i: number) {
+  const { term } = conceptAt(ctx, i);
+  const t = term.toLowerCase();
+  return [
+    `1. Leia o enunciado e identifique se o assunto envolve ${t}.`,
+    `2. Escreva a definição de ${t} com as suas palavras antes de responder.`,
+    `3. Relacione ${t} com os outros elementos de ${ctx.bank.title} que aparecem no enunciado.`,
+    `4. Aplique o conceito no caso apresentado e confira se a resposta responde exatamente ao que foi pedido.`,
+  ].join("\n");
+}
+
+function workedExample(ctx: Ctx, i: number) {
+  const { term } = conceptAt(ctx, i);
+  const evidence = trimTo(sentence(ctx, i + 1), 200);
+  return `Imagine uma situação em que ${term.toLowerCase()} precisa ser reconhecido em ${ctx.bank.title}. Ponto de partida: ${evidence} A partir daí, você identifica o conceito, explica o motivo e chega à conclusão.`;
+}
+
+function commonMistakes(ctx: Ctx, i: number) {
+  const { term } = conceptAt(ctx, i);
+  return [
+    `Decorar a definição de ${term.toLowerCase()} sem saber aplicá-la.`,
+    `Confundir ${term.toLowerCase()} com outro conceito parecido de ${ctx.bank.title}.`,
+    `Responder pelo "achismo" sem voltar ao enunciado.`,
+  ].join("\n");
+}
+
+/** Bloco de estudo completo: entender → aplicar → praticar. */
+function didacticBody(ctx: Ctx, i: number) {
+  const base = sectionBody(ctx, i, 2);
+  return [
+    explainConcept(ctx, i),
+    `**Como funciona, passo a passo:**\n${howToSteps(ctx, i)}`,
+    `**Exemplo comentado:** ${workedExample(ctx, i)}`,
+    `**No conteúdo:** ${trimTo(base, 700)}`,
+    `**Erros comuns:**\n${commonMistakes(ctx, i)}`,
+  ].join("\n\n");
 }
 
 function heading(ctx: Ctx, i: number) {
@@ -267,32 +334,40 @@ function textFor(key: string, ctx: Ctx, i: number): string {
       return b.subject;
     case "label":
     case "term":
-      return cap(pick(b.keywords, i) ?? b.title);
+      return conceptAt(ctx, i).term;
     case "definition":
-    case "detail":
+      return trimTo(conceptAt(ctx, i).text, 260);
     case "example":
+      return workedExample(ctx, i);
+    case "detail":
     case "highlight":
     case "keyIdea":
     case "visual":
       if (key === "visual") return `${b.title} ${pick(b.keywords, i) ?? ""}`.trim();
       return trimTo(sentence(ctx, i + 2), 240);
     case "intro":
-    case "summary":
     case "overview":
+      return `${explainConcept(ctx, i)}\n\n${trimTo(paragraph(ctx, i, 1), 600)}`;
+    case "summary":
     case "review":
-      return paragraph(ctx, i, 2);
+      return [
+        `**Ideia central:** ${trimTo(conceptAt(ctx, i).text, 240)}`,
+        `**Para lembrar:** ${b.keywords.slice(0, 6).map(cap).join(" · ")}`,
+        `**Checagem rápida:** consigo explicar ${b.title} para outra pessoa em três frases, dar um exemplo e dizer onde isso é usado?`,
+      ].join("\n\n");
     case "body":
     case "theory":
     case "guide":
+      return didacticBody(ctx, i);
     case "miniText":
     case "answer":
-      return sectionBody(ctx, i, key === "body" ? 2 : 1);
+      return sectionBody(ctx, i, 1);
     case "text":
       return supportText(b, i, 3);
     case "front":
-      return `O que você entende por "${cap(pick(b.keywords, i) ?? b.title)}" em ${b.title}?`;
+      return `Explique com suas palavras: ${conceptAt(ctx, i).term} em ${b.title}.`;
     case "back":
-      return trimTo(sentence(ctx, i + 1), 260);
+      return trimTo(conceptAt(ctx, i).text, 300);
     case "essayPrompt":
     case "writingPrompt":
       return `Escreva um texto explicando ${b.title}, mostrando domínio do tema: apresente o conceito, um exemplo e a importância do assunto.`;
@@ -324,13 +399,10 @@ function fill(schema: any, key: string, ctx: Ctx): any {
     // Flashcard: frente e verso precisam falar do MESMO conceito
     if (schema.properties?.front && schema.properties?.back) {
       const i = next(ctx);
-      const term = pick(ctx.bank.keywords, i) ?? ctx.bank.title;
-      const src =
-        ctx.bank.sentences.find((s) => s.toLowerCase().includes(term)) ??
-        pick(ctx.bank.sentences.length ? ctx.bank.sentences : ctx.bank.paragraphs, i);
+      const { term, text } = conceptAt(ctx, i);
       return {
-        front: `O que significa "${cap(term)}" no estudo de ${ctx.bank.title}?`,
-        back: trimTo(src, 300),
+        front: `O que é ${term} em ${ctx.bank.title} e para que serve?`,
+        back: trimTo(text, 300),
       };
     }
 
@@ -512,11 +584,19 @@ export async function generate(messages: any[], schema?: any): Promise<any> {
 
   // Dúvida direta
   if (Object.keys(props).length === 1 && props.answer) {
+    const ctxA: Ctx = { bank, prompt, counter: { n: 0 }, intent };
     const parts = [
-      `**${bank.title}** — ${trimTo(bank.summary, 600)}`,
-      ...bank.sections.slice(1, 4).map((s) => `\n**${s.heading}**\n${trimTo(s.paragraphs[0] ?? "", 500)}`),
-      `\n**Resumo rápido:** ${bank.keywords.slice(0, 8).map(cap).join(" · ")}`,
-      bank.sourced ? `\n_Fonte: Wikipédia (pt) — ${bank.title}._` : "",
+      `**${bank.title}**`,
+      explainConcept(ctxA, 0),
+      `**Como raciocinar sobre isso:**\n${howToSteps(ctxA, 0)}`,
+      `**Exemplo comentado:** ${workedExample(ctxA, 0)}`,
+      ...bank.sections
+        .filter((s) => s.kind !== "historia")
+        .slice(1, 3)
+        .map((s) => `**${s.heading}**\n${trimTo(s.paragraphs[0] ?? "", 450)}`),
+      `**Erros comuns:**\n${commonMistakes(ctxA, 0)}`,
+      `**Palavras-chave:** ${bank.keywords.slice(0, 8).map(cap).join(" · ")}`,
+      bank.sourced ? `_Fonte: Wikipédia (pt) — ${bank.title}._` : "",
     ];
     return { answer: parts.join("\n") };
   }
