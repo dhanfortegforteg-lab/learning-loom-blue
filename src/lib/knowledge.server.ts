@@ -266,9 +266,20 @@ function parseArticle(subject: string, title: string, extract: string): Bank {
   }
   if (current.paragraphs.length) sections.push(current);
 
-  const useful = sections.filter((s) => !skip.test(s.heading.trim())).slice(0, 12);
+  const kept = sections.filter((s) => !skip.test(s.heading.trim()));
+  // Ordena pelo valor pedagógico e limita as seções puramente históricas a uma.
+  const history = kept.filter((s) => s.kind === "historia");
+  const rest = kept.filter((s) => s.kind !== "historia");
+  const useful = [...rest, ...history.slice(0, 1)]
+    .sort((a, b) => KIND_ORDER[a.kind] - KIND_ORDER[b.kind])
+    .slice(0, 10);
+
   const paragraphs = useful.flatMap((s) => s.paragraphs);
   if (!paragraphs.length) return fallbackBank(subject);
+
+  const sentences = paragraphs.flatMap(splitSentences);
+  const keywords = extractKeywords(paragraphs.join(" "), 40);
+  const teaching = teachingSentences(sentences);
 
   return {
     subject,
@@ -276,8 +287,10 @@ function parseArticle(subject: string, title: string, extract: string): Bank {
     summary: paragraphs[0],
     paragraphs,
     sections: useful,
-    sentences: paragraphs.flatMap(splitSentences),
-    keywords: extractKeywords(paragraphs.join(" "), 40),
+    sentences,
+    teaching: teaching.length >= 5 ? teaching : sentences,
+    definitions: extractDefinitions(sentences, keywords),
+    keywords,
     sourced: true,
   };
 }
