@@ -584,11 +584,19 @@ export async function generate(messages: any[], schema?: any): Promise<any> {
 
   // Dúvida direta
   if (Object.keys(props).length === 1 && props.answer) {
+    const ctxA: Ctx = { bank, prompt, counter: { n: 0 }, intent };
     const parts = [
-      `**${bank.title}** — ${trimTo(bank.summary, 600)}`,
-      ...bank.sections.slice(1, 4).map((s) => `\n**${s.heading}**\n${trimTo(s.paragraphs[0] ?? "", 500)}`),
-      `\n**Resumo rápido:** ${bank.keywords.slice(0, 8).map(cap).join(" · ")}`,
-      bank.sourced ? `\n_Fonte: Wikipédia (pt) — ${bank.title}._` : "",
+      `**${bank.title}**`,
+      explainConcept(ctxA, 0),
+      `**Como raciocinar sobre isso:**\n${howToSteps(ctxA, 0)}`,
+      `**Exemplo comentado:** ${workedExample(ctxA, 0)}`,
+      ...bank.sections
+        .filter((s) => s.kind !== "historia")
+        .slice(1, 3)
+        .map((s) => `**${s.heading}**\n${trimTo(s.paragraphs[0] ?? "", 450)}`),
+      `**Erros comuns:**\n${commonMistakes(ctxA, 0)}`,
+      `**Palavras-chave:** ${bank.keywords.slice(0, 8).map(cap).join(" · ")}`,
+      bank.sourced ? `_Fonte: Wikipédia (pt) — ${bank.title}._` : "",
     ];
     return { answer: parts.join("\n") };
   }
