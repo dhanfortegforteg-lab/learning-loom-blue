@@ -168,11 +168,13 @@ function fallbackBank(subject: string): Bank {
     summary: paragraphs[0],
     paragraphs,
     sections: [
-      { heading: `Introdução a ${s}`, paragraphs: [paragraphs[0], paragraphs[1]] },
-      { heading: `Como estudar ${s}`, paragraphs: [paragraphs[2]] },
-      { heading: `Aplicações de ${s}`, paragraphs: [paragraphs[3]] },
+      { heading: `O que é ${s}`, paragraphs: [paragraphs[0], paragraphs[1]], kind: "conceito" },
+      { heading: `Como funciona na prática`, paragraphs: [paragraphs[2]], kind: "funcionamento" },
+      { heading: `Aplicações de ${s}`, paragraphs: [paragraphs[3]], kind: "aplicacao" },
     ],
     sentences: paragraphs.flatMap(splitSentences),
+    teaching: paragraphs.flatMap(splitSentences),
+    definitions: [{ term: s, text: paragraphs[0] }],
     keywords: extractKeywords(paragraphs.join(" ") + " " + s, 20),
     sourced: false,
   };
