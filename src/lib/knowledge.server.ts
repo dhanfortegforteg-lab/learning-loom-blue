@@ -250,8 +250,8 @@ async function fetchExtract(title: string): Promise<string | null> {
 function parseArticle(subject: string, title: string, extract: string): Bank {
   const text = clean(extract);
   const lines = text.split("\n");
-  const sections: { heading: string; paragraphs: string[] }[] = [];
-  let current = { heading: `O que é ${title}`, paragraphs: [] as string[] };
+  const sections: Section[] = [];
+  let current: Section = { heading: `O que é ${title}`, paragraphs: [], kind: "conceito" };
   const skip = /^(ver também|referências|ligações externas|bibliografia|notas|galeria)$/i;
 
   for (const line of lines) {
