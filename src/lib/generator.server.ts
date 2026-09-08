@@ -397,13 +397,10 @@ function fill(schema: any, key: string, ctx: Ctx): any {
     // Flashcard: frente e verso precisam falar do MESMO conceito
     if (schema.properties?.front && schema.properties?.back) {
       const i = next(ctx);
-      const term = pick(ctx.bank.keywords, i) ?? ctx.bank.title;
-      const src =
-        ctx.bank.sentences.find((s) => s.toLowerCase().includes(term)) ??
-        pick(ctx.bank.sentences.length ? ctx.bank.sentences : ctx.bank.paragraphs, i);
+      const { term, text } = conceptAt(ctx, i);
       return {
-        front: `O que significa "${cap(term)}" no estudo de ${ctx.bank.title}?`,
-        back: trimTo(src, 300),
+        front: `O que é ${term} em ${ctx.bank.title} e para que serve?`,
+        back: trimTo(text, 300),
       };
     }
 
