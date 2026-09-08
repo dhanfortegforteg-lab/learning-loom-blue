@@ -85,7 +85,7 @@ const STATES: FoxState[] = [
   {
     mood: "happy",
     label: "Feliz",
-    desc: "A raposinha está radiante! Você completou o dia 🎉",
+    desc: "A raposinha está radiante! Você completou o dia",
     vitality: 100,
     fx: "brightness-110 saturate-125 scale-105",
     aura: "oklch(0.8 0.26 250 / 0.85)",
@@ -132,7 +132,7 @@ function ProdutividadePage() {
       const { data: p } = await supabase.from("profiles").select("xp").eq("id", u.user.id).single();
       await supabase.from("profiles").update({ xp: (p?.xp ?? 0) + 20 }).eq("id", u.user.id);
       setRewarded(true);
-      toast.success("Raposinha feliz! +20 XP 🦊");
+      toast.success("Raposinha feliz! +20 XP");
     })();
   }, [done, rewarded, loading]);
 
@@ -201,7 +201,7 @@ function ProdutividadePage() {
               {done} de 5 tarefas · vitalidade {state.vitality}%
             </div>
 
-            {rewarded && <div className="mt-3 inline-flex rounded-full bg-primary/15 px-3 py-1 text-xs font-medium text-primary">+20 XP recebidos hoje ✨</div>}
+            {rewarded && <div className="mt-3 inline-flex items-center gap-1 rounded-full bg-primary/15 px-3 py-1 text-xs font-medium text-primary"><Sparkles className="h-3.5 w-3.5" />+20 XP recebidos hoje</div>}
           </div>
         </Card>
 
@@ -228,7 +228,7 @@ function ProdutividadePage() {
           </Card>
 
           <Card className="glass divide-y divide-border/50 p-2">
-            {tasks.length === 0 && <div className="p-6 text-center text-sm text-muted-foreground">Nenhuma tarefa hoje. Adicione a primeira 🦊</div>}
+            {tasks.length === 0 && <div className="p-6 text-center text-sm text-muted-foreground">Nenhuma tarefa hoje. Adicione a primeira</div>}
             {tasks.map((t) => (
               <div key={t.id} className="flex items-center gap-3 p-3">
                 <button

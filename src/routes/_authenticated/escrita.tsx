@@ -9,7 +9,7 @@ import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import { Textarea } from "@/components/ui/textarea";
-import { PenSquare, Sparkles } from "lucide-react";
+import { PenSquare, Sparkles, Lightbulb, Puzzle, CheckCircle2, Target } from "lucide-react";
 import { DeleteAllButton, DeleteItemButton } from "@/components/DeleteControls";
 import { toast } from "sonner";
 
@@ -112,9 +112,9 @@ function EscritaPage() {
           <div className="mt-1 text-[11px] text-muted-foreground">Meta sugerida: {target} palavras ({progress}%)</div>
         </div>
         <div className="flex flex-wrap gap-2 text-xs text-muted-foreground">
-          <span className="rounded-full bg-primary/10 px-3 py-1 text-primary">💡 Tenha uma tese clara</span>
-          <span className="rounded-full bg-primary/10 px-3 py-1 text-primary">🧩 Use conectivos</span>
-          <span className="rounded-full bg-primary/10 px-3 py-1 text-primary">✅ Conclua com proposta</span>
+          <span className="rounded-full bg-primary/10 px-3 py-1 text-primary"><Lightbulb className="mr-1 inline h-3.5 w-3.5" />Tenha uma tese clara</span>
+          <span className="rounded-full bg-primary/10 px-3 py-1 text-primary"><Puzzle className="mr-1 inline h-3.5 w-3.5" />Use conectivos</span>
+          <span className="rounded-full bg-primary/10 px-3 py-1 text-primary"><CheckCircle2 className="mr-1 inline h-3.5 w-3.5" />Conclua com proposta</span>
         </div>
         <Button onClick={evaluate} disabled={loading} size="lg" className="glow-pulse bg-gradient-primary text-primary-foreground">
           <Sparkles className="mr-2 h-4 w-4" /> {loading ? "Avaliando com IA..." : "Avaliar com IA"}
@@ -134,13 +134,13 @@ function EscritaPage() {
           <div className="grid gap-4 md:grid-cols-2">
             {result.strengths?.length > 0 && (
               <div className="rounded-xl border border-green-500/30 bg-green-500/5 p-4">
-                <div className="mb-2 text-sm font-semibold text-green-500">✨ Pontos fortes</div>
+                <div className="mb-2 text-sm font-semibold text-green-500"><Sparkles className="mr-1 inline h-4 w-4" />Pontos fortes</div>
                 <ul className="ml-4 list-disc space-y-1 text-sm text-muted-foreground">{result.strengths.map((s: string, i: number) => <li key={i}>{s}</li>)}</ul>
               </div>
             )}
             {result.improvements?.length > 0 && (
               <div className="rounded-xl border border-orange-500/30 bg-orange-500/5 p-4">
-                <div className="mb-2 text-sm font-semibold text-orange-500">🎯 Melhorias</div>
+                <div className="mb-2 text-sm font-semibold text-orange-500"><Target className="mr-1 inline h-4 w-4" />Melhorias</div>
                 <ul className="ml-4 list-disc space-y-1 text-sm text-muted-foreground">{result.improvements.map((s: string, i: number) => <li key={i}>{s}</li>)}</ul>
               </div>
             )}
