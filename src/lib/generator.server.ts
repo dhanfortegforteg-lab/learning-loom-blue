@@ -76,7 +76,7 @@ function clozeQuestion(bank: Bank, i: number, r: () => number): Q | null {
       question: `Complete a lacuna: "${trimTo(blanked.join(""), 260)}"`,
       options,
       answer: order.indexOf(0),
-      explanation: `A frase completa é: "${trimTo(s, 260)}"`,
+      explanation: `A palavra certa é "${cap(correct)}". A frase completa fica: "${trimTo(s, 240)}" — repare que o termo é o que dá sentido à ideia; as outras opções pertencem a outro ponto do conteúdo.`,
     };
   }
   return null;
