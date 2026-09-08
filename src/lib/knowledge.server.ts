@@ -258,7 +258,7 @@ function parseArticle(subject: string, title: string, extract: string): Bank {
     const h = line.match(/^\s*={2,}\s*(.+?)\s*={2,}\s*$/);
     if (h) {
       if (current.paragraphs.length) sections.push(current);
-      current = { heading: h[1], paragraphs: [] };
+      current = { heading: h[1], paragraphs: [], kind: classify(h[1]) };
       continue;
     }
     const p = line.trim();
